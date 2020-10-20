@@ -26,7 +26,7 @@ function logReq(req, action, route, sql='') {
     console.log('\n---------------------------------------------------------\n');
     console.log(`Request Found: ${action} ${route}`);
     console.log(`\n----\n`);
-    console.log(`${req}`);
+    console.log(req);
     console.log(`\n----\n`);
     console.log(`${sql}`);
     console.log('---------------------------------------------------------');
