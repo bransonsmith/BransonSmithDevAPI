@@ -1,0 +1,33 @@
+{
+  "name": "BransonSmithDevApi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "client-sessions": "^0.8.0",
+    "cors": "^2.8.5",
+    "csurf": "^1.10.0",
+    "express": "^4.17.1",
+    "gmail-send": "^1.8.10",
+    "joi": "^14.3.1",
+    "moment": "^2.24.0",
+    "njwt": "^1.0.0",
+    "node": "^13.1.0",
+    "path": "^0.12.7",
+    "pg": "^7.14.0",
+    "pg-promise": "^10.2.1",
+    "postgresql": "0.0.1",
+    "ramda": "^0.26.1",
+    "uniqid": "^5.1.0",
+    "uniquid": "^1.1.4",
+    "uuid": "^3.3.3"
+  }
+}
