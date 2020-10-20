@@ -23,12 +23,12 @@ router.get('/test', (req, response) => {
 });
 
 function logReq(req, action, route, sql='') {
-    console.log('\n---------------------------------------------------------\n');
-    console.log(`Request Found: ${action} ${route}`);
+    console.log('---------------------------------------------------------\n');
+    console.log('Request Found: \n');
+    console.log('---------------------------------------------------------\n');
+    console.log(`${action} ${route}`);
     console.log(`\n----\n`);
-    console.log(req);
-    console.log(`\n----\n`);
-    console.log(`${sql}`);
+    console.log(`${sql}\n`);
     console.log('---------------------------------------------------------');
 }
 
