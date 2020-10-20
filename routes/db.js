@@ -10,9 +10,7 @@ client.connect();
 
 
 router.get('/test', (req, response) => {
-    const sql = ```
-        SELECT 1 + 1;
-    ```;
+    const sql = `SELECT 1 + 1;`;
     this.logReq('GET', '/test', sql);
 
     client.query(sql).then(res => {
