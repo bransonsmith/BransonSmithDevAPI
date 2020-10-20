@@ -30,3 +30,5 @@ function logReq(action, route, sql='') {
     console.log(`${sql}`);
     console.log('---------------------------------------------------------');
 }
+
+module.exports = router;
