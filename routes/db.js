@@ -13,7 +13,7 @@ router.get('/test', (req, response) => {
     const sql = ```
         SELECT 1 + 1;
     ```;
-    await this.logReq('GET', '/test', sql);
+    this.logReq('GET', '/test', sql);
 
     client.query(sql).then(res => {
         const result = res.rows[0];
@@ -24,7 +24,7 @@ router.get('/test', (req, response) => {
     }).finally(() => {});
 });
 
-async function logReq(action, route, sql='') {
+function logReq(action, route, sql='') {
     console.log('\n---------------------------------------------------------\n');
     console.log(`Request Found: ${action} ${route}`);
     console.log(`${sql}`);
