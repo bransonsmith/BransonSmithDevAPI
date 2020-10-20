@@ -8,7 +8,7 @@ const csurf = require("csurf");
 const nJwt = require("njwt");
 var cors = require('cors')
 
-// const dbRoutes = require("./routes/db");
+const dbRoutes = require("./routes/db");
 
 const app = express();
 app.use(express.json());
@@ -24,7 +24,7 @@ app.use(sessions({
     }
 }));
 app.use(cors());
-// app.use(dbRoutes);
+app.use(dbRoutes);
 
 const port = process.env.PORT || 3000;
 var server = app.listen(port, () => console.log(`Listening on port ${port}`));
