@@ -3,7 +3,7 @@ let router = express.Router();
 
 const { Client } = require('pg');
 const client = new Client({
-  connectionString: 'postgres://jptlnpgqxmpysv:4e82e76ffd96c11ef7a90f6051c5e1f63ec8990c698631832005d83d1296b299@ec2-54-225-173-42.compute-1.amazonaws.com:5432/d1uak9466uurk7',
+  connectionString: 'postgres://tkjzlquhwdldho:1371bf16ec2de194e2e5cb22988b09bf3f4b2cce028643fceb2907a8eecbb335@ec2-54-156-53-71.compute-1.amazonaws.com:5432/d82csaggb6g7aa',
   ssl: true,
 });
 client.connect();
