@@ -11,9 +11,8 @@ function logReq(req, action, route, sql='') {
     console.log(`\n----\n`);
     console.log(`${sql}\n`);
     console.log('---------------------------------------------------------');
-    return;
+    return true;
 }
 
-export const connection_string = connection_string;
-const _logReq = logReq;
-export { _logReq as logReq };
+module.exports.connection_string = connection_string;
+module.exports.logReq = logReq;
