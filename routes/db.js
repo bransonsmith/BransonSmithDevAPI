@@ -36,6 +36,20 @@ router.post('/initTables', async (req, response) => {
     response.status(200).send(resp); return;
 });
 
+router.get('/get/:tablename', (req, response) => {
+    const sql = `SELECT * FROM ${req.params.tablename};`;
+    common.logReq(req, 'GET', '/get/:tablename', sql);
+
+    client.query(sql).then(res => {
+        const result = res.rows;
+        console.log(`Got ${result.length} records from ${req.params.tablename}.`)
+        response.status(200).send(result); return;
+    }).catch(err => {
+        console.log(err.stack);
+        response.status(400).send(err); return;
+    }).finally(() => {});
+});
+
 async function createProjectsTable() {
     const sql = `CREATE TABLE projects (id varchar(255) NOT NULL PRIMARY KEY, title varchar(255) NOT NULL, text varchar(4000), image varchar(1000), createddate timestamp, codeclicks int, exampleclicks int)`;
     common.logReq(null, 'CREATE', 'Projects Table', sql);
