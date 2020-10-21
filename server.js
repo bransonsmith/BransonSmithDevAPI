@@ -29,7 +29,7 @@ app.use(dbRoutes);
 
 const port = process.env.PORT || 3000;
 var server = app.listen(port, () => console.log(`Listening on port ${port}`));
-server.timeout = 2000;
+server.timeout = 5000;
 
 var currentDate = moment().format('YYYY-MM-DDThh:mm:ss');
 console.log(`${currentDate}`);

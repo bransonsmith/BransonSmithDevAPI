@@ -9,7 +9,6 @@ const client = new Client({
 });
 client.connect();
 
-console.log(common.connection_string);
 router.get('/test', (req, response) => {
     const sql = `SELECT 1 + 1;`;
     common.logReq(req, 'GET', '/test', sql);
