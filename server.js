@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs');
 const settings = require("./settings");
 const csurf = require("csurf");
 const nJwt = require("njwt");
+const common = require("./common")
 var cors = require('cors')
 
 const dbRoutes = require("./routes/db");
