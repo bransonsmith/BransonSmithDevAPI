@@ -22,7 +22,7 @@ router.get('/', (req, response) => {
     }).finally(() => {});
 });
 
-router.post('/initTables', (req, response) => {
+router.post('/initTables', async (req, response) => {
     const message = `This route will call a series of create table functions to set up the database.`;
     common.logReq(req, 'POST', '/initTables', message);
     var resp = '';
