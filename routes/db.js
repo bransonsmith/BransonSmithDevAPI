@@ -40,15 +40,16 @@ function executeSql(sql, title='') {
 
 function dropTable(table_name) {
     const sql = `DROP TABLE ${table_name};`;
-    executeSql(sql, `DROP TABLE: ${table_name}`).then(sqlResponse => {
+    try {
+        const sqlResponse = executeSql(sql, `DROP TABLE: ${table_name}`);
         console.log('\nxxx   Got Sql Response   xxx\n');
         console.log(sqlResponse);
         return sqlResponse;
-    }).catch(sqlErr => {
+    } catch (sqlErr) {
         console.log('\nxxx   Got Sql Error   xxx\n');
         console.log(sqlErr);
         return { status: 'Error', result: sqlErr };
-    });
+    }
 }
 
 async function createTable(table_name, fields) {
