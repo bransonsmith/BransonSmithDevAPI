@@ -62,7 +62,7 @@ router.get('/api/projects', (req, response) => {
             common.logResponse('Database', dbResponse);
 
             if (dbResponse.status === 'Success') {
-                response.status(200).send(dbResponse.result.rows); return;
+                response.status(200).send(dbResponse.result); return;
             } else {
                 response.status(400).send(dbResponse.result); return;
             }
@@ -90,7 +90,7 @@ router.post('/api/projects', (req, response) => {
             common.logResponse('Database', dbResponse);
 
             if (dbResponse.status === 'Success') {
-                response.status(200).send(dbResponse.result.rows); return;
+                response.status(200).send(dbResponse.result); return;
             } else {
                 response.status(400).send(dbResponse.result); return;
             }

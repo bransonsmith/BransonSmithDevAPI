@@ -24,10 +24,9 @@ router.get('/', async (req, response) => {
 async function executeSql(sql, title='') {
     common.logSql(title, sql);
     try {
-        const queryResponse = await client.query(sql);
-        const data = queryResponse.rows;
+        const queryResponse = await client.query(sql).rows;
         common.logResponse('Query', queryResponse);
-        return { status: 'Success', result: data };
+        return { status: 'Success', result: queryResponse };
     } catch (queryError) {
         common.logError('Query', queryError);
         return { status: 'Error', result: queryError };
