@@ -12,12 +12,17 @@ client.connect();
 router.get('/', (req, response) => {
     const sql = `SELECT 1 + 1;`;
     common.logReq('GET', '/');
-    var sqlResult = await executeSql(sql, 'Health Check');
-
-    if (sqlResult.status === 'Success') {
-        response.status(200).send(`Succesfully ran some test sql! BransonSmithDevAPI is live :)`); return;
-    } else {
-        response.status(400).send(err); return;
+    try {
+        executeSql(sql, 'Health Check').then(sqlResult => {
+            if (sqlResult.status === 'Success') {
+                response.status(200).send(`Succesfully ran some test sql! BransonSmithDevAPI is live :)`); return;
+            } else {
+                response.status(400).send(err); return;
+            }
+        });
+    } catch (sqlError) {
+        common.logError('Database', sqlError);
+        response.status(400).send(sqlError); return;
     }
 });
 
