@@ -36,6 +36,7 @@ router.post('/api/projects/drop', async (req, response) => {
 });
 
 router.get('/api/projects', async (req, response) => {
+    common.logReq(`GET`, `/api/projects`);
     var dbResult = await db.getAll(table_name);
     if (dbResult.status === 'Success') {
         response.status(200).send(dbResult.result); return;

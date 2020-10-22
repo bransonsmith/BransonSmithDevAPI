@@ -79,4 +79,7 @@ async function getResultsThatUserHasPermissionTo(result) {
     return result;
 }
 
-module.exports = router;
+module.exports.router = router;
+module.exports.dropTable = dropTable;
+module.exports.createTable = createTable;
+module.exports.getAll = getAll;

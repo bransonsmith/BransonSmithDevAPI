@@ -4,7 +4,7 @@ const connection_string = 'postgres://tkjzlquhwdldho:1371bf16ec2de194e2e5cb22988
 function logReq(action, route) {
     console.log('---------------------------------------------------------\n');
     console.log('Request Found: \n');
-    console.log('---------------------------------------------------------\n');
+    console.log('---------------------------------------------------------');
     console.log(`${action} ${route}`);
     console.log('---------------------------------------------------------');
     return true;
@@ -13,10 +13,11 @@ function logReq(action, route) {
 function logSql(title, sql) {
     console.log('---------------------------------------------------------\n');
     console.log(`Running SQL: ${title}\n`);
-    console.log('---------------------------------------------------------\n');
-    console.log(`${sql}\n`);
-    console.log('---------------------------------------------------------\n');
+    console.log('---------------------------------------------------------');
+    console.log(`${sql}`);
+    console.log('---------------------------------------------------------');
 }
 
 module.exports.connection_string = connection_string;
 module.exports.logReq = logReq;
+module.exports.logSql = logSql;
