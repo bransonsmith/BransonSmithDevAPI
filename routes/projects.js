@@ -3,6 +3,7 @@ const uuidv1 = require('uuid/v1');
 const common = require("../common")
 let router = express.Router();
 const db = require('./db');
+const base = require('./base-controller');
 const moment = require('moment');
 
 const table_name = 'projects';
@@ -17,6 +18,12 @@ const fields = [
     { name: 'codeclicks',    type: 'int',           attributes: '' },
     { name: 'exampleclicks', type: 'int',           attributes: '' },
 ];
+
+router.get('/base', (req, response) => {
+    base.baseFunction('', '', response).then(baseResponse => {
+        console.log(baseResponse);
+    });
+});
 
 router.post('/api/projects/create', (req, response) => {
     common.logReq(`POST`, `/api/projects/create`);
@@ -100,17 +107,6 @@ router.get('/api/projects/:id', (req, response) => {
 router.post('/api/projects', (req, response) => {
     common.logReq(`POST`, `/api/projects`);
     const newId = uuidv1();
-    const createFields = [
-        { name: 'id',            type: 'varchar(255)',  attributes: 'NOT NULL PRIMARY KEY' },
-        { name: 'title',         type: 'varchar(255)',  attributes: 'NOT NULL' },
-        { name: 'codelink',      type: 'varchar(255)',  attributes: '' },
-        { name: 'examplelink',   type: 'varchar(255)',  attributes: '' },
-        { name: 'text',          type: 'varchar(4000)', attributes: '' },
-        { name: 'image',         type: 'varchar(1000)', attributes: '' },
-        { name: 'createddate',   type: 'timestamp',     attributes: '' },
-        { name: 'codeclicks',    type: 'int',           attributes: '' },
-        { name: 'exampleclicks', type: 'int',           attributes: '' },
-    ];
     const createValues = [
         `'${newId}'`,
         "'Career'",
@@ -123,7 +119,7 @@ router.post('/api/projects', (req, response) => {
         0
     ];
     try {
-        db.create(table_name, createFields, createValues).then(dbResponse => {
+        db.create(table_name, fields, createValues).then(dbResponse => {
             common.logResponse('POST /api/projects', dbResponse.result);
             if (dbResponse.status === 'Success') {
                 db.getOne(table_name, newId).then(getResponse => {
