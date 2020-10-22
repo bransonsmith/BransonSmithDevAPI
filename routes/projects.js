@@ -37,7 +37,7 @@ router.post('/api/projects/drop', async (req, response) => {
     } catch (err) {
         console.log('Error in db.dropTable');
         common.logError(err);
-        response.status(err.response.status).send(err); return;
+        response.status(400).send(err); return;
     }
 });
 

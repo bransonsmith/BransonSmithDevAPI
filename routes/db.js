@@ -26,12 +26,12 @@ async function executeSql(sql, title='') {
     client.query(sql).then(res => {
         console.log('Sql run was successful.');
         return { status: 'Success', result: res };
+    })
+    .catch(err => {
+        console.log('Error during sql run.');
+        common.logError(err);
+        return { status: 'Error', result: err };
     });
-    // .catch(err => {
-    //     console.log('Error during sql run.');
-    //     common.logError(err);
-    //     return { status: 'Error', result: err };
-    // });
 }
 
 async function dropTable(table_name) {
