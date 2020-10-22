@@ -118,7 +118,7 @@ router.post('/api/projects', (req, response) => {
         "'https://ihsmarkit.com/products/wso-software.html'",
         "'Over the last 3 years I have had the opportunity to take part in ...'",
         "''",
-        `${moment().format('YYYY-MM-DDThh:mm:ss.SSSZ')}`,
+        `'${moment().format('YYYY-MM-DDThh:mm:ss.SSSZ')}'`,
         0,
         0
     ];
