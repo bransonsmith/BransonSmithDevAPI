@@ -27,7 +27,7 @@ router.post('/api/projects/create', async (req, response) => {
 
 router.post('/api/projects/drop', async (req, response) => {
     common.logReq(`POST`, `/api/projects/drop`);
-    const dbResult = await db.dropTable(table_name, fields);
+    const dbResult = await db.dropTable(table_name);
     if (dbResult.status === 'Success') {
         response.status(200).send(dbResult.result); return;
     } else {
