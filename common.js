@@ -30,7 +30,7 @@ function logResponse(title, response) {
     console.log('---------------------------------------------------------\n');
     console.log(`Response from ${title}\n`);
     console.log('---------------------------------------------------------');
-    console.log(`${response.status} - ${response.result}`);
+    console.log(response);
     console.log('---------------------------------------------------------');
 }
 

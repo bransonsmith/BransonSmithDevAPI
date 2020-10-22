@@ -25,8 +25,9 @@ async function executeSql(sql, title='') {
     common.logSql(title, sql);
     try {
         const queryResponse = await client.query(sql);
+        const data = queryResponse.rows;
         common.logResponse('Query', queryResponse);
-        return { status: 'Success', result: queryResponse };
+        return { status: 'Success', result: data };
     } catch (queryError) {
         common.logError('Query', queryError);
         return { status: 'Error', result: queryError };
@@ -72,7 +73,7 @@ async function getAll(table_name) {
 
 
     if (sqlResults.status === 'Success') {
-        const permissedResults = getResultsThatUserHasPermissionTo(sqlResults.result.rows);
+        const permissedResults = getResultsThatUserHasPermissionTo(sqlResults.result);
         console.log(`Got ${permissedResults.length} records from ${table_name}.`)
         return { status: 'Success', result: permissedResults }
     } else {
@@ -85,7 +86,7 @@ async function create(table_name, fields, values) {
 
     var sqlResults = await executeSql(sql, `Create new ${table_name}`);
     if (sqlResults.status === 'Success') {
-        const permissedResults = getResultsThatUserHasPermissionTo(sqlResults.result.rows);
+        const permissedResults = getResultsThatUserHasPermissionTo(sqlResults.result);
         console.log(`Got ${permissedResults.length} records from ${table_name}.`)
         return { status: 'Success', result: permissedResults }
     } else {
