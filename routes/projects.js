@@ -75,6 +75,25 @@ router.get('/api/projects', (req, response) => {
     }
 });
 
+router.get('/api/projects/:id', (req, response) => {
+    common.logReq(`GET`, `/api/projects/:id`);
+    try {
+        db.getOne(table_name, req.params.id).then(dbResponse => {
+            common.logResponse(`GET /api/projects/${req.params.id}`, dbResponse.result);
+            if (dbResponse.status === 'Success') {
+                response.status(200).send(dbResponse.result); return;
+            } else {
+                response.status(400).send(dbResponse.result); return;
+            }
+        }).catch(dbError => {
+            throw dbError;
+        });
+    } catch (dbError) {
+        common.logError('Database', dbError);
+        response.status(400).send(dbError); return;
+    }
+});
+
 router.post('/api/projects', (req, response) => {
     common.logReq(`POST`, `/api/projects`);
 
