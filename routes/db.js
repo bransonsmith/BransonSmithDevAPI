@@ -9,57 +9,74 @@ const client = new Client({
 });
 client.connect();
 
-router.get('/', (req, response) => {
+router.get('/', async (req, response) => {
     const sql = `SELECT 1 + 1;`;
-    common.logReq(req, 'GET', '/', sql);
+    common.logReq('GET', '/');
+    var sqlResult = await common.executeSql(sql, title='Health Check');
 
-    client.query(sql).then(res => {
-        const result = res.rows[0];
+    if (sqlResult === 'Success') {
         response.status(200).send(`Succesfully ran some test sql! BransonSmithDevAPI is live :)`); return;
-    }).catch(err => {
-        console.log(err.stack);
+    } else {
         response.status(400).send(err); return;
-    }).finally(() => {});
+    }
 });
 
-router.post('/initTables', async (req, response) => {
-    const message = `This route will call a series of create table functions to set up the database.`;
-    common.logReq(req, 'POST', '/initTables', message);
-    var resp = '';
+async function executeSql(sql, title='') {
+    common.logSql(title, sql);
+    client.query(sql).then(res => {
+        console.log('Sql run was successful.');
+        return { status: 'Success', result: res };
+    }).catch(err => {
+        console.log('Error during sql run.');
+        console.log(err.stack);
+        return { status: 'Error', result: err };
+    }).finally(() => {});
+}
 
-    var projectsStatus = await createProjectsTable();
-    if (projectsStatus !== 'Success') {
-        resp += '\nFailed to create projects table.';
+async function dropTable(table_name) {
+    const sql = `DROP TABLE ${table_name};`;
+    return await executeSql(sql, `DROP TABLE: ${table_name}`);
+}
+
+async function createTable(table_name, fields) {
+    const sql = `CREATE TABLE ${table_name} (${getCreateTableFields(fields)})`;
+    return await executeSql(sql, `CREATE TABLE: ${table_name}`);
+}
+
+function getCreateTableFields(fields) {
+    let str = '';
+    fields.forEach(field => {
+        str += `${field.name} ${field.type} ${field.attributes}, `;
+    });
+    return str.trimEnd(' ').trimEnd(',');
+}
+
+async function getAll(table_name) {
+    const sql = `SELECT * FROM ${table_name};`;
+    var sqlResults = await executeSql(sql, `GET ALL: ${table_name}`);
+    if (sqlResults.status === 'Success') {
+        const permissedResults = getResultsThatUserHasPermissionTo(sqlResults.result.rows);
+        console.log(`Got ${permissedResults.length} records from ${table_name}.`)
+        return { status: 'Success', result: permissedResults }
+    } else {
+        return { status: 'Error', result: sqlResults.err }
     }
 
-    resp += '\nCompleted creation calls.';
-    response.status(200).send(resp); return;
-});
+    // client.query(sql).then(res => {
+    //     const result = res.rows;
+    //     const permissedResults = getResultsThatUserHasPermissionTo(result);
+    //     console.log(`Got ${permissedResults.length} records from ${req.params.tablename}.`)
+    //     response.status(200).send(permissedResults); return;
+    // }).catch(err => {
+    //     console.log(err.stack);
+    //     response.status(400).send(err); return;
+    // }).finally(() => {});
+}
 
-router.get('/get/:tablename', (req, response) => {
-    const sql = `SELECT * FROM ${req.params.tablename};`;
-    common.logReq(req, 'GET', '/get/:tablename', sql);
+async function getResultsThatUserHasPermissionTo(result) {
 
-    client.query(sql).then(res => {
-        const result = res.rows;
-        console.log(`Got ${result.length} records from ${req.params.tablename}.`)
-        response.status(200).send(result); return;
-    }).catch(err => {
-        console.log(err.stack);
-        response.status(400).send(err); return;
-    }).finally(() => {});
-});
-
-async function createProjectsTable() {
-    const sql = `CREATE TABLE projects (id varchar(255) NOT NULL PRIMARY KEY, title varchar(255) NOT NULL, text varchar(4000), image varchar(1000), createddate timestamp, codeclicks int, exampleclicks int)`;
-    common.logReq(null, 'CREATE', 'Projects Table', sql);
-
-    client.query(sql).then(res => {
-        return 'Success';
-    }).catch(err => {
-        console.log(err.stack);
-        return 'Failure';
-    }).finally(() => {});
+    // TODO: Implement permissions before adding any sensitive data
+    return result;
 }
 
 module.exports = router;
