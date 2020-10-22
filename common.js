@@ -29,3 +29,4 @@ function logError(title, err) {
 module.exports.connection_string = connection_string;
 module.exports.logReq = logReq;
 module.exports.logSql = logSql;
+module.exports.logError = logError;
