@@ -76,7 +76,7 @@ async function getAll(table_name) {
 }
 
 async function create(table_name, fields, values) {
-    const sql = `INSERT INTO ${table_name} (${getCreateColumns(fields)})\nVALUES (${getCreateValues(values)});\n\nSELECT * FROM ${table_name} WHERE id = '12345';`;
+    const sql = `INSERT INTO ${table_name} (${getCreateColumns(fields)})\nVALUES (${getCreateValues(values)}) SELECT * FROM ${table_name} WHERE id = '12345';`;
     var sqlResults = await executeSql(sql, `Create new ${table_name}`);
     if (sqlResults.status === 'Success') {
         const permissedResults = await getResultsThatUserHasPermissionTo(sqlResults.result);
