@@ -7,6 +7,10 @@ const base = require('./base-controller');
 const moment = require('moment');
 
 const table_name = 'projects';
+const base_route = `/api/${table_name}`;
+const create_table_route = `${base_route}/create`;
+const drop_table_route = `${base_route}/drop`;
+const get_one_route = `${base_route}/:id`;
 const fields = [
     { name: 'id',            type: 'varchar(255)',  attributes: 'NOT NULL PRIMARY KEY' },
     { name: 'title',         type: 'varchar(255)',  attributes: 'NOT NULL' },
@@ -19,54 +23,31 @@ const fields = [
     { name: 'exampleclicks', type: 'int',           attributes: '' },
 ];
 
-router.get('/base', (req, response) => {
-    base.baseFunction('', '', response).then(baseResponse => {
-        console.log(baseResponse);
-    });
-});
-
-router.post('/api/projects/create', (req, response) => {
-    common.logReq(`POST`, `/api/projects/create`);
+router.post(create_table_route, (req, response) => {
+    common.logReq(`POST`, create_table_route);
     try {
-        db.createTable(table_name, fields).then(dbResponse => {
-            if (dbResponse.status === 'Success') {
-                common.logResponse('POST /api/projects/create', `Created ${table_name}`);
-                response.status(200).send(`Created ${table_name}`); return;
-            } else {
-                common.logResponse('POST /api/projects/create', dbResponse.result);
-                response.status(400).send(`Failed to create ${table_name}: ${dbResponse.result}`); return;
-            }
-        }).catch(dbError => {
-            throw dbError;
+        base.createTable(table_name, fields, req, response).then(baseResponse => {
+            common.logResponse(create_table_route, baseResponse);
         });
-    } catch (dbError) {
-        common.logError('Database', dbError);
-        response.status(400).send(dbError); return;
+    } catch (baseError) {
+        common.logError('Base Controller', baseError);
+        response.status(400).send(baseError); return;
     }
 });
 
-router.post('/api/projects/drop', (req, response) => {
-    common.logReq(`POST`, `/api/projects/drop`);
+router.post(drop_table_route, (req, response) => {
+    common.logReq(`POST`, drop_table_route);
     try {
-        db.dropTable(table_name).then(dbResponse => {
-            common.logResponse('POST /api/projects/drop', dbResponse.result);
-            if (dbResponse.status === 'Success') {
-                common.logResponse('POST /api/projects/drop', `Dropped ${table_name}`);
-                response.status(200).send(`Dropped ${table_name}`); return;
-            } else {
-                common.logResponse('POST /api/projects/drop', dbResponse.result);
-                response.status(400).send(dbResponse.result); return;
-            }
-        }).catch(dbError => {
-            throw dbError;
+        base.dropTable(table_name, fields, req, response).then(baseResponse => {
+            common.logResponse(drop_table_route, baseResponse);
         });
-    } catch (dbError) {
-        common.logError('Database', dbError);
-        response.status(400).send(dbError); return;
+    } catch (baseError) {
+        common.logError('Base Controller', baseError);
+        response.status(400).send(baseError); return;
     }
 });
 
-router.get('/api/projects', (req, response) => {
+router.get(base_route, (req, response) => {
     common.logReq(`GET`, `/api/projects`);
     try {
         db.getAll(table_name).then(dbResponse => {
@@ -85,26 +66,19 @@ router.get('/api/projects', (req, response) => {
     }
 });
 
-router.get('/api/projects/:id', (req, response) => {
-    common.logReq(`GET`, `/api/projects/:id`);
+router.get(get_one_route, (req, response) => {
+    common.logReq(`GET`, get_one_route);
     try {
-        db.getOne(table_name, req.params.id).then(dbResponse => {
-            common.logResponse(`GET /api/projects/${req.params.id}`, dbResponse.result);
-            if (dbResponse.status === 'Success') {
-                response.status(200).send(dbResponse.result); return;
-            } else {
-                response.status(400).send(dbResponse.result); return;
-            }
-        }).catch(dbError => {
-            throw dbError;
+        base.getOne(table_name, req, response).then(baseResponse => {
+            common.logResponse(get_one_route, baseResponse);
         });
-    } catch (dbError) {
-        common.logError('Database', dbError);
-        response.status(400).send(dbError); return;
+    } catch (baseError) {
+        common.logError('Base Controller', baseError);
+        response.status(400).send(baseError); return;
     }
 });
 
-router.post('/api/projects', (req, response) => {
+router.post(base_route, (req, response) => {
     common.logReq(`POST`, `/api/projects`);
     const newId = uuidv1();
     const createValues = [

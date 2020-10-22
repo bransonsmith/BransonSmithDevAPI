@@ -5,69 +5,73 @@ let router = express.Router();
 const db = require('./db');
 const moment = require('moment');
 
-async function baseFunction(table_name, fields, response) {
-    response.status(200).send('Successfully passed on response!'); return;
+async function createTable(table_name, fields, req, response) {
+    try {
+        db.createTable(table_name, fields).then(dbResponse => {
+            if (dbResponse.status === 'Success') {
+                response.status(200).send(`Created ${table_name}`); return `Created ${table_name}`;
+            } else {
+                response.status(400).send(`Failed to create ${table_name}: ${dbResponse.result}`); return dbResponse.result;
+            }
+        }).catch(dbError => {
+            throw dbError;
+        });
+    } catch (dbError) {
+        common.logError('Database', dbError);
+        response.status(400).send(dbError); return;
+    }
 }
 
-// router.post('/api/projects/create', (req, response) => {
-//     common.logReq(`POST`, `/api/projects/create`);
-//     try {
-//         db.createTable(table_name, fields).then(dbResponse => {
-//             if (dbResponse.status === 'Success') {
-//                 common.logResponse('POST /api/projects/create', `Created ${table_name}`);
-//                 response.status(200).send(`Created ${table_name}`); return;
-//             } else {
-//                 common.logResponse('POST /api/projects/create', dbResponse.result);
-//                 response.status(400).send(`Failed to create ${table_name}: ${dbResponse.result}`); return;
-//             }
-//         }).catch(dbError => {
-//             throw dbError;
-//         });
-//     } catch (dbError) {
-//         common.logError('Database', dbError);
-//         response.status(400).send(dbError); return;
-//     }
-// });
+async function dropTable(table_name, req, response) {
+    try {
+        db.dropTable(table_name).then(dbResponse => {
+            if (dbResponse.status === 'Success') {
+                response.status(200).send(`Dropped ${table_name}`); return `Dropped ${table_name}`;
+            } else {
+                response.status(400).send(`Failed to drop ${table_name}: ${dbResponse.result}`); return dbResponse.result;
+            }
+        }).catch(dbError => {
+            throw dbError;
+        });
+    } catch (dbError) {
+        common.logError('Database', dbError);
+        response.status(400).send(dbError); return;
+    }
+}
 
-// router.post('/api/projects/drop', (req, response) => {
-//     common.logReq(`POST`, `/api/projects/drop`);
-//     try {
-//         db.dropTable(table_name).then(dbResponse => {
-//             common.logResponse('POST /api/projects/drop', dbResponse.result);
-//             if (dbResponse.status === 'Success') {
-//                 common.logResponse('POST /api/projects/drop', `Dropped ${table_name}`);
-//                 response.status(200).send(`Dropped ${table_name}`); return;
-//             } else {
-//                 common.logResponse('POST /api/projects/drop', dbResponse.result);
-//                 response.status(400).send(dbResponse.result); return;
-//             }
-//         }).catch(dbError => {
-//             throw dbError;
-//         });
-//     } catch (dbError) {
-//         common.logError('Database', dbError);
-//         response.status(400).send(dbError); return;
-//     }
-// });
+async function getAll(table_name, req, response) {
+    try {
+        db.getAll(table_name).then(dbResponse => {
+            handleDbResponse(dbResponse);
+        }).catch(dbError => {
+            throw dbError;
+        });
+    } catch (dbError) {
+        common.logError('Database', dbError);
+        response.status(400).send(dbError); return;
+    }
+}
 
-// router.get('/api/projects', (req, response) => {
-//     common.logReq(`GET`, `/api/projects`);
-//     try {
-//         db.getAll(table_name).then(dbResponse => {
-//             common.logResponse('GET /api/projects', dbResponse.result);
-//             if (dbResponse.status === 'Success') {
-//                 response.status(200).send(dbResponse.result); return;
-//             } else {
-//                 response.status(400).send(dbResponse.result); return;
-//             }
-//         }).catch(dbError => {
-//             throw dbError;
-//         });
-//     } catch (dbError) {
-//         common.logError('Database', dbError);
-//         response.status(400).send(dbError); return;
-//     }
-// });
+async function getOne(table_name, req, response) {
+    try {
+        db.getOne(table_name, req.params.id).then(dbResponse => {
+            handleDbResponse(dbResponse);
+        }).catch(dbError => {
+            throw dbError;
+        });
+    } catch (dbError) {
+        common.logError('Database', dbError);
+        response.status(400).send(dbError); return;
+    }
+}
+
+function handleDbResponse(dbResponse) {
+    if (dbResponse.status === 'Success') {
+        response.status(200).send(dbResponse.result); return dbResponse.result;
+    } else {
+        response.status(400).send(dbResponse.result); return dbResponse.result;
+    }
+}
 
 // router.get('/api/projects/:id', (req, response) => {
 //     common.logReq(`GET`, `/api/projects/:id`);
@@ -125,4 +129,7 @@ async function baseFunction(table_name, fields, response) {
 //     }
 // });
 
-module.exports.baseFunction = baseFunction;
+module.exports.createTable = createTable;
+module.exports.dropTable = dropTable;
+module.exports.getAll = getAll;
+module.exports.getOne = getOne;
