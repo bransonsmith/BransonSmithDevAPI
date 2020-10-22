@@ -28,7 +28,9 @@ async function executeSql(sql, title='') {
         return { status: 'Success', result: res };
     }).catch(err => {
         console.log('Error during sql run.');
-        console.log(err.stack);
+        common.logError(err);
+        return { status: 'Error', result: err };
+    }).catch(err => {
         return { status: 'Error', result: err };
     });
 }

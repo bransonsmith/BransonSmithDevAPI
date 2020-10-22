@@ -18,6 +18,14 @@ function logSql(title, sql) {
     console.log('---------------------------------------------------------');
 }
 
+function logError(title, err) {
+    console.log('---------------------------------------------------------\n');
+    console.log(`Error: ${title}\n`);
+    console.log('---------------------------------------------------------');
+    console.log(`${err.stack}`);
+    console.log('---------------------------------------------------------');
+}
+
 module.exports.connection_string = connection_string;
 module.exports.logReq = logReq;
 module.exports.logSql = logSql;
