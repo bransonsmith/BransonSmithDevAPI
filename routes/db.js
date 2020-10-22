@@ -66,12 +66,6 @@ function getCreateTableFields(fields) {
 async function getAll(table_name) {
     const sql = `SELECT * FROM ${table_name};`;
     var sqlResults = await executeSql(sql, `Get all ${table_name}`);
-
-    console.log('\n\nSqlResults\n')
-    console.log(sqlResults);
-    console.log('\n------------\n')
-
-
     if (sqlResults.status === 'Success') {
         const permissedResults = await getResultsThatUserHasPermissionTo(sqlResults.result);
         console.log(`Got ${permissedResults.length} records from ${table_name}.`)
@@ -83,7 +77,6 @@ async function getAll(table_name) {
 
 async function create(table_name, fields, values) {
     const sql = `INSERT INTO ${table_name} (${getCreateColumns(fields)})\nVALUES (${getCreateValues(values)}));\n\nSELECT * FROM ${table_name} WHERE id = '12345';`;
-
     var sqlResults = await executeSql(sql, `Create new ${table_name}`);
     if (sqlResults.status === 'Success') {
         const permissedResults = await getResultsThatUserHasPermissionTo(sqlResults.result);

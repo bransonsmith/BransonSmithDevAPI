@@ -19,8 +19,7 @@ router.post('/api/projects/create', (req, response) => {
     common.logReq(`POST`, `/api/projects/create`);
     try {
         db.createTable(table_name, fields).then(dbResponse => {
-            common.logResponse('Database', dbResponse);
-
+            common.logResponse('POST /api/projects/create', dbResponse.result);
             if (dbResponse.status === 'Success') {
                 response.status(200).send(`Created ${table_name}`); return;
             } else {
@@ -39,8 +38,7 @@ router.post('/api/projects/drop', (req, response) => {
     common.logReq(`POST`, `/api/projects/drop`);
     try {
         db.dropTable(table_name).then(dbResponse => {
-            common.logResponse('Database', dbResponse);
-
+            common.logResponse('POST /api/projects/drop', dbResponse.result);
             if (dbResponse.status === 'Success') {
                 response.status(200).send(dbResponse.result); return;
             } else {
@@ -59,8 +57,7 @@ router.get('/api/projects', (req, response) => {
     common.logReq(`GET`, `/api/projects`);
     try {
         db.getAll(table_name).then(dbResponse => {
-            common.logResponse('Database', dbResponse);
-
+            common.logResponse('GET /api/projects', dbResponse.result);
             if (dbResponse.status === 'Success') {
                 response.status(200).send(dbResponse.result); return;
             } else {
@@ -87,8 +84,7 @@ router.post('/api/projects', (req, response) => {
     ];
     try {
         db.create(table_name, createFields, createValues).then(dbResponse => {
-            common.logResponse('Database', dbResponse);
-
+            common.logResponse('POST /api/projects', dbResponse.result);
             if (dbResponse.status === 'Success') {
                 response.status(200).send(dbResponse.result); return;
             } else {
