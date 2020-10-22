@@ -26,21 +26,30 @@ async function executeSql(sql, title='') {
     client.query(sql).then(res => {
         console.log('Sql run was successful.');
         return { status: 'Success', result: res };
-    }).catch(err => {
-        console.log('Error during sql run.');
-        common.logError(err);
-        return { status: 'Error', result: err };
     });
+    // .catch(err => {
+    //     console.log('Error during sql run.');
+    //     common.logError(err);
+    //     return { status: 'Error', result: err };
+    // });
 }
 
 async function dropTable(table_name) {
     const sql = `DROP TABLE ${table_name};`;
-    return await executeSql(sql, `DROP TABLE: ${table_name}`);
+    try {
+        return await executeSql(sql, `DROP TABLE: ${table_name}`);
+    } catch(err) {
+        throw err;
+    }
 }
 
 async function createTable(table_name, fields) {
     const sql = `CREATE TABLE ${table_name} (${getCreateTableFields(fields)})`;
-    return await executeSql(sql, `CREATE TABLE: ${table_name}`);
+    try {
+        return await executeSql(sql, `CREATE TABLE: ${table_name}`);
+    } catch(err) {
+        throw err;
+    }
 }
 
 function getCreateTableFields(fields) {

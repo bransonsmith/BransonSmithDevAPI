@@ -27,16 +27,17 @@ router.post('/api/projects/create', async (req, response) => {
 
 router.post('/api/projects/drop', async (req, response) => {
     common.logReq(`POST`, `/api/projects/drop`);
-    const dbResult = await db.dropTable(table_name)
-    .catch(err => {
-        console.log('Error db.dropTable');
+    try {
+        const dbResult = await db.dropTable(table_name);
+        if (dbResult.status === 'Success') {
+            response.status(200).send(dbResult.result); return;
+        } else {
+            response.status(400).send(dbResult.result); return;
+        }
+    } catch (err) {
+        console.log('Error in db.dropTable');
         common.logError(err);
-        response.status(400).send(err); return;
-    });
-    if (dbResult.status === 'Success') {
-        response.status(200).send(dbResult.result); return;
-    } else {
-        response.status(400).send(dbResult.result); return;
+        response.status(err.response.status).send(err); return;
     }
 });
 
