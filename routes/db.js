@@ -65,6 +65,12 @@ function getCreateTableFields(fields) {
 async function getAll(table_name) {
     const sql = `SELECT * FROM ${table_name};`;
     var sqlResults = await executeSql(sql, `Get all ${table_name}`);
+
+    console.log('\n\nSqlResults\n')
+    console.log(sqlResults);
+    console.log('\n------------\n')
+
+
     if (sqlResults.status === 'Success') {
         const permissedResults = getResultsThatUserHasPermissionTo(sqlResults.result.rows);
         console.log(`Got ${permissedResults.length} records from ${table_name}.`)
