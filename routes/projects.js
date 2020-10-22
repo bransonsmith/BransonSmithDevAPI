@@ -77,19 +77,27 @@ router.get('/api/projects', (req, response) => {
 
 router.post('/api/projects', (req, response) => {
     common.logReq(`POST`, `/api/projects`);
+
+    const newId = '12345';
     const createFields = [
         { name: 'id',            type: 'varchar(255)',  attributes: 'NOT NULL PRIMARY KEY' },
         { name: 'title',         type: 'varchar(255)',  attributes: 'NOT NULL' }
     ];
     const createValues = [
-        "'12345'",
+        `'${newId}'`,
         "'Sample Title'"
     ];
     try {
         db.create(table_name, createFields, createValues).then(dbResponse => {
             common.logResponse('POST /api/projects', dbResponse.result);
             if (dbResponse.status === 'Success') {
-                response.status(200).send(dbResponse.result); return;
+                db.getOne(table_name, newId).then(getResponse => {
+                    if (getResponse.status === 'Success') {
+                        response.status(200).send(getResponse.result); return;
+                    } else {
+                        response.status(400).send(getResponse.result); return;
+                    }
+                });
             } else {
                 response.status(400).send(dbResponse.result); return;
             }

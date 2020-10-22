@@ -75,8 +75,22 @@ async function getAll(table_name) {
     }
 }
 
+async function getOne(table_name, id) {
+    const sql = `SELECT * FROM ${table_name} WHERE id = '${id}';`;
+    var sqlResults = await executeSql(sql, `Get ${table_name} by id`);
+    if (sqlResults.status === 'Success') {
+        const permissedResults = await getResultsThatUserHasPermissionTo(sqlResults.result);
+        if (permissedResults.length < 1) {
+            return { status: 'Success', result: null }
+        }
+        return { status: 'Success', result: permissedResults[0] }
+    } else {
+        return { status: 'Error', result: sqlResults }
+    }
+}
+
 async function create(table_name, fields, values) {
-    const sql = `INSERT INTO ${table_name} (${getCreateColumns(fields)})\nVALUES (${getCreateValues(values)}) SELECT * FROM ${table_name} WHERE id = '12345';`;
+    const sql = `INSERT INTO ${table_name} (${getCreateColumns(fields)})\nVALUES (${getCreateValues(values)});`;
     var sqlResults = await executeSql(sql, `Create new ${table_name}`);
     if (sqlResults.status === 'Success') {
         const permissedResults = await getResultsThatUserHasPermissionTo(sqlResults.result);

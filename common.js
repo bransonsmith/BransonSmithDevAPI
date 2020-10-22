@@ -31,16 +31,17 @@ function logResponse(title, response) {
     console.log(`Response from ${title}`);
     console.log('--');
 
-    try {
-        if (response.length > 5) {
-            console.log(response.slice(0, 5))
-        } else {
-            console.log(response);
-        }
-    } catch {
-        console.log(response);
-    }
+    // try {
+    //     if (response.length > 5) {
+    //         console.log(response.slice(0, 5))
+    //     } else {
+    //         console.log(response);
+    //     }
+    // } catch {
+    //     console.log(response);
+    // }
 
+    console.log(response);
     console.log('---------------------------------------------------------');
 }
 
