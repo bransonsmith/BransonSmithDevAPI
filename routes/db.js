@@ -15,6 +15,7 @@ router.get('/', (req, response) => {
     try {
         executeSql(sql, 'Health Check').then(sqlResult => {
             if (sqlResult.status === 'Success') {
+                common.logResponse('GET /', `Succesfully ran some test sql! BransonSmithDevAPI is live :)`);
                 response.status(200).send(`Succesfully ran some test sql! BransonSmithDevAPI is live :)`); return;
             } else {
                 response.status(400).send(err); return;
@@ -118,7 +119,6 @@ function getCreateColumns(fields) {
     });
     return str.substr(0, str.length - 2);
 }
-
 
 function getCreateValues(values) {
     let str = '';
