@@ -22,9 +22,9 @@ router.post('/api/projects/create', (req, response) => {
             common.logResponse('Database', dbResponse);
 
             if (dbResponse.status === 'Success') {
-                response.status(200).send(dbResponse.result); return;
+                response.status(200).send(`Created ${table_name}`); return;
             } else {
-                response.status(400).send(dbResponse.result); return;
+                response.status(400).send(`Failed to create ${table_name}: ${dbResponse.result}`); return;
             }
         }).catch(dbError => {
             throw dbError;
@@ -62,7 +62,7 @@ router.get('/api/projects', (req, response) => {
             common.logResponse('Database', dbResponse);
 
             if (dbResponse.status === 'Success') {
-                response.status(200).send(dbResponse.result); return;
+                response.status(200).send(dbResponse.result.rows); return;
             } else {
                 response.status(400).send(dbResponse.result); return;
             }
@@ -90,7 +90,7 @@ router.post('/api/projects', (req, response) => {
             common.logResponse('Database', dbResponse);
 
             if (dbResponse.status === 'Success') {
-                response.status(200).send(dbResponse.result); return;
+                response.status(200).send(dbResponse.result.rows); return;
             } else {
                 response.status(400).send(dbResponse.result); return;
             }

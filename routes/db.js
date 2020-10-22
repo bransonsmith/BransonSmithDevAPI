@@ -48,7 +48,7 @@ async function dropTable(table_name) {
 async function createTable(table_name, fields) {
     const sql = `CREATE TABLE ${table_name} (${getCreateTableFields(fields)})`;
     try {
-        return await executeSql(sql, `CREATE TABLE: ${table_name}`);
+        return await executeSql(sql, `Create ${table_name} table`);
     } catch(err) {
         throw err;
     }
