@@ -59,7 +59,7 @@ function getCreateTableFields(fields) {
     fields.forEach(field => {
         str += `    ${field.name} ${field.type} ${field.attributes},\n`;
     });
-    return str.trimEnd(' ').trimEnd(',');
+    return str.trimEnd('\n').trimEnd(',');
 }
 
 async function getAll(table_name) {
@@ -92,7 +92,7 @@ function getCreateColumns(fields) {
     fields.forEach(field => {
         str += `    ${field.name},\n`;
     });
-    return str.trimEnd(' ').trimEnd(',');
+    return str.trimEnd('\n').trimEnd(',');
 }
 
 
@@ -101,7 +101,7 @@ function getCreateValues(values) {
     values.forEach(value => {
         str += `    ${value},\n`;
     });
-    return str.trimEnd(' ').trimEnd(',');
+    return str.trimEnd('\n').trimEnd(',');
 }
 
 async function getResultsThatUserHasPermissionTo(result) {
