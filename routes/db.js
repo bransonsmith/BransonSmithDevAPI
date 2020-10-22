@@ -23,38 +23,26 @@ router.get('/', async (req, response) => {
 
 async function executeSql(sql, title='') {
     common.logSql(title, sql);
-    client.query(sql).then(res => 
-    {
-        console.log('Sql run was successful.');
-        return { status: 'Success', result: res };
-    })
-    .catch(err => 
-    {
-        console.log('Error during sql run.');
-        try {
-            common.logError(err);
-            return { status: 'Error', result: err };
-        } catch {
-            console.log(err);
-            return { status: 'Error', result: err };
-        }
-    });
+    try {
+        const queryResponse = await client.query(sql);
+        common.logResponse('Query', queryResponse);
+        return { status: 'Success', result: queryResponse };
+    } catch (queryError) {
+        common.logError('Query', queryError);
+        return { status: 'Error', result: queryError };
+    }
 }
 
 async function dropTable(table_name) {
     const sql = `DROP TABLE ${table_name};`;
-    executeSql(sql, `DROP TABLE: ${table_name}`).then(sqlResponse => 
-    {
-        console.log('\nxxx   Got Sql Response   xxx\n');
-        console.log(sqlResponse);
+    try {
+        var sqlResponse = await executeSql(sql, `Drop ${table_name} table`);
+        common.logResponse('Sql Execution', sqlResponse);
         return sqlResponse;
-    })
-    .catch(sqlError => 
-    {
-        console.log('\nxxx   Got Sql Error   xxx\n');
-        console.log(sqlError);
-        return { status: 'Error', result: sqlError };
-    });
+    } catch (sqlError) {
+        common.logError('Sql Execution', sqlError);
+        return sqlError;
+    }
 }
 
 async function createTable(table_name, fields) {

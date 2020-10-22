@@ -20,9 +20,17 @@ function logSql(title, sql) {
 
 function logError(title, err) {
     console.log('---------------------------------------------------------\n');
-    console.log(`${title}\n`);
+    console.log(`Error from ${title}\n`);
     console.log('---------------------------------------------------------');
     console.log(`${err}`);
+    console.log('---------------------------------------------------------');
+}
+
+function logResponse(title, response) {
+    console.log('---------------------------------------------------------\n');
+    console.log(`Response from ${title}\n`);
+    console.log('---------------------------------------------------------');
+    console.log(`${response}`);
     console.log('---------------------------------------------------------');
 }
 
@@ -30,3 +38,4 @@ module.exports.connection_string = connection_string;
 module.exports.logReq = logReq;
 module.exports.logSql = logSql;
 module.exports.logError = logError;
+module.exports.logResponse = logResponse;
