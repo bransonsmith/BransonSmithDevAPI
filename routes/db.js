@@ -128,4 +128,5 @@ module.exports.router = router;
 module.exports.dropTable = dropTable;
 module.exports.createTable = createTable;
 module.exports.getAll = getAll;
+module.exports.getOne = getOne;
 module.exports.create = create;
