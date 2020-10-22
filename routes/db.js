@@ -57,9 +57,9 @@ async function createTable(table_name, fields) {
 function getCreateTableFields(fields) {
     let str = '';
     fields.forEach(field => {
-        str += `    ${field.name} ${field.type} ${field.attributes},\n`;
+        str += `${field.name} ${field.type} ${field.attributes}, `;
     });
-    return str.trimEnd('\n').trimEnd(',');
+    return str.substr(0, str.length - 2);
 }
 
 async function getAll(table_name) {
@@ -90,18 +90,18 @@ async function create(table_name, fields, values) {
 function getCreateColumns(fields) {
     let str = '';
     fields.forEach(field => {
-        str += `    ${field.name},\n`;
+        str += `${field.name}, `;
     });
-    return str.trimEnd('\n').trimEnd(',');
+    return str.substr(0, str.length - 2);
 }
 
 
 function getCreateValues(values) {
     let str = '';
     values.forEach(value => {
-        str += `    ${value},\n`;
+        str += `${value}, `;
     });
-    return str.trimEnd('\n').trimEnd(',');
+    return str.substr(0, str.length - 2);
 }
 
 async function getResultsThatUserHasPermissionTo(result) {
