@@ -28,8 +28,13 @@ function executeSql(sql, title='') {
         return { status: 'Success', result: res };
     }).catch(err => {
         console.log('Error during sql run.');
-        common.logError(err);
-        return { status: 'Error', result: err };
+        try {
+            common.logError(err);
+        } catch {
+            console.log(err);
+        } finally {
+            return { status: 'Error', result: err };
+        }
     });
 }
 

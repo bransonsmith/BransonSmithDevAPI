@@ -20,9 +20,9 @@ function logSql(title, sql) {
 
 function logError(title, err) {
     console.log('---------------------------------------------------------\n');
-    console.log(`Error: ${title}\n`);
+    console.log(`${title}\n`);
     console.log('---------------------------------------------------------');
-    console.log(`${err.stack}`);
+    console.log(`${err}`);
     console.log('---------------------------------------------------------');
 }
 
