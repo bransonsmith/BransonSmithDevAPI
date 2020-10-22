@@ -30,9 +30,9 @@ function executeSql(sql, title='') {
         console.log('Error during sql run.');
         try {
             common.logError(err);
+            return { status: 'Error', result: err };
         } catch {
             console.log(err);
-        } finally {
             return { status: 'Error', result: err };
         }
     });
