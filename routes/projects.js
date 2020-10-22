@@ -15,19 +15,28 @@ const fields = [
     { name: 'exampleclicks', type: 'int',           attributes: '' },
 ];
 
-router.post('/api/projects/create', async (req, response) => {
+router.post('/api/projects/create', (req, response) => {
     common.logReq(`POST`, `/api/projects/create`);
-    const dbResult = await db.createTable(table_name, fields);
-    if (dbResult.status === 'Success') {
-        response.status(200).send(dbResult.result); return;
-    } else {
-        response.status(400).send(dbResult.result); return;
+    try {
+        db.createTable(table_name, fields).then(dbResponse => {
+            common.logResponse('Database', dbResponse);
+
+            if (dbResponse.status === 'Success') {
+                response.status(200).send(dbResponse.result); return;
+            } else {
+                response.status(400).send(dbResponse.result); return;
+            }
+        }).catch(dbError => {
+            throw dbError;
+        });
+    } catch (dbError) {
+        common.logError('Database', dbError);
+        response.status(400).send(dbError); return;
     }
 });
 
 router.post('/api/projects/drop', (req, response) => {
     common.logReq(`POST`, `/api/projects/drop`);
-
     try {
         db.dropTable(table_name).then(dbResponse => {
             common.logResponse('Database', dbResponse);
@@ -46,25 +55,53 @@ router.post('/api/projects/drop', (req, response) => {
     }
 });
 
-router.get('/api/projects', async (req, response) => {
+router.get('/api/projects', (req, response) => {
     common.logReq(`GET`, `/api/projects`);
-    var dbResult = await db.getAll(table_name);
-    if (dbResult.status === 'Success') {
-        response.status(200).send(dbResult.result); return;
-    } else {
-        response.status(400).send(dbResult.result); return;
+    try {
+        db.getAll(table_name).then(dbResponse => {
+            common.logResponse('Database', dbResponse);
+
+            if (dbResponse.status === 'Success') {
+                response.status(200).send(dbResponse.result); return;
+            } else {
+                response.status(400).send(dbResponse.result); return;
+            }
+        }).catch(dbError => {
+            throw dbError;
+        });
+    } catch (dbError) {
+        common.logError('Database', dbError);
+        response.status(400).send(dbError); return;
     }
 });
 
-// router.post('/api/projects', (req, response) => {
-//     console.log('POST /api/projects');
-//     console.log(req.body);
+router.post('/api/projects', (req, response) => {
+    common.logReq(`POST`, `/api/projects`);
+    const createFields = [
+        { name: 'id',            type: 'varchar(255)',  attributes: 'NOT NULL PRIMARY KEY' },
+        { name: 'title',         type: 'varchar(255)',  attributes: 'NOT NULL' }
+    ];
+    const createValues = [
+        "'12345'",
+        "'Sample Title'"
+    ];
+    try {
+        db.create(table_name, createFields, createValues).then(dbResponse => {
+            common.logResponse('Database', dbResponse);
 
-//     postNewGolfer(req).then(createdGolfer => {
-//         if (createdGolfer) { response.status(200).send(createdGolfer); return createdGolfer; } 
-//         else { response.status(500).send('Failed to create golfer.'); return; }
-//     });
-// });
+            if (dbResponse.status === 'Success') {
+                response.status(200).send(dbResponse.result); return;
+            } else {
+                response.status(400).send(dbResponse.result); return;
+            }
+        }).catch(dbError => {
+            throw dbError;
+        });
+    } catch (dbError) {
+        common.logError('Database', dbError);
+        response.status(400).send(dbError); return;
+    }
+});
 
 // router.put('/api/golf/golfers/:id', (req, response) => {
 

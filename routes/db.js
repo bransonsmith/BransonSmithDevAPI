@@ -57,14 +57,14 @@ async function createTable(table_name, fields) {
 function getCreateTableFields(fields) {
     let str = '';
     fields.forEach(field => {
-        str += `${field.name} ${field.type} ${field.attributes}, `;
+        str += `    ${field.name} ${field.type} ${field.attributes},\n`;
     });
     return str.trimEnd(' ').trimEnd(',');
 }
 
 async function getAll(table_name) {
     const sql = `SELECT * FROM ${table_name};`;
-    var sqlResults = await executeSql(sql, `GET ALL: ${table_name}`);
+    var sqlResults = await executeSql(sql, `Get all ${table_name}`);
     if (sqlResults.status === 'Success') {
         const permissedResults = getResultsThatUserHasPermissionTo(sqlResults.result.rows);
         console.log(`Got ${permissedResults.length} records from ${table_name}.`)
@@ -72,16 +72,36 @@ async function getAll(table_name) {
     } else {
         return { status: 'Error', result: sqlResults.err }
     }
+}
 
-    // client.query(sql).then(res => {
-    //     const result = res.rows;
-    //     const permissedResults = getResultsThatUserHasPermissionTo(result);
-    //     console.log(`Got ${permissedResults.length} records from ${req.params.tablename}.`)
-    //     response.status(200).send(permissedResults); return;
-    // }).catch(err => {
-    //     console.log(err.stack);
-    //     response.status(400).send(err); return;
-    // }).finally(() => {});
+async function create(table_name, fields, values) {
+    const sql = `INSERT INTO ${table_name} (${getCreateColumns(fields)})\nVALUES (${getCreateValues(values)}));\n\nSELECT * FROM ${table_name} WHERE id = '12345';`;
+
+    var sqlResults = await executeSql(sql, `Create new ${table_name}`);
+    if (sqlResults.status === 'Success') {
+        const permissedResults = getResultsThatUserHasPermissionTo(sqlResults.result.rows);
+        console.log(`Got ${permissedResults.length} records from ${table_name}.`)
+        return { status: 'Success', result: permissedResults }
+    } else {
+        return { status: 'Error', result: sqlResults.err }
+    }
+}
+
+function getCreateColumns(fields) {
+    let str = '';
+    fields.forEach(field => {
+        str += `    ${field.name},\n`;
+    });
+    return str.trimEnd(' ').trimEnd(',');
+}
+
+
+function getCreateValues(values) {
+    let str = '';
+    values.forEach(value => {
+        str += `    ${value},\n`;
+    });
+    return str.trimEnd(' ').trimEnd(',');
 }
 
 async function getResultsThatUserHasPermissionTo(result) {
@@ -94,3 +114,4 @@ module.exports.router = router;
 module.exports.dropTable = dropTable;
 module.exports.createTable = createTable;
 module.exports.getAll = getAll;
+module.exports.create = create;
