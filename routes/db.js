@@ -21,26 +21,29 @@ router.get('/', async (req, response) => {
     }
 });
 
-async function executeSql(sql, title='') {
+function executeSql(sql, title='') {
     common.logSql(title, sql);
     client.query(sql).then(res => {
         console.log('Sql run was successful.');
         return { status: 'Success', result: res };
-    })
-    .catch(err => {
+    }).catch(err => {
         console.log('Error during sql run.');
         common.logError(err);
         return { status: 'Error', result: err };
     });
 }
 
-async function dropTable(table_name) {
+function dropTable(table_name) {
     const sql = `DROP TABLE ${table_name};`;
-    try {
-        return await executeSql(sql, `DROP TABLE: ${table_name}`);
-    } catch(err) {
-        throw err;
-    }
+    executeSql(sql, `DROP TABLE: ${table_name}`).then(sqlResponse => {
+        console.log('\nxxx   Got Sql Response   xxx\n');
+        console.log(sqlResponse);
+        return sqlResponse;
+    }).catch(sqlErr => {
+        console.log('\nxxx   Got Sql Error   xxx\n');
+        console.log(sqlErr);
+        return { status: 'Error', result: sqlErr };
+    });
 }
 
 async function createTable(table_name, fields) {
