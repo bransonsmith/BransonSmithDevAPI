@@ -9,12 +9,12 @@ const client = new Client({
 });
 client.connect();
 
-router.get('/', async (req, response) => {
+router.get('/', (req, response) => {
     const sql = `SELECT 1 + 1;`;
     common.logReq('GET', '/');
-    var sqlResult = await common.executeSql(sql, title='Health Check');
+    var sqlResult = await executeSql(sql, 'Health Check');
 
-    if (sqlResult === 'Success') {
+    if (sqlResult.status === 'Success') {
         response.status(200).send(`Succesfully ran some test sql! BransonSmithDevAPI is live :)`); return;
     } else {
         response.status(400).send(err); return;
@@ -25,7 +25,12 @@ async function executeSql(sql, title='') {
     common.logSql(title, sql);
     try {
         const queryResponse = await client.query(sql);
-        const data = queryResponse.rows;
+        let data;
+        try {
+            data = queryResponse.rows;
+        } catch {
+            data = queryResponse;
+        }
         common.logResponse('Query', data);
         return { status: 'Success', result: data };
     } catch (queryError) {
