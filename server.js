@@ -27,7 +27,7 @@ app.use(sessions({
 }));
 app.use(cors());
 app.use(dbRoutes);
-app.use(projectRoutes);
+app.use(projectRoutes.router);
 
 const port = process.env.PORT || 3000;
 var server = app.listen(port, () => console.log(`Listening on port ${port}`));
