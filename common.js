@@ -2,7 +2,7 @@ const connection_string = 'postgres://tkjzlquhwdldho:1371bf16ec2de194e2e5cb22988
 // const connection_string = 'postgres://gkizmntppsohxf:732468407a55e524d7374c0037a4c789fd73529904f7e04224ee8f4a09988ff3@ec2-54-160-202-3.compute-1.amazonaws.com:5432/d4bnfos91oui4s';
 
 function logReq(action, route) {
-    console.log('---------------------------------------------------------');
+    console.log('\n\n---------------------------------------------------------');
     console.log('Request Received:');
     console.log('--');
     console.log(`${action} ${route}`);

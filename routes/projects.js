@@ -19,10 +19,11 @@ router.post('/api/projects/create', (req, response) => {
     common.logReq(`POST`, `/api/projects/create`);
     try {
         db.createTable(table_name, fields).then(dbResponse => {
-            common.logResponse('POST /api/projects/create', dbResponse.result);
             if (dbResponse.status === 'Success') {
+                common.logResponse('POST /api/projects/create', `Created ${table_name}`);
                 response.status(200).send(`Created ${table_name}`); return;
             } else {
+                common.logResponse('POST /api/projects/create', dbResponse.result);
                 response.status(400).send(`Failed to create ${table_name}: ${dbResponse.result}`); return;
             }
         }).catch(dbError => {
@@ -40,8 +41,10 @@ router.post('/api/projects/drop', (req, response) => {
         db.dropTable(table_name).then(dbResponse => {
             common.logResponse('POST /api/projects/drop', dbResponse.result);
             if (dbResponse.status === 'Success') {
-                response.status(200).send(dbResponse.result); return;
+                common.logResponse('POST /api/projects/drop', `Dropped ${table_name}`);
+                response.status(200).send(`Dropped ${table_name}`); return;
             } else {
+                common.logResponse('POST /api/projects/drop', dbResponse.result);
                 response.status(400).send(dbResponse.result); return;
             }
         }).catch(dbError => {
