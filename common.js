@@ -2,35 +2,45 @@ const connection_string = 'postgres://tkjzlquhwdldho:1371bf16ec2de194e2e5cb22988
 // const connection_string = 'postgres://gkizmntppsohxf:732468407a55e524d7374c0037a4c789fd73529904f7e04224ee8f4a09988ff3@ec2-54-160-202-3.compute-1.amazonaws.com:5432/d4bnfos91oui4s';
 
 function logReq(action, route) {
-    console.log('---------------------------------------------------------\n');
-    console.log('Request Found: \n');
     console.log('---------------------------------------------------------');
+    console.log('Request Received:');
+    console.log('--');
     console.log(`${action} ${route}`);
     console.log('---------------------------------------------------------');
     return true;
 }
 
 function logSql(title, sql) {
-    console.log('---------------------------------------------------------\n');
-    console.log(`Running SQL: ${title}\n`);
     console.log('---------------------------------------------------------');
-    console.log(`${sql}`);
+    console.log(`Running SQL: ${title}`);
+    console.log('--');
+    console.log(sql);
     console.log('---------------------------------------------------------');
 }
 
 function logError(title, err) {
-    console.log('---------------------------------------------------------\n');
-    console.log(`Error from ${title}\n`);
     console.log('---------------------------------------------------------');
-    console.log(`${err}`);
+    console.log(`Error from ${title}`);
+    console.log('--');
+    console.log(err);
     console.log('---------------------------------------------------------');
 }
 
 function logResponse(title, response) {
-    console.log('---------------------------------------------------------\n');
-    console.log(`Response from ${title}\n`);
     console.log('---------------------------------------------------------');
-    console.log(response);
+    console.log(`Response from ${title}`);
+    console.log('--');
+
+    try {
+        if (response.length > 5) {
+            console.log(response.slice(0, 5))
+        } else {
+            console.log(response);
+        }
+    } catch {
+        console.log(response);
+    }
+
     console.log('---------------------------------------------------------');
 }
 

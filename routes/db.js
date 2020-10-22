@@ -77,7 +77,7 @@ async function getAll(table_name) {
         console.log(`Got ${permissedResults.length} records from ${table_name}.`)
         return { status: 'Success', result: permissedResults }
     } else {
-        return { status: 'Error', result: sqlResults.err }
+        return { status: 'Error', result: sqlResults }
     }
 }
 
@@ -90,7 +90,7 @@ async function create(table_name, fields, values) {
         console.log(`Got ${permissedResults.length} records from ${table_name}.`)
         return { status: 'Success', result: permissedResults }
     } else {
-        return { status: 'Error', result: sqlResults.err }
+        return { status: 'Error', result: sqlResults }
     }
 }
 
