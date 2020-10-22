@@ -8,6 +8,8 @@ const table_name = 'projects';
 const fields = [
     { name: 'id',            type: 'varchar(255)',  attributes: 'NOT NULL PRIMARY KEY' },
     { name: 'title',         type: 'varchar(255)',  attributes: 'NOT NULL' },
+    { name: 'codelink',      type: 'varchar(255)',  attributes: '' },
+    { name: 'examplelink',   type: 'varchar(255)',  attributes: '' },
     { name: 'text',          type: 'varchar(4000)', attributes: '' },
     { name: 'image',         type: 'varchar(1000)', attributes: '' },
     { name: 'createddate',   type: 'timestamp',     attributes: '' },
@@ -96,15 +98,28 @@ router.get('/api/projects/:id', (req, response) => {
 
 router.post('/api/projects', (req, response) => {
     common.logReq(`POST`, `/api/projects`);
-
-    const newId = '12345';
+    const newId = uuidv1();
     const createFields = [
         { name: 'id',            type: 'varchar(255)',  attributes: 'NOT NULL PRIMARY KEY' },
-        { name: 'title',         type: 'varchar(255)',  attributes: 'NOT NULL' }
+        { name: 'title',         type: 'varchar(255)',  attributes: 'NOT NULL' },
+        { name: 'codelink',      type: 'varchar(255)',  attributes: '' },
+        { name: 'examplelink',   type: 'varchar(255)',  attributes: '' },
+        { name: 'text',          type: 'varchar(4000)', attributes: '' },
+        { name: 'image',         type: 'varchar(1000)', attributes: '' },
+        { name: 'createddate',   type: 'timestamp',     attributes: '' },
+        { name: 'codeclicks',    type: 'int',           attributes: '' },
+        { name: 'exampleclicks', type: 'int',           attributes: '' },
     ];
     const createValues = [
         `'${newId}'`,
-        "'Sample Title'"
+        "'Career'",
+        "''",
+        "'https://ihsmarkit.com/products/wso-software.html'",
+        "'Over the last 3 years I have had the opportunity to take part in ...'",
+        "''",
+        `${moment().format('YYYY-MM-DDThh:mm:ss.SSSZ')}`,
+        0,
+        0
     ];
     try {
         db.create(table_name, createFields, createValues).then(dbResponse => {
