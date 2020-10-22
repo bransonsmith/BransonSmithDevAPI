@@ -23,14 +23,14 @@ router.get('/', async (req, response) => {
 
 async function executeSql(sql, title='') {
     common.logSql(title, sql);
-    client.query(sql).then(res => {
+    await client.query(sql).then(res => {
         console.log('Sql run was successful.');
         return { status: 'Success', result: res };
     }).catch(err => {
         console.log('Error during sql run.');
         console.log(err.stack);
         return { status: 'Error', result: err };
-    }).finally(() => {});
+    });
 }
 
 async function dropTable(table_name) {
