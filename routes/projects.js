@@ -103,7 +103,7 @@ router.post(base_route, (req, response) => {
     }
 });
 
-router.post(inc_code_route, (req, response) => {
+router.put(inc_code_route, (req, response) => {
     common.logReq(`POST`, inc_code_route);
     try {
         const sql = `UPDATE ${table_name} SET codeclicks = codeclicks + 1 WHERE id = '${req.params.id}';`;
@@ -119,7 +119,7 @@ router.post(inc_code_route, (req, response) => {
     }
 });
 
-router.post(inc_demo_route, (req, response) => {
+router.put(inc_demo_route, (req, response) => {
     common.logReq(`POST`, inc_demo_route);
     try {
         const sql = `UPDATE ${table_name} SET exampleclicks = exampleclicks + 1 WHERE id = '${req.params.id}';`;
