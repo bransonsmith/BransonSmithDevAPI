@@ -37,7 +37,7 @@ async function executeSql(sql, title='') {
         } catch {
             data = queryResponse;
         }
-        common.logResponse('Query', data);
+        // common.logResponse('Query', data);
         return { status: 'Success', result: data };
     } catch (queryError) {
         common.logError('Query', queryError);
