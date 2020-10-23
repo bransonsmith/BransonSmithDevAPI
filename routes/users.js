@@ -15,8 +15,8 @@ const get_one_route = `${base_route}/:id`;
 const inc_login_route = `${get_one_route}/inclogin`;
 const fields = [
     { name: 'id',            type: 'varchar(255)',  attributes: 'NOT NULL PRIMARY KEY' },
-    { name: 'username',      type: 'varchar(255)',  attributes: 'NOT NULL' },
-    { name: 'email',         type: 'varchar(255)',  attributes: '' },
+    { name: 'username',      type: 'varchar(255)',  attributes: 'NOT NULL UNIQUE' },
+    { name: 'email',         type: 'varchar(255)',  attributes: 'UNIQUE' },
     { name: 'password',      type: 'varchar(255)',  attributes: 'NOT NULL' },
     { name: 'logincount',    type: 'int',           attributes: '' },
     { name: 'createddate',   type: 'timestamp',     attributes: '' }
