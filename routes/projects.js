@@ -77,18 +77,16 @@ router.get(get_one_route, (req, response) => {
 
 router.post(base_route, (req, response) => {
     common.logReq(`POST`, base_route);
-    console.log(req);
     const newId = uuidv1();
     const createValues = [
         `'${newId}'`,
-        "'Career'",
-        "''",
-        "'https://ihsmarkit.com/products/wso-software.html'",
-        "'Over the last 3 years I have had the opportunity to take part in ...'",
-        "''",
-        `'${moment().format('YYYY-MM-DDThh:mm:ss.SSSZ')}'`,
-        0,
-        0
+        `'${req.body.title}'`,
+        `'${req.body.codelink}'`,
+        `'${req.body.examplelink}'`,
+        `'${req.body.text}'`,
+        `'${req.body.image}'`,
+        `${req.body.codeclicks}`,
+        `${req.body.exampleclicks}`
     ];
     try {
         base.create(table_name, fields, createValues, newId).then(baseResponse => {
