@@ -50,7 +50,7 @@ router.post(drop_table_route, (req, response) => {
 router.get(base_route, (req, response) => {
     common.logReq(`GET`, base_route);
     try {
-        base.getAll(table_name).then(baseResponse => {
+        base.getAll(table_name, req, response).then(baseResponse => {
             common.logResponse(base_route, baseResponse);
         });
     } catch (baseError) {
