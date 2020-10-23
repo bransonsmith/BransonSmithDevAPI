@@ -109,7 +109,7 @@ router.post(inc_code_route, (req, response) => {
         const sql = `UPDATE ${table_name} SET codeclicks = codeclicks + 1 WHERE id = '${req.params.id};'`;
         db.executeSql(sql, 'Increment Code Clicks on Project').then(sqlResponse => {
             common.logResponse(inc_code_route, sqlResponse);
-            response.status(200).send(dbResponse.result);
+            response.status(200).send(sqlResponse.result);
         }).catch(sqlError => {
             throw sqlError;
         });
