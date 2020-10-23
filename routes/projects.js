@@ -90,7 +90,7 @@ router.post(base_route, (req, response) => {
         `${req.body.exampleclicks}`
     ];
     try {
-        base.create(table_name, fields, createValues, newId).then(baseResponse => {
+        base.create(table_name, fields, createValues, newId, response).then(baseResponse => {
             common.logResponse(base_route, baseResponse);
         }).catch(baseError => {
             throw baseError;

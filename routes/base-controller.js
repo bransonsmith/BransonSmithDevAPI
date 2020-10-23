@@ -55,7 +55,7 @@ async function getOne(table_name, req, response) {
     }
 }
 
-async function create(table_name, fields, createValues, newId) {
+async function create(table_name, fields, createValues, newId, response) {
     try {
         var dbResponse = await db.create(table_name, fields, createValues);
         if (dbResponse.status === 'Success') {
