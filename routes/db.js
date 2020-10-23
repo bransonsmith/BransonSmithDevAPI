@@ -130,3 +130,4 @@ module.exports.createTable = createTable;
 module.exports.getAll = getAll;
 module.exports.getOne = getOne;
 module.exports.create = create;
+module.exports.executeSql = executeSql;
