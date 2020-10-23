@@ -40,6 +40,7 @@ async function dropTable(table_name, req, response) {
 async function getAll(table_name, req, response) {
     try {
         db.getAll(table_name).then(dbResponse => {
+            common.logResponse('DB Response', dbResponse);
             handleDbResponse(dbResponse, response);
             return dbResponse.result;
         }).catch(dbError => {
@@ -53,6 +54,7 @@ async function getAll(table_name, req, response) {
 async function getOne(table_name, req, response) {
     try {
         db.getOne(table_name, req.params.id).then(dbResponse => {
+            common.logResponse('DB Response', dbResponse);
             handleDbResponse(dbResponse, response);
             return dbResponse.result;
         }).catch(dbError => {
@@ -67,7 +69,7 @@ function handleDbResponse(dbResponse, response) {
     if (dbResponse.status === 'Success') {
         response.status(200).send(dbResponse.result); return dbResponse.result;
     } else {
-        response.status(400).send(dbResponse.result); return dbResponse.result;
+        response.status(400).send(dbResponse); return dbResponse;
     }
 }
 
