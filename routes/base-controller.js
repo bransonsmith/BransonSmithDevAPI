@@ -35,8 +35,8 @@ async function dropTable(table_name, req, response) {
 
 async function getAll(table_name, req, response) {
     try {
-        db.getAll(table_name).then(dbResponse => {
-            return handleDbResponse(dbResponse, response);
+        db.getAll(table_name).then(async dbResponse => {
+            return await handleDbResponse(dbResponse, response);
         });
     } catch (dbError) {
         handleDbError(dbError, response);
@@ -45,15 +45,15 @@ async function getAll(table_name, req, response) {
 
 async function getOne(table_name, req, response) {
     try {
-        db.getOne(table_name, req.params.id).then(dbResponse => {
-            return handleDbResponse(dbResponse, response);
+        db.getOne(table_name, req.params.id).then(async dbResponse => {
+            return await handleDbResponse(dbResponse, response);
         });
     } catch (dbError) {
         handleDbError(dbError, response);
     }
 }
 
-function handleDbResponse(dbResponse, response) {
+async function handleDbResponse(dbResponse, response) {
     if (dbResponse.status === 'Success') {
         response.status(200).send(dbResponse.result); return dbResponse.result;
     } else {
