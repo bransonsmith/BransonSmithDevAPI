@@ -1,12 +1,7 @@
 const express = require('express');
 const moment = require('moment');
-const uuidv1 = require('uuid/v1');
 const sessions = require('client-sessions');
-const bcrypt = require('bcryptjs');
 const settings = require("./settings");
-const csurf = require("csurf");
-const nJwt = require("njwt");
-const common = require("./common")
 var cors = require('cors')
 
 const dbRoutes = require("./routes/db");
@@ -27,6 +22,7 @@ app.use(sessions({
     }
 }));
 app.use(cors());
+
 app.use(dbRoutes.router);
 app.use(projectRoutes);
 app.use(userRoutes);
