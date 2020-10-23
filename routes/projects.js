@@ -90,25 +90,14 @@ router.post(base_route, (req, response) => {
         0
     ];
     try {
-        db.create(table_name, fields, createValues).then(dbResponse => {
-            common.logResponse('POST /api/projects', dbResponse.result);
-            if (dbResponse.status === 'Success') {
-                db.getOne(table_name, newId).then(getResponse => {
-                    if (getResponse.status === 'Success') {
-                        response.status(200).send(getResponse.result); return;
-                    } else {
-                        response.status(400).send(getResponse.result); return;
-                    }
-                });
-            } else {
-                response.status(400).send(dbResponse.result); return;
-            }
-        }).catch(dbError => {
-            throw dbError;
+        base.create(table_name, fields, createValues, newId).then(baseResponse => {
+            common.logResponse(base_route, baseResponse);
+        }).catch(baseError => {
+            throw baseError;
         });
-    } catch (dbError) {
-        common.logError('Database', dbError);
-        response.status(400).send(dbError); return;
+    } catch (baseError) {
+        common.logError('Base Controller', baseError);
+        response.status(400).send(baseError); return;
     }
 });
 

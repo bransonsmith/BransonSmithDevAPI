@@ -40,9 +40,7 @@ async function dropTable(table_name, req, response) {
 async function getAll(table_name, req, response) {
     try {
         var dbResponse = await db.getAll(table_name);
-        common.logResponse('DB', dbResponse);
-        var baseResponse = await handleDbResponse(dbResponse, response);
-        return baseResponse;
+        return await handleDbResponse(dbResponse, response);
     } catch (dbError) {
         await handleDbError(dbError, response);
     }
@@ -51,9 +49,22 @@ async function getAll(table_name, req, response) {
 async function getOne(table_name, req, response) {
     try {
         var dbResponse = await db.getOne(table_name, req.params.id);
-        common.logResponse('DB', dbResponse);
-        var baseResponse = await handleDbResponse(dbResponse, response);
-        return baseResponse;
+        return await handleDbResponse(dbResponse, response);
+    } catch (dbError) {
+        await handleDbError(dbError, response);
+    }
+}
+
+async function create(table_name, fields, createValues, newId) {
+    try {
+        var dbResponse = await db.create(table_name, fields, createValues);
+        if (dbResponse.status === 'Success') {
+            var getNewItemResponse = await db.getOne(table_name, newId);
+            return await handleDbResponse(getNewItemResponse, response);
+        } else {
+            response.status(400).send(dbResponse.result);
+            return dbResponse.result;
+        }
     } catch (dbError) {
         await handleDbError(dbError, response);
     }
@@ -73,63 +84,9 @@ async function handleDbResponse(dbResponse, response) {
         return dbResponse.result;
     }
 }
-// router.get('/api/projects/:id', (req, response) => {
-//     common.logReq(`GET`, `/api/projects/:id`);
-//     try {
-//         db.getOne(table_name, req.params.id).then(dbResponse => {
-//             common.logResponse(`GET /api/projects/${req.params.id}`, dbResponse.result);
-//             if (dbResponse.status === 'Success') {
-//                 response.status(200).send(dbResponse.result); return;
-//             } else {
-//                 response.status(400).send(dbResponse.result); return;
-//             }
-//         }).catch(dbError => {
-//             throw dbError;
-//         });
-//     } catch (dbError) {
-//         common.logError('Database', dbError);
-//         response.status(400).send(dbError); return;
-//     }
-// });
-
-// router.post('/api/projects', (req, response) => {
-//     common.logReq(`POST`, `/api/projects`);
-//     const newId = uuidv1();
-//     const createValues = [
-//         `'${newId}'`,
-//         "'Career'",
-//         "''",
-//         "'https://ihsmarkit.com/products/wso-software.html'",
-//         "'Over the last 3 years I have had the opportunity to take part in ...'",
-//         "''",
-//         `'${moment().format('YYYY-MM-DDThh:mm:ss.SSSZ')}'`,
-//         0,
-//         0
-//     ];
-//     try {
-//         db.create(table_name, fields, createValues).then(dbResponse => {
-//             common.logResponse('POST /api/projects', dbResponse.result);
-//             if (dbResponse.status === 'Success') {
-//                 db.getOne(table_name, newId).then(getResponse => {
-//                     if (getResponse.status === 'Success') {
-//                         response.status(200).send(getResponse.result); return;
-//                     } else {
-//                         response.status(400).send(getResponse.result); return;
-//                     }
-//                 });
-//             } else {
-//                 response.status(400).send(dbResponse.result); return;
-//             }
-//         }).catch(dbError => {
-//             throw dbError;
-//         });
-//     } catch (dbError) {
-//         common.logError('Database', dbError);
-//         response.status(400).send(dbError); return;
-//     }
-// });
 
 module.exports.createTable = createTable;
 module.exports.dropTable = dropTable;
 module.exports.getAll = getAll;
 module.exports.getOne = getOne;
+module.exports.create = create;

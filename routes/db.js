@@ -77,35 +77,25 @@ function getCreateTableFields(fields) {
 async function getAll(table_name) {
     const sql = `SELECT * FROM ${table_name};`;
     var sqlResults = await executeSql(sql, `Get all ${table_name}`);
-    if (sqlResults.status === 'Success') {
-        const permissedResults = await getResultsThatUserHasPermissionTo(sqlResults.result);
-        console.log(`Got ${permissedResults.length} records from ${table_name}.`)
-        return { status: 'Success', result: permissedResults }
-    } else {
-        return { status: 'Error', result: sqlResults }
-    }
+    return await handleSqlResults(sqlResults);
 }
 
 async function getOne(table_name, id) {
     const sql = `SELECT * FROM ${table_name} WHERE id = '${id}';`;
     var sqlResults = await executeSql(sql, `Get ${table_name} by id`);
-    if (sqlResults.status === 'Success') {
-        const permissedResults = await getResultsThatUserHasPermissionTo(sqlResults.result);
-        if (permissedResults.length < 1) {
-            return { status: 'Success', result: null }
-        }
-        return { status: 'Success', result: permissedResults[0] }
-    } else {
-        return { status: 'Error', result: sqlResults }
-    }
+    sqlResults.result = sqlResults.result[0];
+    return await handleSqlResults(sqlResults);
 }
 
 async function create(table_name, fields, values) {
     const sql = `INSERT INTO ${table_name} (${getCreateColumns(fields)})\nVALUES (${getCreateValues(values)});`;
     var sqlResults = await executeSql(sql, `Create new ${table_name}`);
+    return await handleSqlResults(sqlResults);
+}
+
+async function handleSqlResults(sqlResults) {
     if (sqlResults.status === 'Success') {
         const permissedResults = await getResultsThatUserHasPermissionTo(sqlResults.result);
-        console.log(`Got ${permissedResults.length} records from ${table_name}.`)
         return { status: 'Success', result: permissedResults }
     } else {
         return { status: 'Error', result: sqlResults }
