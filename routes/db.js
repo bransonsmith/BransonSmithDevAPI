@@ -126,7 +126,7 @@ function getCreateValues(values) {
 
 function getUpdateFields(fields, values) {
     let str = '';
-    for (let i = 0; index < fields.length; i++) {
+    for (let i = 0; i < fields.length; i++) {
         const field = fields[i];
         const value = values[i];
         str += `${field} = ${value}, `;
