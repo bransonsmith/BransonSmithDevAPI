@@ -7,7 +7,7 @@ const base = require('./base-controller');
 const moment = require('moment');
 const bcrypt = require("bcryptjs");
 
-const table_name = 'projects';
+const table_name = 'users';
 const base_route = `/api/${table_name}`;
 const create_table_route = `${base_route}/create`;
 const drop_table_route = `${base_route}/drop`;
