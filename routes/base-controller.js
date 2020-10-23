@@ -36,7 +36,7 @@ async function dropTable(table_name, req, response) {
 async function getAll(table_name, req, response) {
     try {
         db.getAll(table_name).then(dbResponse => {
-            handleDbResponse(dbResponse, response);
+            return handleDbResponse(dbResponse, response);
         });
     } catch (dbError) {
         handleDbError(dbError, response);
@@ -46,7 +46,7 @@ async function getAll(table_name, req, response) {
 async function getOne(table_name, req, response) {
     try {
         db.getOne(table_name, req.params.id).then(dbResponse => {
-            handleDbResponse(dbResponse, response);
+            return handleDbResponse(dbResponse, response);
         });
     } catch (dbError) {
         handleDbError(dbError, response);
