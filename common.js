@@ -29,7 +29,12 @@ function logResponse(title, response) {
     console.log('---------------------------------------------------------');
     console.log(`Response from ${title}`);
     console.log('--');
-    console.log(response);
+    if (Array.isArray(response) && response.length > 3) {
+        console.log(response.slice(0, 3));
+        console.log('...');
+    } else {
+        console.log(response);
+    }
     console.log('---------------------------------------------------------');
 }
 

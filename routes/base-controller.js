@@ -13,12 +13,9 @@ async function createTable(table_name, fields, req, response) {
             } else {
                 response.status(400).send(`Failed to create ${table_name}: ${dbResponse.result}`); return dbResponse.result;
             }
-        }).catch(dbError => {
-            throw dbError;
         });
     } catch (dbError) {
-        common.logError('Database', dbError);
-        response.status(400).send(dbError); return;
+        handleDbError(dbError, response);
     }
 }
 
@@ -30,42 +27,33 @@ async function dropTable(table_name, req, response) {
             } else {
                 response.status(400).send(`Failed to drop ${table_name}: ${dbResponse.result}`); return dbResponse.result;
             }
-        }).catch(dbError => {
-            throw dbError;
         });
     } catch (dbError) {
-        common.logError('Database', dbError);
-        response.status(400).send(dbError); return;
+        handleDbError(dbError, response);
     }
 }
 
 async function getAll(table_name, req, response) {
     try {
         db.getAll(table_name).then(dbResponse => {
-            handleDbResponse(dbResponse);
-        }).catch(dbError => {
-            throw dbError;
+            handleDbResponse(dbResponse, response);
         });
     } catch (dbError) {
-        common.logError('Database', dbError);
-        response.status(400).send(dbError); return;
+        handleDbError(dbError, response);
     }
 }
 
 async function getOne(table_name, req, response) {
     try {
         db.getOne(table_name, req.params.id).then(dbResponse => {
-            handleDbResponse(dbResponse);
-        }).catch(dbError => {
-            throw dbError;
+            handleDbResponse(dbResponse, response);
         });
     } catch (dbError) {
-        common.logError('Database', dbError);
-        response.status(400).send(dbError); return;
+        handleDbError(dbError, response);
     }
 }
 
-function handleDbResponse(dbResponse) {
+function handleDbResponse(dbResponse, response) {
     if (dbResponse.status === 'Success') {
         response.status(200).send(dbResponse.result); return dbResponse.result;
     } else {
@@ -73,6 +61,10 @@ function handleDbResponse(dbResponse) {
     }
 }
 
+function handleDbError(dbError, response) {
+    common.logError('Database', dbError);
+    response.status(400).send(dbError); return dbError;
+}
 // router.get('/api/projects/:id', (req, response) => {
 //     common.logReq(`GET`, `/api/projects/:id`);
 //     try {

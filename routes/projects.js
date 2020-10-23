@@ -48,21 +48,14 @@ router.post(drop_table_route, (req, response) => {
 });
 
 router.get(base_route, (req, response) => {
-    common.logReq(`GET`, `/api/projects`);
+    common.logReq(`GET`, base_route);
     try {
-        db.getAll(table_name).then(dbResponse => {
-            common.logResponse('GET /api/projects', dbResponse.result);
-            if (dbResponse.status === 'Success') {
-                response.status(200).send(dbResponse.result); return;
-            } else {
-                response.status(400).send(dbResponse.result); return;
-            }
-        }).catch(dbError => {
-            throw dbError;
+        base.getAll(table_name).then(baseResponse => {
+            common.logResponse(base_route, baseResponse);
         });
-    } catch (dbError) {
-        common.logError('Database', dbError);
-        response.status(400).send(dbError); return;
+    } catch (baseError) {
+        common.logError('Base Controller', baseError);
+        response.status(400).send(baseError); return;
     }
 });
 
@@ -79,7 +72,7 @@ router.get(get_one_route, (req, response) => {
 });
 
 router.post(base_route, (req, response) => {
-    common.logReq(`POST`, `/api/projects`);
+    common.logReq(`POST`, base_route);
     const newId = uuidv1();
     const createValues = [
         `'${newId}'`,
