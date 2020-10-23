@@ -37,41 +37,34 @@ async function dropTable(table_name, req, response) {
     }
 }
 
-function getAll(table_name, req, response) {
-    try {
-        db.getAll(table_name).then(dbResponse => {
-            common.logResponse('DB', dbResponse);
-            handleDbResponse(dbResponse, response);
+async function getAll(table_name, req, response) {
+    db.getAll(table_name).then(dbResponse => {
+        common.logResponse('DB', dbResponse);
+        if (dbResponse.status === 'Success') {
+            response.status(200).send(dbResponse.result);
             return dbResponse.result;
-        }).catch(dbError => {
-            throw dbError;
-        });
-    } catch (dbError) {
-        handleDbError(dbError, response);
-    }
+        } else {
+            response.status(400).send(dbResponse.result);
+            return dbResponse.result;
+        }
+    }).catch(dbError => {
+        throw dbError;
+    });
 }
 
 async function getOne(table_name, req, response) {
-    try {
-        db.getOne(table_name, req.params.id).then(dbResponse => {
-            common.logResponse('DB', dbResponse);
-            handleDbResponse(dbResponse, response);
+    db.getOne(table_name, req.params.id).then(dbResponse => {
+        common.logResponse('DB', dbResponse);
+        if (dbResponse.status === 'Success') {
+            response.status(200).send(dbResponse.result);
             return dbResponse.result;
-        }).catch(dbError => {
-            throw dbError;
-        });
-    } catch (dbError) {
-        handleDbError(dbError, response);
-        return dbError;
-    }
-}
-
-function handleDbResponse(dbResponse, response) {
-    if (dbResponse.status === 'Success') {
-        response.status(200).send(dbResponse.result);
-    } else {
-        response.status(400).send(dbResponse);
-    }
+        } else {
+            response.status(400).send(dbResponse.result);
+            return dbResponse.result;
+        }
+    }).catch(dbError => {
+        throw dbError;
+    });
 }
 
 function handleDbError(dbError, response) {

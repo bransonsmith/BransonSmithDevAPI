@@ -51,11 +51,13 @@ router.get(base_route, (req, response) => {
     common.logReq(`GET`, base_route);
     try {
         base.getAll(table_name, req, response).then(baseResponse => {
-            common.logResponse(base_route, baseResponse); return;
+            common.logResponse(base_route, baseResponse);
+        }).catch(baseError => {
+            throw baseError;
         });
     } catch (baseError) {
         common.logError('Base Controller', baseError);
-        response.status(400).send(baseError); return;
+        response.status(400).send(baseError);
     }
 });
 
@@ -64,10 +66,12 @@ router.get(get_one_route, (req, response) => {
     try {
         base.getOne(table_name, req, response).then(baseResponse => {
             common.logResponse(get_one_route, baseResponse);
+        }).catch(baseError => {
+            throw baseError;
         });
     } catch (baseError) {
         common.logError('Base Controller', baseError);
-        response.status(400).send(baseError); return;
+        response.status(400).send(baseError);
     }
 });
 
