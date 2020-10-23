@@ -38,38 +38,40 @@ async function dropTable(table_name, req, response) {
 }
 
 async function getAll(table_name, req, response) {
-    db.getAll(table_name).then(dbResponse => {
+    try {
+        var dbResponse = await db.getAll(table_name);
         common.logResponse('DB', dbResponse);
-        if (dbResponse.status === 'Success') {
-            response.status(200).send(dbResponse.result);
-            return dbResponse.result;
-        } else {
-            response.status(400).send(dbResponse.result);
-            return dbResponse.result;
-        }
-    }).catch(dbError => {
-        throw dbError;
-    });
+        var baseResponse = await handleDbResponse(dbResponse, response);
+        return baseResponse;
+    } catch (dbError) {
+        await handleDbError(dbError, response);
+    }
 }
 
 async function getOne(table_name, req, response) {
-    db.getOne(table_name, req.params.id).then(dbResponse => {
+    try {
+        var dbResponse = await db.getOne(table_name, req.params.id);
         common.logResponse('DB', dbResponse);
-        if (dbResponse.status === 'Success') {
-            response.status(200).send(dbResponse.result);
-            return dbResponse.result;
-        } else {
-            response.status(400).send(dbResponse.result);
-            return dbResponse.result;
-        }
-    }).catch(dbError => {
-        throw dbError;
-    });
+        var baseResponse = await handleDbResponse(dbResponse, response);
+        return baseResponse;
+    } catch (dbError) {
+        await handleDbError(dbError, response);
+    }
 }
 
-function handleDbError(dbError, response) {
+async function handleDbError(dbError, response) {
     common.logError('Database', dbError);
     response.status(400).send(dbError);
+}
+
+async function handleDbResponse(dbResponse, response) {
+    if (dbResponse && dbResponse.status === 'Success') {
+        response.status(200).send(dbResponse.result);
+        return dbResponse.result;
+    } else {
+        response.status(400).send(dbResponse.result);
+        return dbResponse.result;
+    }
 }
 // router.get('/api/projects/:id', (req, response) => {
 //     common.logReq(`GET`, `/api/projects/:id`);
