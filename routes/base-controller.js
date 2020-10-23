@@ -35,21 +35,25 @@ async function dropTable(table_name, req, response) {
 
 async function getAll(table_name, req, response) {
     try {
-        db.getAll(table_name).then(async dbResponse => {
-            return await handleDbResponse(dbResponse, response);
+        db.getAll(table_name).then(dbResponse => {
+            handleDbResponse(dbResponse, response).then(finalResponse => {
+                return finalResponse;
+            });
         });
     } catch (dbError) {
-        handleDbError(dbError, response);
+        return handleDbError(dbError, response);
     }
 }
 
 async function getOne(table_name, req, response) {
     try {
-        db.getOne(table_name, req.params.id).then(async dbResponse => {
-            return await handleDbResponse(dbResponse, response);
+        db.getOne(table_name, req.params.id).then(dbResponse => {
+            handleDbResponse(dbResponse, response).then(finalResponse => {
+                return finalResponse;
+            });
         });
     } catch (dbError) {
-        handleDbError(dbError, response);
+        return handleDbError(dbError, response);
     }
 }
 
