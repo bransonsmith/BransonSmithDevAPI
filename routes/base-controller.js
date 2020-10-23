@@ -13,6 +13,8 @@ async function createTable(table_name, fields, req, response) {
             } else {
                 response.status(400).send(`Failed to create ${table_name}: ${dbResponse.result}`); return dbResponse.result;
             }
+        }).catch(dbError => {
+            throw dbError;
         });
     } catch (dbError) {
         handleDbError(dbError, response);
@@ -27,6 +29,8 @@ async function dropTable(table_name, req, response) {
             } else {
                 response.status(400).send(`Failed to drop ${table_name}: ${dbResponse.result}`); return dbResponse.result;
             }
+        }).catch(dbError => {
+            throw dbError;
         });
     } catch (dbError) {
         handleDbError(dbError, response);
@@ -36,28 +40,30 @@ async function dropTable(table_name, req, response) {
 async function getAll(table_name, req, response) {
     try {
         db.getAll(table_name).then(dbResponse => {
-            handleDbResponse(dbResponse, response).then(finalResponse => {
-                return finalResponse;
-            });
+            handleDbResponse(dbResponse, response);
+            return dbResponse.result;
+        }).catch(dbError => {
+            throw dbError;
         });
     } catch (dbError) {
-        return handleDbError(dbError, response);
+        handleDbError(dbError, response);
     }
 }
 
 async function getOne(table_name, req, response) {
     try {
         db.getOne(table_name, req.params.id).then(dbResponse => {
-            handleDbResponse(dbResponse, response).then(finalResponse => {
-                return finalResponse;
-            });
+            handleDbResponse(dbResponse, response);
+            return dbResponse.result;
+        }).catch(dbError => {
+            throw dbError;
         });
     } catch (dbError) {
-        return handleDbError(dbError, response);
+        handleDbError(dbError, response);
     }
 }
 
-async function handleDbResponse(dbResponse, response) {
+function handleDbResponse(dbResponse, response) {
     if (dbResponse.status === 'Success') {
         response.status(200).send(dbResponse.result); return dbResponse.result;
     } else {
