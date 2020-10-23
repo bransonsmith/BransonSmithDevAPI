@@ -93,6 +93,12 @@ async function create(table_name, fields, values) {
     return await handleSqlResults(sqlResults);
 }
 
+async function update(table_name, id, fields, values) {
+    const sql = `UPDATE ${table_name} SET ${getUpdateFields(fields, values)} WHERE id = '${id}';`;
+    var sqlResults = await executeSql(sql, `Update ${table_name} ${id}`);
+    return await handleSqlResults(sqlResults);
+}
+
 async function handleSqlResults(sqlResults) {
     if (sqlResults.status === 'Success') {
         const permissedResults = await getResultsThatUserHasPermissionTo(sqlResults.result);
@@ -118,6 +124,16 @@ function getCreateValues(values) {
     return str.substr(0, str.length - 2);
 }
 
+function getUpdateFields(fields, values) {
+    let str = '';
+    for (let i = 0; index < fields.length; i++) {
+        const field = fields[i];
+        const value = values[i];
+        str += `${field} = ${value}, `;
+    }
+    return str.substr(0, str.length - 2);
+}
+
 async function getResultsThatUserHasPermissionTo(result) {
 
     // TODO: Implement permissions before adding any sensitive data
@@ -130,4 +146,5 @@ module.exports.createTable = createTable;
 module.exports.getAll = getAll;
 module.exports.getOne = getOne;
 module.exports.create = create;
+module.exports.update = update;
 module.exports.executeSql = executeSql;

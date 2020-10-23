@@ -66,6 +66,21 @@ async function create(table_name, fields, createValues, newId, response) {
     }
 }
 
+async function update(table_name, fields, updateValues, id, response) {
+    try {
+        var dbResponse = await db.update(table_name, id, fields, updateValues);
+        if (dbResponse.status === 'Success') {
+            var getUpdatedItemResponse = await db.getOne(table_name, id);
+            return await handleDbResponse(getUpdatedItemResponse, response);
+        } else {
+            response.status(400).send(dbResponse.result);
+            return dbResponse.result;
+        }
+    } catch (dbError) {
+        await handleDbError(dbError, response);
+    }
+}
+
 async function handleDbError(dbError, response) {
     common.logError('Database', dbError);
     response.status(400).send(dbError);
@@ -86,3 +101,4 @@ module.exports.dropTable = dropTable;
 module.exports.getAll = getAll;
 module.exports.getOne = getOne;
 module.exports.create = create;
+module.exports.update = update;

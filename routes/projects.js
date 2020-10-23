@@ -103,6 +103,29 @@ router.post(base_route, (req, response) => {
     }
 });
 
+router.put(get_one_route, (req, response) => {
+    common.logReq(`PUT`, get_one_route);
+    const updateValues = [
+        `'${req.body.title}'`,
+        `'${req.body.codelink}'`,
+        `'${req.body.examplelink}'`,
+        `'${req.body.text}'`,
+        `'${req.body.image}'`,
+        `${req.body.codeclicks}`,
+        `${req.body.exampleclicks}`
+    ];
+    try {
+        base.update(table_name, fields, updateValues, req.params.id, response).then(baseResponse => {
+            common.logResponse(get_one_route, baseResponse);
+        }).catch(baseError => {
+            throw baseError;
+        });
+    } catch (baseError) {
+        common.logError('Base Controller', baseError);
+        response.status(400).send(baseError); return;
+    }
+});
+
 router.put(inc_code_route, (req, response) => {
     common.logReq(`POST`, inc_code_route);
     try {
