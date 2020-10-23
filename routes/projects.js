@@ -106,7 +106,7 @@ router.post(base_route, (req, response) => {
 router.post(inc_code_route, (req, response) => {
     common.logReq(`POST`, inc_code_route);
     try {
-        const sql = `UPDATE ${table_name} SET codeclicks = 1 WHERE id = '${req.params.id};'`;
+        const sql = `UPDATE ${table_name} SET codeclicks = codeclicks + 1 WHERE id = '${req.params.id}';`;
         db.executeSql(sql, 'Increment Code Clicks on Project').then(sqlResponse => {
             common.logResponse(inc_code_route, sqlResponse);
             response.status(200).send(sqlResponse.result);
@@ -122,7 +122,7 @@ router.post(inc_code_route, (req, response) => {
 router.post(inc_demo_route, (req, response) => {
     common.logReq(`POST`, inc_demo_route);
     try {
-        const sql = `UPDATE ${table_name} SET exampleclicks = 1 WHERE id = ${req.params.id};`;
+        const sql = `UPDATE ${table_name} SET exampleclicks = exampleclicks + 1 WHERE id = '${req.params.id}';`;
         db.executeSql(sql, 'Increment Demo Clicks on Project').then(sqlResponse => {
             common.logResponse(inc_demo_route, sqlResponse);
             response.status(200).send(sqlResponse.result);
