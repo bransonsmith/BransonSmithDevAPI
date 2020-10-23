@@ -1,138 +1,142 @@
-// const express = require("express");
-// const uuidv1 = require('uuid/v1');
-// const common = require("../common")
-// let router = express.Router();
-// const db = require('./db');
-// const moment = require('moment');
+const express = require("express");
+const uuidv1 = require('uuid/v1');
+const common = require("../common")
+let router = express.Router();
+const db = require('./db');
+const base = require('./base-controller');
+const moment = require('moment');
+const bcrypt = require("bcryptjs");
 
-// const table_name = 'users';
-// const base_route = `/api/${table_name}`;
-// const create_table_route = `${base_route}/create`;
-// const drop_table_route = `${base_route}/drop`;
-// const get_one_route = `${base_route}/:id`;
+const table_name = 'projects';
+const base_route = `/api/${table_name}`;
+const create_table_route = `${base_route}/create`;
+const drop_table_route = `${base_route}/drop`;
+const get_one_route = `${base_route}/:id`;
+const inc_login_route = `${get_one_route}/inclogin`;
+const fields = [
+    { name: 'id',            type: 'varchar(255)',  attributes: 'NOT NULL PRIMARY KEY' },
+    { name: 'username',      type: 'varchar(255)',  attributes: 'NOT NULL' },
+    { name: 'email',         type: 'varchar(255)',  attributes: '' },
+    { name: 'password',      type: 'varchar(255)',  attributes: 'NOT NULL' },
+    { name: 'logincount',    type: 'int',           attributes: '' },
+    { name: 'createddate',   type: 'timestamp',     attributes: '' }
+];
 
-// const fields = [
-//     { name: 'id',            type: 'varchar(255)',  attributes: 'NOT NULL PRIMARY KEY' },
-//     { name: 'username',      type: 'varchar(255)',  attributes: 'NOT NULL' },
-//     { name: 'email',         type: 'varchar(255)',  attributes: 'NOT NULL' },
-//     { name: 'password',      type: 'varchar(255)',  attributes: 'NOT NULL' },
-//     { name: 'createddate',   type: 'timestamp',     attributes: '' }
-// ];
+router.post(create_table_route, (req, response) => {
+    common.logReq(`POST`, create_table_route);
+    try {
+        base.createTable(table_name, fields, req, response).then(baseResponse => {
+            common.logResponse(create_table_route, baseResponse);
+        });
+    } catch (baseError) {
+        common.logError('Base Controller', baseError);
+        response.status(400).send(baseError); return;
+    }
+});
 
-// router.post(create_table_route, (req, response) => {
-//     common.logReq(`POST`, create_table_route);
-//     try {
-//         db.createTable(table_name, fields).then(dbResponse => {
-//             if (dbResponse.status === 'Success') {
-//                 common.logResponse(`POST ${create_table_route}`, `Created ${table_name}`);
-//                 response.status(200).send(`Created ${table_name}`); return;
-//             } else {
-//                 common.logResponse(`POST ${create_table_route}`, dbResponse.result);
-//                 response.status(400).send(`Failed to create ${table_name}: ${dbResponse.result}`); return;
-//             }
-//         }).catch(dbError => {
-//             throw dbError;
-//         });
-//     } catch (dbError) {
-//         common.logError('Database', dbError);
-//         response.status(400).send(dbError); return;
-//     }
-// });
+router.post(drop_table_route, (req, response) => {
+    common.logReq(`POST`, drop_table_route);
+    try {
+        base.dropTable(table_name, fields, req, response).then(baseResponse => {
+            common.logResponse(drop_table_route, baseResponse);
+        });
+    } catch (baseError) {
+        common.logError('Base Controller', baseError);
+        response.status(400).send(baseError); return;
+    }
+});
 
-// router.post('/api/projects/drop', (req, response) => {
-//     common.logReq(`POST`, `/api/projects/drop`);
-//     try {
-//         db.dropTable(table_name).then(dbResponse => {
-//             common.logResponse('POST /api/projects/drop', dbResponse.result);
-//             if (dbResponse.status === 'Success') {
-//                 common.logResponse('POST /api/projects/drop', `Dropped ${table_name}`);
-//                 response.status(200).send(`Dropped ${table_name}`); return;
-//             } else {
-//                 common.logResponse('POST /api/projects/drop', dbResponse.result);
-//                 response.status(400).send(dbResponse.result); return;
-//             }
-//         }).catch(dbError => {
-//             throw dbError;
-//         });
-//     } catch (dbError) {
-//         common.logError('Database', dbError);
-//         response.status(400).send(dbError); return;
-//     }
-// });
+router.get(base_route, (req, response) => {
+    common.logReq(`GET`, base_route);
+    try {
+        base.getAll(table_name, req, response).then(baseResponse => {
+            common.logResponse(base_route, baseResponse);
+        }).catch(baseError => {
+            throw baseError;
+        });
+    } catch (baseError) {
+        common.logError('Base Controller', baseError);
+        response.status(400).send(baseError);
+    }
+});
 
-// router.get('/api/projects', (req, response) => {
-//     common.logReq(`GET`, `/api/projects`);
-//     try {
-//         db.getAll(table_name).then(dbResponse => {
-//             common.logResponse('GET /api/projects', dbResponse.result);
-//             if (dbResponse.status === 'Success') {
-//                 response.status(200).send(dbResponse.result); return;
-//             } else {
-//                 response.status(400).send(dbResponse.result); return;
-//             }
-//         }).catch(dbError => {
-//             throw dbError;
-//         });
-//     } catch (dbError) {
-//         common.logError('Database', dbError);
-//         response.status(400).send(dbError); return;
-//     }
-// });
+router.get(get_one_route, (req, response) => {
+    common.logReq(`GET`, get_one_route);
+    try {
+        base.getOne(table_name, req, response).then(baseResponse => {
+            common.logResponse(get_one_route, baseResponse);
+        }).catch(baseError => {
+            throw baseError;
+        });
+    } catch (baseError) {
+        common.logError('Base Controller', baseError);
+        response.status(400).send(baseError);
+    }
+});
 
-// router.get('/api/projects/:id', (req, response) => {
-//     common.logReq(`GET`, `/api/projects/:id`);
-//     try {
-//         db.getOne(table_name, req.params.id).then(dbResponse => {
-//             common.logResponse(`GET /api/projects/${req.params.id}`, dbResponse.result);
-//             if (dbResponse.status === 'Success') {
-//                 response.status(200).send(dbResponse.result); return;
-//             } else {
-//                 response.status(400).send(dbResponse.result); return;
-//             }
-//         }).catch(dbError => {
-//             throw dbError;
-//         });
-//     } catch (dbError) {
-//         common.logError('Database', dbError);
-//         response.status(400).send(dbError); return;
-//     }
-// });
+router.post(base_route, (req, response) => {
+    common.logReq(`POST`, base_route);
+    const newId = uuidv1();
+    const passHash = bcrypt.hashSync(req.body.password, 14);
+    const createValues = [
+        `'${newId}'`,
+        `'${req.body.username}'`,
+        `'${req.body.email}'`,
+        `'${passHash}'`,
+        `0`,
+        `'${moment().format('YYYY-MM-DDThh:mm:ss.SSSZ')}'`
+    ];
+    try {
+        base.create(table_name, fields, createValues, newId, response).then(baseResponse => {
+            common.logResponse(base_route, baseResponse);
+        }).catch(baseError => {
+            throw baseError;
+        });
+    } catch (baseError) {
+        common.logError('Base Controller', baseError);
+        response.status(400).send(baseError); return;
+    }
+});
 
-// router.post('/api/projects', (req, response) => {
-//     common.logReq(`POST`, `/api/projects`);
-//     const newId = uuidv1();
-//     const createValues = [
-//         `'${newId}'`,
-//         "'Career'",
-//         "''",
-//         "'https://ihsmarkit.com/products/wso-software.html'",
-//         "'Over the last 3 years I have had the opportunity to take part in ...'",
-//         "''",
-//         `'${moment().format('YYYY-MM-DDThh:mm:ss.SSSZ')}'`,
-//         0,
-//         0
-//     ];
-//     try {
-//         db.create(table_name, fields, createValues).then(dbResponse => {
-//             common.logResponse('POST /api/projects', dbResponse.result);
-//             if (dbResponse.status === 'Success') {
-//                 db.getOne(table_name, newId).then(getResponse => {
-//                     if (getResponse.status === 'Success') {
-//                         response.status(200).send(getResponse.result); return;
-//                     } else {
-//                         response.status(400).send(getResponse.result); return;
-//                     }
-//                 });
-//             } else {
-//                 response.status(400).send(dbResponse.result); return;
-//             }
-//         }).catch(dbError => {
-//             throw dbError;
-//         });
-//     } catch (dbError) {
-//         common.logError('Database', dbError);
-//         response.status(400).send(dbError); return;
-//     }
-// });
+router.put(get_one_route, (req, response) => {
+    common.logReq(`PUT`, get_one_route);
+    const passHash = bcrypt.hashSync(req.body.password, 14);
+    const updateFields = [
+       'username',
+       'email',
+       'password'
+    ];
+    const updateValues = [
+        `'${req.body.username}'`,
+        `'${req.body.email}'`,
+        `'${passHash}'`,
+    ];
+    try {
+        base.update(table_name, updateFields, updateValues, req.params.id, response).then(baseResponse => {
+            common.logResponse(get_one_route, baseResponse);
+        }).catch(baseError => {
+            throw baseError;
+        });
+    } catch (baseError) {
+        common.logError('Base Controller', baseError);
+        response.status(400).send(baseError); return;
+    }
+});
 
-// module.exports = router;
+router.put(inc_login_route, (req, response) => {
+    common.logReq(`POST`, inc_login_route);
+    try {
+        const sql = `UPDATE ${table_name} SET logincount = logincount + 1 WHERE id = '${req.params.id}';`;
+        db.executeSql(sql, 'Increment Login Count on User').then(sqlResponse => {
+            common.logResponse(inc_login_route, sqlResponse);
+            response.status(200).send(sqlResponse.result);
+        }).catch(sqlError => {
+            throw sqlError;
+        });
+    } catch (sqlError) {
+        common.logError('Sql Error', sqlError);
+        response.status(400).send(sqlError);
+    }
+});
+
+module.exports = router;
