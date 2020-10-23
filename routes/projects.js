@@ -85,6 +85,7 @@ router.post(base_route, (req, response) => {
         `'${req.body.examplelink}'`,
         `'${req.body.text}'`,
         `'${req.body.image}'`,
+        `'${moment().format('YYYY-MM-DDThh:mm:ss.SSSZ')}'`,
         `${req.body.codeclicks}`,
         `${req.body.exampleclicks}`
     ];
