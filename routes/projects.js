@@ -77,6 +77,7 @@ router.get(get_one_route, (req, response) => {
 
 router.post(base_route, (req, response) => {
     common.logReq(`POST`, base_route);
+    common.logReq('ACTUAL REQ', req)
     const newId = uuidv1();
     const createValues = [
         `'${newId}'`,
