@@ -37,7 +37,7 @@ async function dropTable(table_name, req, response) {
     }
 }
 
-async function getAll(table_name, req, response) {
+function getAll(table_name, req, response) {
     try {
         db.getAll(table_name).then(dbResponse => {
             common.logResponse('DB', dbResponse);

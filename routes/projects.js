@@ -51,7 +51,7 @@ router.get(base_route, (req, response) => {
     common.logReq(`GET`, base_route);
     try {
         base.getAll(table_name, req, response).then(baseResponse => {
-            common.logResponse(base_route, baseResponse);
+            common.logResponse(base_route, baseResponse); return;
         });
     } catch (baseError) {
         common.logError('Base Controller', baseError);
