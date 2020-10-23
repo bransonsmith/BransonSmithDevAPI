@@ -105,17 +105,22 @@ router.post(base_route, (req, response) => {
 
 router.put(get_one_route, (req, response) => {
     common.logReq(`PUT`, get_one_route);
+    const updateFields = [
+       'title',
+       'codelink',
+       'examplelink',
+       'text',
+       'image'
+    ];
     const updateValues = [
         `'${req.body.title}'`,
         `'${req.body.codelink}'`,
         `'${req.body.examplelink}'`,
         `'${req.body.text}'`,
-        `'${req.body.image}'`,
-        `${req.body.codeclicks}`,
-        `${req.body.exampleclicks}`
+        `'${req.body.image}'`
     ];
     try {
-        base.update(table_name, fields, updateValues, req.params.id, response).then(baseResponse => {
+        base.update(table_name, updateFields, updateValues, req.params.id, response).then(baseResponse => {
             common.logResponse(get_one_route, baseResponse);
         }).catch(baseError => {
             throw baseError;
