@@ -33,11 +33,7 @@ async function createSession(userid) {
     ];
 
     try {
-        createAndGetSession(createValues, newId).then(createAndGetResponse => {
-            return createAndGetResponse;
-        }).catch(sessionError => {
-            throw sessionError;
-        });
+        return await createAndGetSession(createValues, newId);
     } catch (createError) {
         common.logError('Create and Get Session', createError);
     }
