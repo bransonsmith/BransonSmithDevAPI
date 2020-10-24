@@ -65,12 +65,7 @@ async function extendSession(id) {
 
 async function getSession(criteria_value, criteria_field_name='id') {
     try {
-        const getOneResponse = await db.getOneByACriteria(table_name, criteria_value, criteria_field_name);
-        common.logResponse('Get a Session', getOneResponse);
-        if (getOneResponse.status === 'Success') {
-            return { status: 'Success', result: getOneResponse.result[0] };
-        }
-        return getOneResponse;
+        return await db.getOneByACriteria(table_name, criteria_value, criteria_field_name);
     } catch (getOneError) {
         common.logError('Get One Session', getOneError);
     }
