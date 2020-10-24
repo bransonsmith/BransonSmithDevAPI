@@ -46,10 +46,11 @@ async function attemptLogin(username, password) {
                 return { status: 'Failure', result: 'Incorrect Password' }
             }
 
-            const session = await sessions.createSession(getUserResult.result.id);
-            if (session.status === 'Success') {
-                await incLogin(getUserResult.result.id);
-                return { status: 'Success', result: { user: getUserResult.result, session: session.result } };
+            const createSessionResult = await sessions.createSession(user.id);
+            if (createSessionResult.status === 'Success') {
+                const session = createSessionResult.result[0];
+                await incLogin(user.id);
+                return { status: 'Success', result: { user: user, session: session } };
             } else {
                 return { status: 'Failure', result: 'Failed to create a new session.'}
             }
