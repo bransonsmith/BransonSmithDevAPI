@@ -13,9 +13,11 @@ const logout_route = `/api/logout`;
 
 router.post(login_route, (req, response) => {
     common.logReq(`POST`, login_route);
+    console.log('Login Creds:', req.body.username, req.body.password);
     const passHash = bcrypt.hashSync(req.body.password, 14);
+
     try {
-        attemptLogin(req.body.username, passHash).then(loginResponse => {
+        attemptLogin(req.body.username, req.body.password).then(loginResponse => {
             common.logResponse('Login', loginResponse);
             if (loginResponse.status === 'Success') {
                 response.status(200).send(loginResponse.result);
@@ -31,11 +33,15 @@ router.post(login_route, (req, response) => {
     }
 });
 
-async function attemptLogin(username, passHash) {
-    const sql = `SELECT * FROM users WHERE username = '${username}' AND password = '${passHash}'`;
-    const getUserResult = await db.executeSql(sql, 'Get User by username/password.');
+async function attemptLogin(username, password) {
+    const sql = `SELECT * FROM users WHERE username = '${username}'`;
+    const getUserResult = await db.executeSql(sql, 'Get User by username');
     try {
         if (getUserResult.status === 'Success') {
+            if (!bcrypt.compareSync(password, getUserResult.result.password)) {
+                return { status: 'Failure', result: 'Incorrect Password' }
+            }
+
             const session = await sessions.createSession(getUserResult.result.id);
             if (session.status === 'Success') {
                 await incLogin(getUserResult.result.id);
