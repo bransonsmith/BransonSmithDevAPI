@@ -8,6 +8,7 @@ const dbRoutes = require("./routes/db");
 const projectRoutes = require("./routes/projects");
 const userRoutes = require("./routes/users");
 const sessionRoutes = require("./routes/sessions").router;
+const loginRoutes = require("./routes/login");
 
 const app = express();
 app.use(express.json());
@@ -28,6 +29,7 @@ app.use(dbRoutes.router);
 app.use(projectRoutes);
 app.use(userRoutes);
 app.use(sessionRoutes);
+app.use(loginRoutes);
 
 const port = process.env.PORT || 3000;
 var server = app.listen(port, () => console.log(`Listening on port ${port}`));
