@@ -51,6 +51,15 @@ async function getOne(table_name, req, response) {
     }
 }
 
+async function getOneByACriteria(table_name, criteria_value, criteria_field, req, response) {
+    try {
+        var dbResponse = await db.getOneByACriteria(table_name, criteria_value, criteria_field);
+        return await handleDbResponse(dbResponse, response);
+    } catch (dbError) {
+        await handleDbError(dbError, response);
+    }
+}
+
 async function create(table_name, fields, createValues, newId, response) {
     try {
         var dbResponse = await db.create(table_name, fields, createValues);
@@ -102,3 +111,4 @@ module.exports.getAll = getAll;
 module.exports.getOne = getOne;
 module.exports.create = create;
 module.exports.update = update;
+module.exports.getOneByACriteria = getOneByACriteria;

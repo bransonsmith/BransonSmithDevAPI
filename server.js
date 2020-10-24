@@ -7,6 +7,7 @@ var cors = require('cors')
 const dbRoutes = require("./routes/db");
 const projectRoutes = require("./routes/projects");
 const userRoutes = require("./routes/users");
+const sessionRoutes = require("./routes/sessions").router;
 
 const app = express();
 app.use(express.json());
@@ -26,6 +27,7 @@ app.use(cors());
 app.use(dbRoutes.router);
 app.use(projectRoutes);
 app.use(userRoutes);
+app.use(sessionRoutes);
 
 const port = process.env.PORT || 3000;
 var server = app.listen(port, () => console.log(`Listening on port ${port}`));

@@ -87,6 +87,13 @@ async function getOne(table_name, id) {
     return await handleSqlResults(sqlResults);
 }
 
+async function getOneByACriteria(table_name, criteria_value, criteria_field) {
+    const sql = `SELECT * FROM ${table_name} WHERE ${criteria_field} = ${criteria_value};`;
+    var sqlResults = await executeSql(sql, `Get ${table_name} by ${criteria_field}`);
+    sqlResults.result = sqlResults.result[0];
+    return await handleSqlResults(sqlResults);
+}
+
 async function create(table_name, fields, values) {
     const sql = `INSERT INTO ${table_name} (${getCreateColumns(fields)})\nVALUES (${getCreateValues(values)});`;
     var sqlResults = await executeSql(sql, `Create new ${table_name}`);
@@ -148,3 +155,4 @@ module.exports.getOne = getOne;
 module.exports.create = create;
 module.exports.update = update;
 module.exports.executeSql = executeSql;
+module.exports.getOneByACriteria = getOneByACriteria;
