@@ -82,6 +82,20 @@ async function getSessions() {
     }
 }
 
+router.get(base_route, (req, response) => {
+    common.logReq(`GET`, base_route);
+    try {
+        base.getAll(table_name, req, response).then(baseResponse => {
+            common.logResponse(base_route, baseResponse);
+        }).catch(baseError => {
+            throw baseError;
+        });
+    } catch (baseError) {
+        common.logError('Base Controller', baseError);
+        response.status(400).send(baseError);
+    }
+});
+
 router.post(create_table_route, (req, response) => {
     common.logReq(`POST`, create_table_route);
     try {
