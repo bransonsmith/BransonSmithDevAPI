@@ -46,7 +46,7 @@ async function createSession(userid) {
 async function createAndGetSession(createValues, newId) {
     const createResponse = await db.create(table_name, fields, createValues);
     if (createResponse.status === 'Success') {
-        return await getSession(newId);
+        return await getSession(`'${newId}'`);
     } else {
         return createResponse;
     }
