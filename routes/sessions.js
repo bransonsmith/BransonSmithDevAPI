@@ -19,6 +19,7 @@ const fields = [
 ];
 
 async function createSession(userid) {
+
     const expiration = moment(moment().toDate()).add(30, 'm').format('YYYY-MM-DDThh:mm:ss.SSSZ');
     const token = uuidv1();
     const newId = uuidv1();
@@ -30,15 +31,24 @@ async function createSession(userid) {
         `'${userid}'`,
         `'${moment().format('YYYY-MM-DDThh:mm:ss.SSSZ')}'`
     ];
+
     try {
-        db.create(table_name, fields, createValues).then(dbResponse => {
-            common.logResponse(`Create Session`, dbResponse);
-            return dbResponse;
-        }).catch(dbError => {
-            throw dbError;
+        createAndGetSession(createValues, newId).then(createAndGetResponse => {
+            return createAndGetResponse;
+        }).catch(sessionError => {
+            throw sessionError;
         });
-    } catch (dbError) {
-        common.logError('Base Controller', dbError);
+    } catch (createError) {
+        common.logError('Create and Get Session', createError);
+    }
+}
+
+async function createAndGetSession(createValues, newId) {
+    const createResponse = await db.create(table_name, fields, createValues);
+    if (createResponse.status === 'Success') {
+        return await getSession(newId);
+    } else {
+        return createResponse;
     }
 }
 
@@ -48,7 +58,6 @@ async function extendSession(id) {
         const sql = `UPDATE ${table_name} SET expiration = '${newDate}' WHERE id = '${id}';`;
         db.executeSql(sql, `Extend Session`).then(sqlResponse => {
             common.logResponse('Extend Session', sqlResponse);
-            response.status(200).send(sqlResponse.result);
         }).catch(sqlError => {
             throw sqlError;
         });;
@@ -62,10 +71,14 @@ async function getSession(criteria_value, criteria_field_name='id') {
     try {
         db.getOneByACriteria(table_name, criteria_value, criteria_field_name).then(dbResponse => {
             common.logResponse('Get a Session', dbResponse);
+            if (dbResponse.status === 'Success') {
+                return { status: 'Success', result: dbResponse.result[0] };
+            }
+            return dbResponse;
         }).catch(dbError => {
             throw dbError;
         });
-    } catch (baseError) {
+    } catch (dbError) {
         common.logError('DB', dbError);
     }
 }

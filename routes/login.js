@@ -46,16 +46,16 @@ async function attemptLogin(username, password) {
                 return { status: 'Failure', result: 'Incorrect Password' }
             }
 
-            const createSessionResult = await sessions.createSession(user.id);
-            if (createSessionResult.status === 'Success') {
-                const session = createSessionResult.result[0];
+            const createSessionResponse = await sessions.createSession(user.id);
+            if (createSessionResponse.status === 'Success') {
+                const session = createSessionResponse.result;
                 await incLogin(user.id);
                 return { status: 'Success', result: { user: user, session: session } };
             } else {
-                return { status: 'Failure', result: 'Failed to create a new session.'}
+                return createSessionResponse;
             }
         } else {
-            return { status: 'Failure', result: 'Failed to get user with given credentials.'}
+            return getUserResult;
         }
     } catch (loginError){
         common.logError('Attempt Login', loginError);
