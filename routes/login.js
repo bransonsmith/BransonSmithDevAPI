@@ -13,9 +13,6 @@ const logout_route = `/api/logout`;
 
 router.post(login_route, (req, response) => {
     common.logReq(`POST`, login_route);
-    console.log('Login Creds:', req.body.username, req.body.password);
-    const passHash = bcrypt.hashSync(req.body.password, 14);
-
     try {
         attemptLogin(req.body.username, req.body.password).then(loginResponse => {
             common.logResponse('Login', loginResponse);
@@ -36,27 +33,16 @@ router.post(login_route, (req, response) => {
 async function attemptLogin(username, password) {
     const sql = `SELECT * FROM users WHERE username = '${username}'`;
     const getUserResult = await db.executeSql(sql, 'Get User by username');
-    console.log('Got User Result: ', getUserResult);
-    const user = getUserResult.result[0];
-    console.log('User =', user);
     try {
-        if (getUserResult.status === 'Success') {
-            console.log(`Comparing passwords...`);
-            if (!bcrypt.compareSync(password, user.password)) {
-                return { status: 'Failure', result: 'Incorrect Password' }
-            }
+        if (getUserResult.status !== 'Success') { return getUserResult; }
+        const user = getUserResult.result[0];
+        if (!bcrypt.compareSync(password, user.password)) { return { status: 'Failure', result: 'Incorrect Password' }}
 
-            const createSessionResponse = await sessions.createSession(user.id);
-            if (createSessionResponse.status === 'Success') {
-                const session = createSessionResponse.result;
-                await incLogin(user.id);
-                return { status: 'Success', result: { user: user, session: session } };
-            } else {
-                return createSessionResponse;
-            }
-        } else {
-            return getUserResult;
-        }
+        const createSessionResponse = await sessions.createSession(user.id);
+        if (createSessionResponse.status !== 'Success') { return createSessionResponse; }
+        const session = createSessionResponse.result;
+        await incLogin(user.id);
+        return { status: 'Success', result: { user: user, session: session } };
     } catch (loginError){
         common.logError('Attempt Login', loginError);
         return { status: 'Error', result: loginError}

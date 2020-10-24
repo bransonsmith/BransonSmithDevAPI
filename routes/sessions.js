@@ -65,17 +65,14 @@ async function extendSession(id) {
 
 async function getSession(criteria_value, criteria_field_name='id') {
     try {
-        db.getOneByACriteria(table_name, criteria_value, criteria_field_name).then(dbResponse => {
-            common.logResponse('Get a Session', dbResponse);
-            if (dbResponse.status === 'Success') {
-                return { status: 'Success', result: dbResponse.result[0] };
-            }
-            return dbResponse;
-        }).catch(dbError => {
-            throw dbError;
-        });
-    } catch (dbError) {
-        common.logError('DB', dbError);
+        const getOneResponse = await db.getOneByACriteria(table_name, criteria_value, criteria_field_name);
+        common.logResponse('Get a Session', getOneResponse);
+        if (getOneResponse.status === 'Success') {
+            return { status: 'Success', result: getOneResponse.result[0] };
+        }
+        return getOneResponse;
+    } catch (getOneError) {
+        common.logError('Get One Session', getOneError);
     }
 }
 
