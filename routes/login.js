@@ -42,7 +42,17 @@ async function attemptLogin(username, password) {
         if (createSessionResponse.status !== 'Success') { return createSessionResponse; }
         const session = createSessionResponse.result;
         await incLogin(user.id);
-        return { status: 'Success', result: { user: user, token: session.token } };
+        return { 
+            status: 'Success', 
+            result: { 
+                user: {
+                    id: user.id,
+                    username: user.username,
+                    email: user.email
+                }, 
+                token: session.token 
+            } 
+        };
     } catch (loginError){
         common.logError('Attempt Login', loginError);
         return { status: 'Error', result: loginError}
