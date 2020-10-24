@@ -36,9 +36,13 @@ router.post(login_route, (req, response) => {
 async function attemptLogin(username, password) {
     const sql = `SELECT * FROM users WHERE username = '${username}'`;
     const getUserResult = await db.executeSql(sql, 'Get User by username');
+    console.log('Got User Result: ', getUserResult);
+    const user = getUserResult.result[0];
+    console.log('User =', user);
     try {
         if (getUserResult.status === 'Success') {
-            if (!bcrypt.compareSync(password, getUserResult.result.password)) {
+            console.log(`Comparing passwords...`);
+            if (!bcrypt.compareSync(password, user.password)) {
                 return { status: 'Failure', result: 'Incorrect Password' }
             }
 
