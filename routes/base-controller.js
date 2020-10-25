@@ -67,6 +67,11 @@ async function create(table_name, fields, createValues, newId, response) {
             var getNewItemResponse = await db.getOne(table_name, newId);
             return await handleDbResponse(getNewItemResponse, response);
         } else {
+            if (dbResponse.status === 'Error') {
+                if (dbResponse.result.includes('error: duplicate key value violates unique constraint "users_username_key"')) {
+                    response.status(409).send('The username already exists.'); return dbResponse.result;
+                }
+            }
             response.status(400).send(dbResponse.result);
             return dbResponse.result;
         }
