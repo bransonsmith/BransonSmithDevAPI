@@ -110,9 +110,8 @@ async function handleSqlResults(sqlResults) {
     if (sqlResults.status === 'Success') {
         const permissedResults = await getResultsThatUserHasPermissionTo(sqlResults.result);
         return { status: 'Success', result: permissedResults }
-    } else {
-        return { status: 'Error', result: sqlResults }
     }
+    return sqlResults;
 }
 
 function getCreateColumns(fields) {
