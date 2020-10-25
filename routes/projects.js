@@ -8,8 +8,8 @@ const moment = require('moment');
 
 const table_name = 'projects';
 const base_route = `/api/${table_name}`;
-const create_table_route = `${base_route}/create_table`;
-const drop_table_route = `${base_route}/drop_table`;
+const create_table_route = `${base_route}/table/create`;
+const drop_table_route = `${base_route}/table/drop`;
 const get_one_route = `${base_route}/:id`;
 const inc_code_route = `${get_one_route}/inccode`;
 const inc_demo_route = `${get_one_route}/incdemo`;

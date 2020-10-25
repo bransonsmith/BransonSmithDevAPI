@@ -11,8 +11,8 @@ const { get } = require("http");
 
 const table_name = 'users';
 const base_route = `/api/${table_name}`;
-const create_table_route = `${base_route}/create_table`;
-const drop_table_route = `${base_route}/drop_table`;
+const create_table_route = `${base_route}/table/create`;
+const drop_table_route = `${base_route}/table/drop`;
 const get_one_route = `${base_route}/:id`;
 const get_by_token = `${base_route}/token/:token`;
 const inc_login_route = `${get_one_route}/inclogin`;
