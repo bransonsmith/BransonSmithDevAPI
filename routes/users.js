@@ -82,6 +82,11 @@ router.get(get_by_token, (req, response) => {
     try {
         getUserByToken(req.params.token).then(userResponse => {
             common.logResponse('User', userResponse);
+            if (userResponse.status === 'Error') {
+                if (userResponse.result === 'No session.') {
+                    response.status(401).send('Not currently logged in.');
+                }
+            }
             response.status(200).send(
                 {
                     id: userResponse.result.id,
@@ -164,6 +169,11 @@ router.put(inc_login_route, (req, response) => {
 async function getUserByToken(token) {
     const sessionResponse = await sessions.getSession(`'${token}'`, 'token');
     common.logResponse('Session', sessionResponse);
+    if (sessionResponse.status === 'Error') {
+        if (sessionResponse.result === 'No session.') {
+            return sessionResponse;
+        }
+    }
     return await db.getOne(table_name, sessionResponse.result.userid);
 }
 
