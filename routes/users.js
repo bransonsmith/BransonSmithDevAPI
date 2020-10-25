@@ -155,7 +155,7 @@ router.put(inc_login_route, (req, response) => {
 });
 
 async function getUserByToken(token) {
-    const session = await sessions.getSession(`'${token}'`, token);
+    const session = await sessions.getSession(`'${token}'`, 'token');
     return await db.getOne(table_name, session.userid);
 }
 
