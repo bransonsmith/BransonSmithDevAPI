@@ -69,8 +69,9 @@ async function create(table_name, fields, createValues, newId, response) {
         } else {
             console.log('dbResponse result');
             console.log(dbResponse.result);
+            console.log(dbResponse.result.error);
             if (dbResponse.status === 'Error') {
-                if (dbResponse.result.includes('duplicate key value violates unique constraint "users_username_key"')) {
+                if (dbResponse.result.error.includes('duplicate key value violates unique constraint "users_username_key"')) {
                     response.status(409).send('The username already exists.'); return dbResponse.result;
                 }
             }
