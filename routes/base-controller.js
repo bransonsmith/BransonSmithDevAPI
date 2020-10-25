@@ -67,13 +67,14 @@ async function create(table_name, fields, createValues, newId, response) {
             var getNewItemResponse = await db.getOne(table_name, newId);
             return await handleDbResponse(getNewItemResponse, response);
         } else {
-            console.log('dbResponse result');
-            console.log(dbResponse.result);
-            console.log(dbResponse.result.toString());
-            console.log(dbResponse.result.error);
             if (dbResponse.status === 'Error') {
                 if (dbResponse.result.toString().includes('duplicate key value violates unique constraint "users_username_key"')) {
-                    response.status(409).send('The username already exists.'); return dbResponse.result;
+                    response.status(409).send('The username already exists.');
+                    return { status: 'Error', result: 'The username already exists.' };
+                }
+                if (dbResponse.result.toString().includes('duplicate key value violates unique constraint "users_email_key"')) {
+                    response.status(409).send('The email is already in use with another account.');
+                    return { status: 'Error', result: 'The email is already in use with another account.' };
                 }
             }
             response.status(400).send(dbResponse.result);
