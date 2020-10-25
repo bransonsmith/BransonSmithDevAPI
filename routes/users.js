@@ -82,7 +82,13 @@ router.get(get_by_token, (req, response) => {
     try {
         getUserByToken(req.params.token).then(userResponse => {
             common.logResponse('User', userResponse);
-            response.status(200).send(userResponse);
+            response.status(200).send(
+                {
+                    id: userResponse.result.id,
+                    username: userResponse.result.username,
+                    email: userResponse.result.email
+                }
+            );
         });
     } catch (baseError) {
         common.logError('Base Controller', baseError);
