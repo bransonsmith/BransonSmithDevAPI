@@ -65,6 +65,7 @@ async function extendSession(id) {
 
 async function getSession(criteria_value, criteria_field_name='id') {
     try {
+        await deleteExpiredSessions();
         const session = await db.getOneByACriteria(table_name, criteria_value, criteria_field_name);
         console.log('session');
         console.log(session);
@@ -77,6 +78,7 @@ async function getSession(criteria_value, criteria_field_name='id') {
 
 async function getSessions() {
     try {
+        await deleteExpiredSessions();
         db.getAll(table_name).then(dbResponse => {
             common.logResponse('Get Sessions', dbResponse);
         }).catch(dbError => {
@@ -85,6 +87,13 @@ async function getSessions() {
     } catch (dbError) {
         common.logError('DB', dbError);
     }
+}
+
+async function deleteExpiredSessions() {
+    const nowstamp = moment().format('YYYY-MM-DDThh:mm:ss.SSSZ');
+    const sql = `DELETE FROM sessions WHERE expiration < '${nowstamp}'`;
+    const dbResponse = await this.db.executeSql(sql, 'Delete expired sessions');
+    common.logResponse('Delete expired sessions', dbResponse);
 }
 
 router.get(base_route, (req, response) => {
