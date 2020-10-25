@@ -3,15 +3,18 @@ const uuidv1 = require('uuid/v1');
 const common = require("../common")
 let router = express.Router();
 const db = require('./db');
+const sessions = require('./sessions');
 const base = require('./base-controller');
 const moment = require('moment');
 const bcrypt = require("bcryptjs");
+const { get } = require("http");
 
 const table_name = 'users';
 const base_route = `/api/${table_name}`;
 const create_table_route = `${base_route}/create`;
 const drop_table_route = `${base_route}/drop`;
 const get_one_route = `${base_route}/:id`;
+const get_by_token = `${base_route}/token/:token`;
 const inc_login_route = `${get_one_route}/inclogin`;
 const fields = [
     { name: 'id',            type: 'varchar(255)',  attributes: 'NOT NULL PRIMARY KEY' },
@@ -67,6 +70,18 @@ router.get(get_one_route, (req, response) => {
             common.logResponse(get_one_route, baseResponse);
         }).catch(baseError => {
             throw baseError;
+        });
+    } catch (baseError) {
+        common.logError('Base Controller', baseError);
+        response.status(400).send(baseError);
+    }
+});
+
+router.get(get_by_token, (req, response) => {
+    common.logReq(`GET`, get_by_token);
+    try {
+        getUserByToken(req.params.token).then(userResponse => {
+            response.status(200).send(userResponse);
         });
     } catch (baseError) {
         common.logError('Base Controller', baseError);
@@ -138,5 +153,10 @@ router.put(inc_login_route, (req, response) => {
         response.status(400).send(sqlError);
     }
 });
+
+async function getUserByToken(token) {
+    const session = await sessions.getSession(`'${token}'`, token);
+    return await db.getOne(table_name, session.userid);
+}
 
 module.exports = router;
