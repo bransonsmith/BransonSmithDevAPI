@@ -92,7 +92,7 @@ async function getSessions() {
 async function deleteExpiredSessions() {
     const nowstamp = moment().format('YYYY-MM-DDThh:mm:ss.SSSZ');
     const sql = `DELETE FROM sessions WHERE expiration < '${nowstamp}'`;
-    const dbResponse = await this.db.executeSql(sql, 'Delete expired sessions');
+    const dbResponse = await db.executeSql(sql, 'Delete expired sessions');
     common.logResponse('Delete expired sessions', dbResponse);
 }
 
