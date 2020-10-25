@@ -50,7 +50,7 @@ async function attemptLogin(username, password) {
                     username: user.username,
                     email: user.email
                 }, 
-                token: session.token 
+                token: session.token
             } 
         };
     } catch (loginError){
