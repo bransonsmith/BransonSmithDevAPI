@@ -65,7 +65,11 @@ async function extendSession(id) {
 
 async function getSession(criteria_value, criteria_field_name='id') {
     try {
-        return await db.getOneByACriteria(table_name, criteria_value, criteria_field_name);
+        const session = await db.getOneByACriteria(table_name, criteria_value, criteria_field_name);
+        console.log('session');
+        console.log(session);
+        if (session.result.expiration >= Date.now()) { return session; }
+        return { status: 'Error', result: 'No session.' };
     } catch (getOneError) {
         common.logError('Get One Session', getOneError);
     }
