@@ -81,6 +81,7 @@ router.get(get_by_token, (req, response) => {
     common.logReq(`GET`, get_by_token);
     try {
         getUserByToken(req.params.token).then(userResponse => {
+            common.logResponse('User', userResponse);
             response.status(200).send(userResponse);
         });
     } catch (baseError) {
@@ -156,6 +157,7 @@ router.put(inc_login_route, (req, response) => {
 
 async function getUserByToken(token) {
     const session = await sessions.getSession(`'${token}'`, 'token');
+    common.logResponse('Session', session);
     return await db.getOne(table_name, session.userid);
 }
 
