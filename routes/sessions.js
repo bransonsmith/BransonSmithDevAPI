@@ -20,7 +20,7 @@ const fields = [
 
 async function createSession(userid) {
 
-    const expiration = moment(moment().toDate()).add(1, 'm').format('YYYY-MM-DDThh:mm:ss.SSSZ');
+    const expiration = moment(moment().toDate()).add(30, 'm').format('YYYY-MM-DDThh:mm:ss.SSSZ');
     const token = uuidv1();
     const newId = uuidv1();
 
@@ -50,7 +50,7 @@ async function createAndGetSession(createValues, newId) {
 
 async function extendSession(id) {
     try {
-        const newDate = moment(moment().toDate()).add(1, 'm').format('YYYY-MM-DDThh:mm:ss.SSSZ');
+        const newDate = moment(moment().toDate()).add(30, 'm').format('YYYY-MM-DDThh:mm:ss.SSSZ');
         const sql = `UPDATE ${table_name} SET expiration = '${newDate}' WHERE id = '${id}';`;
         db.executeSql(sql, `Extend Session`).then(sqlResponse => {
             common.logResponse('Extend Session', sqlResponse);
