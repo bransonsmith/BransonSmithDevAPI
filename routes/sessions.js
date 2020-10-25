@@ -20,7 +20,7 @@ const fields = [
 
 async function createSession(userid) {
 
-    const expiration = moment(moment().toDate()).add(30, 'm').format('YYYY-MM-DDThh:mm:ss.SSSZ');
+    const expiration = moment(moment().toDate()).add(1, 'm').format('YYYY-MM-DDThh:mm:ss.SSSZ');
     const token = uuidv1();
     const newId = uuidv1();
 
