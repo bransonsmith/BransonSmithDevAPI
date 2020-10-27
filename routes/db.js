@@ -90,6 +90,9 @@ async function getOne(table_name, id) {
 async function getOneByACriteria(table_name, criteria_value, criteria_field) {
     const sql = `SELECT * FROM ${table_name} WHERE ${criteria_field} = ${criteria_value};`;
     var sqlResults = await executeSql(sql, `Get ${table_name} by ${criteria_field}`);
+    if (sqlResults.result.length < 1) {
+        return { status: 'Failure', result: 'No session.'}
+    }
     sqlResults.result = sqlResults.result[0];
     return await handleSqlResults(sqlResults);
 }
