@@ -1,4 +1,5 @@
 const common = require("../common");
+const logging = require("../logging");
 const { Client } = require('pg');
 
 const client = new Client({
@@ -10,10 +11,10 @@ client.connect();
 async function executeSql(sql, title='') {
     try {
         const queryResponse = await client.query(sql);
-        common.logSql(title, sql, queryResponse);
+        logging.logSql(title, sql, queryResponse);
         return { status: 200, result: queryResponse };
     } catch (queryError) {
-        common.logSqlError(title, sql, queryError);
+        logging.logSqlError(title, sql, queryError);
         return { status: 400, result: common.badRequestMessage };
     }
 }
