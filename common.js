@@ -25,13 +25,34 @@ function logReq(action, route) {
     return true;
 }
 
-function logSql(title, sql) {
+function logSql(title, sql, sqlResponse) {
     console.log('---------------------------------------------------------');
-    console.log(`Running SQL: ${title}`);
+    console.log(`Running SQL - ${title}`);
     console.log('--');
     console.log(sql);
+    console.log('--');
+
+    const rowLimit = 2;
+    if (sqlResponse.rowCount > rowLimit) {
+        console.log(`Found`, sqlResponse.rowCount, `rows. But only printing the first ${rowLimit}.`);
+        console.log(sqlResponse.rows.slice(0, rowLimit));
+        console.log('...');
+    } else {
+        console.log(sqlResponse.rows);
+    }
     console.log('---------------------------------------------------------');
 }
+
+function logSqlError(title, sql, sqlError) {
+    console.log('---------------------------------------------------------');
+    console.log(`Error Running SQL - ${title}`);
+    console.log('--');
+    console.log(sql);
+    console.log('--');
+    console.log(sqlError);
+    console.log('---------------------------------------------------------');
+}
+
 
 function logError(title, err) {
     console.log('---------------------------------------------------------');
@@ -57,5 +78,8 @@ function logResponse(title, response) {
 module.exports.connection_string = connection_string;
 module.exports.logReq = logReq;
 module.exports.logSql = logSql;
+module.exports.logSqlError = logSqlError;
 module.exports.logError = logError;
 module.exports.logResponse = logResponse;
+module.exports.notFoundMessage = 'The requested resource does not exist.';
+module.exports.badRequestMessage = 'Could not process request.';
