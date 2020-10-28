@@ -3,13 +3,13 @@ const bcrypt = require("bcryptjs");
 
 const table_name = 'users';
 const all_fields = [
-    { name: 'id',            type: 'varchar(255)',  attributes: 'NOT NULL PRIMARY KEY', mustExistOnCreate: false, table: '', onDto: true  },
-    { name: 'username',      type: 'varchar(255)',  attributes: 'NOT NULL UNIQUE',      mustExistOnCreate: false, table: '', onDto: true  },
-    { name: 'email',         type: 'varchar(255)',  attributes: 'UNIQUE',               mustExistOnCreate: false, table: '', onDto: true  },
-    { name: 'password',      type: 'varchar(255)',  attributes: 'NOT NULL',             mustExistOnCreate: false, table: '', onDto: false },
-    { name: 'logincount',    type: 'int',           attributes: '',                     mustExistOnCreate: false, table: '', onDto: true  },
-    { name: 'createddate',   type: 'timestamp',     attributes: '',                     mustExistOnCreate: false, table: '', onDto: false },
-    { name: 'salt',          type: 'varchar(255)',  attributes: 'NOT NULL',             mustExistOnCreate: false, table: '', onDto: false }
+    { name: 'id',            type: 'varchar(255)',  attributes: 'NOT NULL PRIMARY KEY', mustHaveExistingObject: false, table: '', onDto: true , createField: false,updateField: false },
+    { name: 'username',      type: 'varchar(255)',  attributes: 'NOT NULL UNIQUE',      mustHaveExistingObject: false, table: '', onDto: true , createField: true ,updateField: true  },
+    { name: 'email',         type: 'varchar(255)',  attributes: 'UNIQUE',               mustHaveExistingObject: false, table: '', onDto: true , createField: true ,updateField: true  },
+    { name: 'password',      type: 'varchar(255)',  attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '', onDto: false, createField: true ,updateField: false },
+    { name: 'logincount',    type: 'int',           attributes: '',                     mustHaveExistingObject: false, table: '', onDto: true , createField: false,updateField: false },
+    { name: 'createddate',   type: 'timestamp',     attributes: '',                     mustHaveExistingObject: false, table: '', onDto: false, createField: false,updateField: false },
+    { name: 'salt',          type: 'varchar(255)',  attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '', onDto: false, createField: false,updateField: false }
 ];
 
 function getCreateValues(body, newId) {
@@ -29,23 +29,6 @@ function getCreateValues(body, newId) {
     ];
 }
 
-function validateCreateValues(body) {
-    try {
-        let validation;
-        validation = base.validateString('username', body);
-        if (validation.status !== 200) { return validation }
-        validation = base.validateString('email', body);
-        if (validation.status !== 200) { return validation }
-        validation = base.validateString('password', body);
-        if (validation.status !== 200) { return validation }
-
-        return { status: 200, result: '' };
-    } catch {
-        return { status: 409, result: `Invalid ${table_name} creation values.` };
-    }
-}
-
 module.exports.table_name    = table_name;
 module.exports.all_fields    = all_fields;
 module.exports.getCreateValues = getCreateValues;
-module.exports.validateCreateValues = validateCreateValues;

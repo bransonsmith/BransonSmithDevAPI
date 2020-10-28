@@ -3,9 +3,11 @@ const common = require("../common");
 const logging = require("../logging");
 const tables = require("../_database/tables");
 const baseModel = require('../_models/base-model');
+const sqlStrings = require('../_database/sql-string-factory');
+const fieldValidator = require('../_database/field-validator');
 
 async function getAll(table_name, title=`Get all ${table_name}`) {
-    const sql = `SELECT ${tables.getDtoFieldString(table_name)} FROM ${table_name};`;
+    const sql = `SELECT ${sqlStrings.getDtoFieldString(table_name)} FROM ${table_name};`;
     const dbResponse = await db.executeSql(sql, title);
     if (dbResponse.status !== 200) { return dbResponse; }
     
@@ -14,7 +16,7 @@ async function getAll(table_name, title=`Get all ${table_name}`) {
 }
 
 async function getOne(table_name, id, title=`Get the ${table_name} for ${id}`) {
-    const sql = `SELECT ${tables.getDtoFieldString(table_name)} FROM ${table_name} WHERE id = '${id}';`;
+    const sql = `SELECT ${sqlStrings.getDtoFieldString(table_name)} FROM ${table_name} WHERE id = '${id}';`;
     const dbResponse = await db.executeSql(sql, title);
     if (dbResponse.status !== 200) { return dbResponse; }
 
@@ -26,15 +28,15 @@ async function getOne(table_name, id, title=`Get the ${table_name} for ${id}`) {
 }
 
 async function create(table_name, body, title=`Create new ${table_name}`) {
-    const validationResponse = tables.validateCreateValues(table_name, body);
+    const validationResponse = fieldValidator.validateCreateValues(table_name, body);
     if (validationResponse.status !== 200) { return validationResponse; }
 
-    const createFieldsThatMustExist = tables.getFieldsThatMustExist(table_name, body);
+    const createFieldsThatMustExist = tables.getFieldsThatMustHaveAnExistingObject(table_name, body);
     const existenceResponse = await verifyExistence(createFieldsThatMustExist);
     if (existenceResponse.status !== 200) { return existenceResponse; }
    
     const newId = baseModel.getNewId();
-    const valuesString = tables.getCreateValuesString(table_name, body, newId);
+    const valuesString = sqlStrings.getCreateValuesString(table_name, body, newId);
     const createSql = `INSERT INTO ${table_name} VALUES (${valuesString});`;
     const createDbResponse = await db.executeSql(createSql, title);
     if (createDbResponse.status !== 200) { return createDbResponse; }
@@ -64,7 +66,7 @@ async function dropTable(table_name, title=`Drop ${table_name} Table`) {
 }
 
 async function initTable(table_name, title=`Create ${table_name} Table`) {
-    const sql = `CREATE TABLE ${table_name} (${tables.getCreateTableFields(table_name)});`;
+    const sql = `CREATE TABLE ${table_name} (${sqlStrings.getCreateTableFieldString(table_name)});`;
     const dbResponse = await db.executeSql(sql, title);
     if (dbResponse.status !== 200) { return dbResponse; }
     return { status: 200, result: `Created ${table_name}.` }
