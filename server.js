@@ -6,7 +6,7 @@ var cors = require('cors')
 
 const dbRoutes = require("./routes/db");
 const projectRoutes = require("./routes/projects");
-const userRoutes = require("./routes/users");
+// const userRoutes = require("./routes/users");
 const sessionRoutes = require("./routes/sessions").router;
 const loginRoutes = require("./routes/login");
 const baseRoutes = require("./_controllers/base-controller").router;
@@ -28,7 +28,7 @@ app.use(cors());
 
 app.use(dbRoutes.router);
 app.use(projectRoutes);
-app.use(userRoutes);
+// app.use(userRoutes);
 app.use(sessionRoutes);
 app.use(loginRoutes);
 app.use(baseRoutes);

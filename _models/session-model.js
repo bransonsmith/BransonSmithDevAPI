@@ -2,11 +2,11 @@ const base = require('./base-model');
 
 const table_name = 'sessions';
 const all_fields = [
-    { name: 'id',            type: 'varchar(255)',  attributes: 'NOT NULL PRIMARY KEY', mustExistOnCreate: false, table: ''      },
-    { name: 'expiration',    type: 'timestamp',     attributes: 'NOT NULL',             mustExistOnCreate: false, table: ''      },
-    { name: 'token',         type: 'varchar(255)',  attributes: 'NOT NULL',             mustExistOnCreate: false, table: ''      },
-    { name: 'userid',        type: 'varchar(255)',  attributes: 'NOT NULL',             mustExistOnCreate: true , table: 'users' },
-    { name: 'datecreated',   type: 'timestamp',     attributes: '',                     mustExistOnCreate: false, table: ''      },
+    { name: 'id',            type: 'varchar(255)',  attributes: 'NOT NULL PRIMARY KEY', mustExistOnCreate: false, table: ''     , onDto: true  },
+    { name: 'expiration',    type: 'timestamp',     attributes: 'NOT NULL',             mustExistOnCreate: false, table: ''     , onDto: false },
+    { name: 'token',         type: 'varchar(255)',  attributes: 'NOT NULL',             mustExistOnCreate: false, table: ''     , onDto: true  },
+    { name: 'userid',        type: 'varchar(255)',  attributes: 'NOT NULL',             mustExistOnCreate: true , table: 'users', onDto: true  },
+    { name: 'datecreated',   type: 'timestamp',     attributes: '',                     mustExistOnCreate: false, table: ''     , onDto: false },
 ];
 
 function getCreateValues(body, newId) {
@@ -25,15 +25,13 @@ function getCreateValues(body, newId) {
 
 function validateCreateValues(body) {
     try {
-        let valid = true;
-        const userId = body.userid;
-        if (userId === undefined) { return { status: 409, result: 'Missing string: userid'}; }
-        
-        valid = (typeof userId) === 'string';
-        if (!valid) { return { status: 409, result: 'userid should be of type string'}; }
+        let validation;
+        validation = base.validateString('userid', body);
+        if (validation.status !== 200) { return validation }
+
         return { status: 200, result: '' };
     } catch {
-        return { status: 409, result: 'Missing string: userid'};
+        return { status: 409, result: `Invalid ${table_name} creation values.` };
     }
 }
 

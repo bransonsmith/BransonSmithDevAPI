@@ -15,8 +15,22 @@ async function executeSql(sql, title='') {
         return { status: 200, result: queryResponse };
     } catch (queryError) {
         logging.logSqlError(title, sql, queryError);
+        if (queryError.toString().includes('duplicate key value violates unique constraint')) {
+            return handleDuplicateKeyError(queryError.toString());
+        }
+
         return { status: 400, result: common.badRequestMessage };
     }
 }
+
+function handleDuplicateKeyError(error) {
+    try {
+        const details = error.split('"')[1];
+        const detSplit = details.split('_');
+        return { status: 409, result: `${detSplit[0]} object already exists with the given ${detSplit[1]}.` }
+    } catch {
+        return { status: 409, result: 'An entity already exists with the given specifications.' };
+    }
+} 
 
 module.exports.executeSql = executeSql;
