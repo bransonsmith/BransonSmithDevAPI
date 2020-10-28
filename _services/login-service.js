@@ -28,10 +28,29 @@ async function login(username, password, title=`Login ${username}`) {
             }
         };
     } catch (getError) {
-        logging.logError(`Get existing user to login`, getError);
+        logging.logError(`Login Error`, getError);
+        return { status: 400, result: common.badRequestMessage }
+    }
+
+}
+
+async function logout(token, title=`Logout`) {
+
+    try {
+        const sessionResponse = await sessionService.getSessionByToken(token);
+        if (sessionResponse.status !== 200) { return { status: 200, result: 'No active session.' }; }
+
+        const userid = sessionResponse.result.userid;
+        const removeSessionsResponse = await sessionService.removeSessionsForUser(userid);
+        if (removeSessionsResponse.status !== 200) { return removeSessionsResponse; }
+
+        return { status: 200, result: 'Logged Out.' };
+    } catch (getError) {
+        logging.logError(`Logout Error`, getError);
         return { status: 400, result: common.badRequestMessage }
     }
 
 }
 
 module.exports.login = login;
+module.exports.logout = logout;

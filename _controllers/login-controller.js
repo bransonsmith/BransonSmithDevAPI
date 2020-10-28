@@ -18,5 +18,13 @@ router.post(`${base_route}/login`, (req, response) => {
     });
 });
 
+router.post(`${base_route}/logout`, (req, response) => {
+    logging.logRequest(req);
+    const body = req.body;
+
+    loginService.logout(body.token).then(serviceResponse => {
+        baseController.handleServiceResponse(serviceResponse, req, response);
+    });
+});
 
 module.exports.router = router;

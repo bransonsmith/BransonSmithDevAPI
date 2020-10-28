@@ -4,8 +4,6 @@ const common = require("../common");
 const table_name = 'users';
 
 async function getByUsername(username, title=`Get user by username`) {
-    console.log('username');
-    console.log(username);
     const sql = `SELECT * FROM ${table_name} WHERE username = '${username}';`;
     const dbResponse = await db.executeSql(sql, title);
     if (dbResponse.status !== 200) { return dbResponse; }
