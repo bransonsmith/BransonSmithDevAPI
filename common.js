@@ -4,6 +4,8 @@ const prod_connection_string = 'postgres://tkjzlquhwdldho:1371bf16ec2de194e2e5cb
 // fluffy
 const dev_connection_string = 'postgres://gkizmntppsohxf:732468407a55e524d7374c0037a4c789fd73529904f7e04224ee8f4a09988ff3@ec2-54-160-202-3.compute-1.amazonaws.com:5432/d4bnfos91oui4s';
 
+const base_route = '/api';
+
 var env = process.argv[2] || 'prod';
 switch (env) {
     case 'dev':
@@ -17,5 +19,7 @@ console.log(`Starting as ${env} environment.`);
 console.log(connection_string);
 
 module.exports.connection_string = connection_string;
+module.exports.base_route = base_route;
 module.exports.notFoundMessage = 'The requested resource does not exist.';
 module.exports.badRequestMessage = 'Could not process request.';
+module.exports.badLoginMessage = 'The username or password was incorrect.';

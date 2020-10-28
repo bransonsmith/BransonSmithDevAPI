@@ -7,6 +7,7 @@ const logging = require("./logging");
 var cors = require('cors')
 
 const baseRoutes = require("./_controllers/base-controller").router;
+const loginRoutes = require("./_controllers/login-controller").router;
 
 const app = express();
 app.use(express.json());
@@ -23,6 +24,7 @@ app.use(sessions({
 }));
 app.use(cors());
 
+app.use(loginRoutes);
 app.use(baseRoutes);
 
 app.get('*', function(req, res){
