@@ -55,6 +55,18 @@ router.put(`${base_route}/:table_name/:id`, (req, response) => {
     });
 });
 
+router.delete(`${base_route}/:table_name/:id`, (req, response) => {
+    logging.logRequest(req);
+    const table_name = req.params.table_name;
+    const id = req.params.id;
+
+    checkIfRouteIsPublic(table_name, req, response, 'remove');
+
+    baseService.remove(table_name, id).then(serviceResponse => {
+        handleServiceResponse(serviceResponse, req, response);
+    });
+});
+
 router.post(`${base_route}/:table_name/table/drop`, (req, response) => {
     logging.logRequest(req);
     const table_name = req.params.table_name;

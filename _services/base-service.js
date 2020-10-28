@@ -52,11 +52,11 @@ async function create(table_name, body, title=`Create new ${table_name}`) {
 async function update(table_name, id, body, title=`Update ${table_name}`) {
 
     try {
-        const existsResponse = await getOne(table_name, id, 'Get existing object to update.');
+        const existsResponse = await getOne(table_name, id, 'Get existing object to update');
         if (existsResponse.status !== 200) { return { status: 409, result: `No existing ${table_name} found for the given id.` }; }
     } catch (getError){
-        logging.logError(`Get updated ${table_name}`, getError);
-        return { status: 200, result: {} }
+        logging.logError(`Get ${table_name} to update`, getError);
+        return { status: 400, result: common.badRequestMessage }
     }
 
     const validationResponse = fieldValidator.validateUpdateValues(table_name, body);
@@ -80,7 +80,19 @@ async function update(table_name, id, body, title=`Update ${table_name}`) {
 }
 
 async function remove(table_name, id, title=`Delete ${table_name}`) {
+    try {
+        const existsResponse = await getOne(table_name, id, 'Get existing object to delete');
+        if (existsResponse.status !== 200) { return { status: 409, result: `No existing ${table_name} found for the given id.` }; }
+    } catch (getError){
+        logging.logError(`Get object to delete ${table_name}`, getError);
+        return { status: 400, result: common.badRequestMessage }
+    }
 
+    const deleteSql = `DELETE FROM ${table_name} WHERE id = '${id}';`;
+    const deleteDbResponse = await db.executeSql(deleteSql, title);
+    if (deleteDbResponse.status !== 200) { return deleteDbResponse; }
+
+    return { status: 200, result: {} }
 }
 
 async function getHome() {
@@ -118,6 +130,7 @@ module.exports.getAll = getAll;
 module.exports.getOne = getOne;
 module.exports.create = create;
 module.exports.update = update;
+module.exports.remove = remove;
 module.exports.dropTable = dropTable;
 module.exports.initTable = initTable;
 module.exports.getHome = getHome;
