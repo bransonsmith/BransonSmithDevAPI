@@ -1,8 +1,16 @@
 const models = require('../_services/model-service');
 
+/* New Model/Table Addition Process 
+    1. Add to public tables
+    2. Define model
+    3. Implement getCreateValues on model
+    3. Put model in the Model Service
+*/
+
 const public_tables = [
     { name: 'sessions', getOne: true , getAll: true , create: true , update: true , remove: true , initTable: false, dropTable: false },
     { name: 'users',    getOne: true , getAll: true , create: true , update: true , remove: true , initTable: false, dropTable: false },
+    { name: 'projects', getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
 ];
 
 function routeIsPublic(table_name, routeName) {
