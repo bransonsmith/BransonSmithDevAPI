@@ -1,5 +1,5 @@
 const express = require("express");
-const common = require("../common")
+const common = require("../common");
 let router = express.Router();
 
 const { Client } = require('pg');

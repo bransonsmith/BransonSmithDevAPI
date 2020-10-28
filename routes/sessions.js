@@ -10,13 +10,7 @@ const table_name = 'sessions';
 const base_route = `/api/${table_name}`;
 const create_table_route = `${base_route}/create`;
 const drop_table_route = `${base_route}/drop`;
-const fields = [
-    { name: 'id',            type: 'varchar(255)',  attributes: 'NOT NULL PRIMARY KEY' },
-    { name: 'expiration',    type: 'timestamp',     attributes: 'NOT NULL' },
-    { name: 'token',         type: 'varchar(255)',  attributes: 'NOT NULL' },
-    { name: 'userid',        type: 'varchar(255)',  attributes: 'NOT NULL' },
-    { name: 'datecreated',       type: 'timestamp',  attributes: '' },
-];
+
 
 async function createSession(userid) {
 
@@ -96,19 +90,19 @@ async function deleteExpiredSessions() {
     common.logResponse('Delete expired sessions', dbResponse);
 }
 
-router.get(base_route, (req, response) => {
-    common.logReq(`GET`, base_route);
-    try {
-        base.getAll(table_name, req, response).then(baseResponse => {
-            common.logResponse(base_route, baseResponse);
-        }).catch(baseError => {
-            throw baseError;
-        });
-    } catch (baseError) {
-        common.logError('Base Controller', baseError);
-        response.status(400).send(baseError);
-    }
-});
+// router.get(base_route, (req, response) => {
+//     common.logReq(`GET`, base_route);
+//     try {
+//         base.getAll(table_name, req, response).then(baseResponse => {
+//             common.logResponse(base_route, baseResponse);
+//         }).catch(baseError => {
+//             throw baseError;
+//         });
+//     } catch (baseError) {
+//         common.logError('Base Controller', baseError);
+//         response.status(400).send(baseError);
+//     }
+// });
 
 router.post(create_table_route, (req, response) => {
     common.logReq(`POST`, create_table_route);
