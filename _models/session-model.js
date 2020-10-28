@@ -3,7 +3,7 @@ const base = require('./base-model');
 const table_name = 'sessions';
 const all_fields = [
     { name: 'id',            type: 'varchar(255)',  attributes: 'NOT NULL PRIMARY KEY', mustHaveExistingObject: false, table: ''     , onDto: true , updateField: false, createField: false },
-    { name: 'expiration',    type: 'timestamp',     attributes: 'NOT NULL',             mustHaveExistingObject: false, table: ''     , onDto: false, updateField: false, createField: false },
+    { name: 'expiration',    type: 'timestamp',     attributes: 'NOT NULL',             mustHaveExistingObject: false, table: ''     , onDto: true,  updateField: false, createField: false },
     { name: 'token',         type: 'varchar(255)',  attributes: 'NOT NULL',             mustHaveExistingObject: false, table: ''     , onDto: true , updateField: false, createField: false },
     { name: 'userid',        type: 'varchar(255)',  attributes: 'NOT NULL',             mustHaveExistingObject: true , table: 'users', onDto: true , updateField: false, createField: true  },
     { name: 'datecreated',   type: 'timestamp',     attributes: '',                     mustHaveExistingObject: false, table: ''     , onDto: false, updateField: false, createField: false },

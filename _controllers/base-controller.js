@@ -5,7 +5,7 @@ const tables = require("../_database/tables");
 const baseService = require("../_services/base-service");
 let router = express.Router();
 
-const base_route = '/api';
+const base_route = common.base_route;
 
 router.get(`${base_route}/:table_name`, (req, response) => {
     logging.logRequest(req);
@@ -123,3 +123,4 @@ function checkIfRouteIsPublic(table_name, req, response, routeName) {
 }
 
 module.exports.router = router;
+module.exports.handleServiceResponse = handleServiceResponse;
