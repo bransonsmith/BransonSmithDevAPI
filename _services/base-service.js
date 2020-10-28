@@ -31,8 +31,8 @@ async function create(table_name, body, title=`Create new ${table_name}`) {
     const validationResponse = fieldValidator.validateCreateValues(table_name, body);
     if (validationResponse.status !== 200) { return validationResponse; }
 
-    const createFieldsThatMustExist = tables.getFieldsThatMustHaveAnExistingObject(table_name, body);
-    const existenceResponse = await verifyExistence(createFieldsThatMustExist);
+    const fieldsThatMustExist = tables.getFieldsThatMustHaveAnExistingObject(table_name, body);
+    const existenceResponse = await verifyExistence(fieldsThatMustExist);
     if (existenceResponse.status !== 200) { return existenceResponse; }
    
     const newId = baseModel.getNewId();
@@ -47,6 +47,48 @@ async function create(table_name, body, title=`Create new ${table_name}`) {
         logging.logError(`Get newly created ${table_name}`, getError);
         return { status: 200, result: {} }
     }
+}
+
+async function update(table_name, id, body, title=`Update ${table_name}`) {
+
+    try {
+        const existsResponse = await getOne(table_name, id, 'Get existing object to update.');
+        if (existsResponse.status !== 200) { return { status: 409, result: `No existing ${table_name} found for the given id.` }; }
+    } catch (getError){
+        logging.logError(`Get updated ${table_name}`, getError);
+        return { status: 200, result: {} }
+    }
+
+    const validationResponse = fieldValidator.validateUpdateValues(table_name, body);
+    if (validationResponse.status !== 200) { return validationResponse; }
+    
+    const fieldsThatMustExist = tables.getFieldsThatMustHaveAnExistingObject(table_name, body);
+    const existenceResponse = await verifyExistence(fieldsThatMustExist);
+    if (existenceResponse.status !== 200) { return existenceResponse; }
+
+    const valuesString = sqlStrings.getUpdateValuesString(table_name, body);
+    const updateSql = `UPDATE ${table_name} SET ${valuesString} WHERE id = '${id}';`;
+    const updateDbResponse = await db.executeSql(updateSql, title);
+    if (updateDbResponse.status !== 200) { return updateDbResponse; }
+
+    try {
+        return await getOne(table_name, id, 'Get updated object.');
+    } catch (getError){
+        logging.logError(`Get updated ${table_name}`, getError);
+        return { status: 200, result: {} }
+    }
+}
+
+async function remove(table_name, id, title=`Delete ${table_name}`) {
+
+}
+
+async function getHome() {
+    const sql = `SELECT 1;`;
+    const dbResponse = await db.executeSql(sql, 'Get Home');
+    if (dbResponse.status !== 200) { return dbResponse; }
+
+    return { status: 200, result: 'BransonSmithDevAPI is live :)' }
 }
 
 async function verifyExistence(fieldsObjects) {
@@ -75,5 +117,7 @@ async function initTable(table_name, title=`Create ${table_name} Table`) {
 module.exports.getAll = getAll;
 module.exports.getOne = getOne;
 module.exports.create = create;
+module.exports.update = update;
 module.exports.dropTable = dropTable;
 module.exports.initTable = initTable;
+module.exports.getHome = getHome;

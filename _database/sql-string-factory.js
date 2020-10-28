@@ -17,12 +17,13 @@ function getCreateValuesString(table_name, body, newId) {
 }
 
 function getUpdateValuesString(table_name, body) {
-    const all_fields = models.getModelForTable(table_name).all_fields;
-    const fields = all_fields.filter(f => f.updateField);
+    const fields = models.getModelForTable(table_name).all_fields.filter(f => f.updateField);
 
     str = '';
     fields.forEach(field => {
-        str += `${field.name} = ${body[field.name]}, `;
+        let val = body[field.name];
+        if (field.type.includes('varchar') || field.type.includes('timestamp')) { val = `'${val}'`; }
+        str += `${field.name} = ${val}, `;
     });
     return str.substr(0, str.length - 2);
 }

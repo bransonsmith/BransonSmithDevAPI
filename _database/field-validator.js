@@ -17,8 +17,8 @@ function validateUpdateValues(table_name, body) {
     try {
         const fields = models.getModelForTable(table_name).all_fields.filter(field => field.updateField);
         return validateValues(fields, body);
-    } catch (createValueError) {
-        logging.logError(`Validate update values for ${table_name}`, createValueError);
+    } catch (updateValueError) {
+        logging.logError(`Validate update values for ${table_name}`, updateValueError);
         return { status: 400, result: common.badRequestMessage };
     }
 }

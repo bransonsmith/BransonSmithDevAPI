@@ -42,14 +42,15 @@ router.post(`${base_route}/:table_name`, (req, response) => {
     });
 });
 
-router.put(`${base_route}/:table_name`, (req, response) => {
+router.put(`${base_route}/:table_name/:id`, (req, response) => {
     logging.logRequest(req);
     const table_name = req.params.table_name;
+    const id = req.params.id;
     const body = req.body;
 
     checkIfRouteIsPublic(table_name, req, response, 'update');
 
-    baseService.update(table_name, body).then(serviceResponse => {
+    baseService.update(table_name, id, body).then(serviceResponse => {
         handleServiceResponse(serviceResponse, req, response);
     });
 });
