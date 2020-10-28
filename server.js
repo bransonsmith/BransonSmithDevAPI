@@ -2,13 +2,10 @@ const express = require('express');
 const moment = require('moment');
 const sessions = require('client-sessions');
 const settings = require("./settings");
+const common = require("./common");
+const logging = require("./logging");
 var cors = require('cors')
 
-const dbRoutes = require("./routes/db");
-const projectRoutes = require("./routes/projects");
-// const userRoutes = require("./routes/users");
-const sessionRoutes = require("./routes/sessions").router;
-const loginRoutes = require("./routes/login");
 const baseRoutes = require("./_controllers/base-controller").router;
 
 const app = express();
@@ -26,12 +23,13 @@ app.use(sessions({
 }));
 app.use(cors());
 
-app.use(dbRoutes.router);
-app.use(projectRoutes);
-// app.use(userRoutes);
-app.use(sessionRoutes);
-app.use(loginRoutes);
 app.use(baseRoutes);
+
+app.get('*', function(req, res){
+  logging.logRequest(req);
+  logging.logResponse(req, { status: 404, result: common.badRequestMessage });
+  res.status(404).send(common.badRequestMessage);
+});
 
 const port = process.env.PORT || 3000;
 var server = app.listen(port, () => console.log(`Listening on port ${port}`));

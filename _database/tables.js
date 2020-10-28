@@ -1,9 +1,18 @@
 const models = require('../_services/model-service');
 
-const public_tables = ['sessions', 'users'];
+const public_tables = [
+    { name: 'sessions', getOne: true , getAll: true , create: true , update: true , remove: true , initTable: false, dropTable: false },
+    { name: 'users',    getOne: true , getAll: true , create: true , update: true , remove: true , initTable: false, dropTable: false },
+];
 
-function publicTableExists(table_name) {
-    return public_tables.includes(table_name);
+function routeIsPublic(table_name, routeName) {
+    for (let i = 0; i < public_tables.length; i++) {
+        const table = public_tables[i];
+        if (table.name === table_name) {
+            return table[routeName];
+        }
+    }
+    return false;
 }
 
 function getFieldsThatMustHaveAnExistingObject(table_name, body) {
@@ -21,5 +30,5 @@ function getFieldsThatMustHaveAnExistingObject(table_name, body) {
 }
 
 module.exports.public_tables = public_tables;
-module.exports.publicTableExists = publicTableExists;
+module.exports.routeIsPublic = routeIsPublic;
 module.exports.getFieldsThatMustHaveAnExistingObject = getFieldsThatMustHaveAnExistingObject;

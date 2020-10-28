@@ -11,7 +11,7 @@ router.get(`${base_route}/:table_name`, (req, response) => {
     logging.logRequest(req);
     const table_name = req.params.table_name;
 
-    checkIfTableIsPublic(table_name, req, response);
+    checkIfRouteIsPublic(table_name, req, response, 'getAll');
     
     baseService.getAll(table_name).then(serviceResponse => {
         handleServiceResponse(serviceResponse, req, response);
@@ -23,7 +23,7 @@ router.get(`${base_route}/:table_name/:id`, (req, response) => {
     const table_name = req.params.table_name;
     const id = req.params.id;
 
-    checkIfTableIsPublic(table_name, req, response);
+    checkIfRouteIsPublic(table_name, req, response, 'getOne');
 
     baseService.getOne(table_name, id).then(serviceResponse => {
         handleServiceResponse(serviceResponse, req, response);
@@ -35,9 +35,21 @@ router.post(`${base_route}/:table_name`, (req, response) => {
     const table_name = req.params.table_name;
     const body = req.body;
 
-    checkIfTableIsPublic(table_name, req, response);
+    checkIfRouteIsPublic(table_name, req, response, 'create');
 
     baseService.create(table_name, body).then(serviceResponse => {
+        handleServiceResponse(serviceResponse, req, response);
+    });
+});
+
+router.put(`${base_route}/:table_name`, (req, response) => {
+    logging.logRequest(req);
+    const table_name = req.params.table_name;
+    const body = req.body;
+
+    checkIfRouteIsPublic(table_name, req, response, 'update');
+
+    baseService.update(table_name, body).then(serviceResponse => {
         handleServiceResponse(serviceResponse, req, response);
     });
 });
@@ -46,7 +58,7 @@ router.post(`${base_route}/:table_name/table/drop`, (req, response) => {
     logging.logRequest(req);
     const table_name = req.params.table_name;
 
-    checkIfTableIsPublic(table_name, req, response);
+    checkIfRouteIsPublic(table_name, req, response, 'dropTable');
 
     baseService.dropTable(table_name).then(serviceResponse => {
         handleServiceResponse(serviceResponse, req, response);
@@ -57,9 +69,17 @@ router.post(`${base_route}/:table_name/table/create`, (req, response) => {
     logging.logRequest(req);
     const table_name = req.params.table_name;
 
-    checkIfTableIsPublic(table_name, req, response);
+    checkIfRouteIsPublic(table_name, req, response, 'initTable');
 
     baseService.initTable(table_name).then(serviceResponse => {
+        handleServiceResponse(serviceResponse, req, response);
+    });
+});
+
+router.get('/', (req, response) => {
+    logging.logRequest(req);
+
+    baseService.getHome().then(serviceResponse => {
         handleServiceResponse(serviceResponse, req, response);
     });
 });
@@ -83,10 +103,9 @@ function handleControllerError(req, response, controllerError) {
     respondAndLog(req, response, { status: 400, result: common.badRequestMessage}); return;
 }
 
-function checkIfTableIsPublic(table_name, req, response) {
-    if (!tables.publicTableExists(table_name)) {
-        respondAndLog(req, response, { status: 404, result: common.notFoundMessage }); 
-        return;
+function checkIfRouteIsPublic(table_name, req, response, routeName) {
+    if (!tables.routeIsPublic(table_name, routeName)) {
+        respondAndLog(req, response, { status: 404, result: common.notFoundMessage }); return;
     }
 }
 
