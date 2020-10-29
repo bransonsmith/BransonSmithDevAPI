@@ -19,7 +19,7 @@ async function getSessionByToken(token, title=`Get session for token ${token}`) 
 
     const rows = dbResponse.result.rows;
     if (rows.length < 1) {
-        return { status: 404, result: common.notFoundMessage }
+        return { status: 404, result: { message: common.notFoundMessage} }
     }
     return { status: 200, result: rows[0] }
 }

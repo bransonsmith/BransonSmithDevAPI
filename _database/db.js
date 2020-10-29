@@ -19,7 +19,7 @@ async function executeSql(sql, title='') {
             return handleDuplicateKeyError(queryError.toString());
         }
 
-        return { status: 400, result: common.badRequestMessage };
+        return { status: 400, result: { message: common.badRequestMessage } };
     }
 }
 

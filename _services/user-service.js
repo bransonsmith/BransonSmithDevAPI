@@ -12,7 +12,7 @@ async function getUserByUsername(username, title=`Get user by username`) {
 
     const rows = dbResponse.result.rows;
     if (rows.length < 1) {
-        return { status: 404, result: common.notFoundMessage }
+        return { status: 404, result: { message: common.notFoundMessage} }
     }
     return { status: 200, result: rows[0] }
 }

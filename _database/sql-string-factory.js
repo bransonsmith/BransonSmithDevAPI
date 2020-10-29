@@ -12,7 +12,7 @@ function getCreateValuesString(table_name, body, newId) {
         return str.substr(0, str.length - 2);
     } catch (valueStringError) {
         logging.logError(`Create value string for ${table_name}`, valueStringError);
-        return { status: 400, result: common.badRequestMessage };
+        return { status: 400, result: { message: common.badRequestMessage } };
     }
 }
 

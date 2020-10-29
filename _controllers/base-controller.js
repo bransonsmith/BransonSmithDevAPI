@@ -113,12 +113,12 @@ function respondAndLog(req, response, data) {
 
 function handleControllerError(req, response, controllerError) {
     logging.logError('Controller', controllerError);
-    respondAndLog(req, response, { status: 400, result: common.badRequestMessage}); return;
+    respondAndLog(req, response, { status: 400, result: { message: common.badRequestMessage }}); return;
 }
 
 function checkIfRouteIsPublic(table_name, req, response, routeName) {
     if (!tables.routeIsPublic(table_name, routeName)) {
-        respondAndLog(req, response, { status: 404, result: common.notFoundMessage }); return;
+        respondAndLog(req, response, { status: 404, result: { message: common.notFoundMessage} }); return;
     }
 }
 

@@ -22,7 +22,7 @@ async function getOne(table_name, id, title=`Get the ${table_name} for ${id}`) {
 
     const rows = dbResponse.result.rows;
     if (rows.length < 1) {
-        return { status: 404, result: common.notFoundMessage }
+        return { status: 404, result: { message: common.notFoundMessage} }
     }
     return { status: 200, result: rows[0] }
 }
@@ -56,7 +56,7 @@ async function update(table_name, id, body, title=`Update ${table_name}`) {
         if (existsResponse.status !== 200) { return { status: 409, result: `No existing ${table_name} found for the given id.` }; }
     } catch (getError){
         logging.logError(`Get ${table_name} to update`, getError);
-        return { status: 400, result: common.badRequestMessage }
+        return { status: 400, result: { message: common.badRequestMessage } }
     }
 
     const validationResponse = fieldValidator.validateUpdateValues(table_name, body);
@@ -85,7 +85,7 @@ async function remove(table_name, id, title=`Delete ${table_name}`) {
         if (existsResponse.status !== 200) { return { status: 409, result: `No existing ${table_name} found for the given id.` }; }
     } catch (getError){
         logging.logError(`Get object to delete ${table_name}`, getError);
-        return { status: 400, result: common.badRequestMessage }
+        return { status: 400, result: { message: common.badRequestMessage } }
     }
 
     const deleteSql = `DELETE FROM ${table_name} WHERE id = '${id}';`;
