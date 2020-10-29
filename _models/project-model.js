@@ -9,8 +9,8 @@ const all_fields = [
     { name: 'text',          type: 'varchar(4000)', attributes: ''                    , mustHaveExistingObject: false, table: '', onDto: true , createField: true , updateField: true  },
     { name: 'image',         type: 'varchar(1000)', attributes: ''                    , mustHaveExistingObject: false, table: '', onDto: true , createField: true , updateField: true  },
     { name: 'createddate',   type: 'timestamp',     attributes: ''                    , mustHaveExistingObject: false, table: '', onDto: false, createField: false, updateField: false },
-    { name: 'codeclicks',    type: 'int',           attributes: ''                    , mustHaveExistingObject: false, table: '', onDto: false, createField: false, updateField: false },
-    { name: 'exampleclicks', type: 'int',           attributes: ''                    , mustHaveExistingObject: false, table: '', onDto: false, createField: false, updateField: false }
+    { name: 'codeclicks',    type: 'int',           attributes: ''                    , mustHaveExistingObject: false, table: '', onDto: true , createField: false, updateField: false },
+    { name: 'exampleclicks', type: 'int',           attributes: ''                    , mustHaveExistingObject: false, table: '', onDto: true , createField: false, updateField: false }
 ];
 
 function getCreateValues(body, newId) {
