@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
 async function login(username, password, title=`Login ${username}`) {
 
     try {
-        const existingUserResponse = await userService.getByUsername(username);
+        const existingUserResponse = await userService.getUserByUsername(username);
         if (existingUserResponse.status !== 200) { return { status: 409, result: common.badLoginMessage }; }
         const user = existingUserResponse.result;
         if (!bcrypt.compareSync((password + user.salt), user.password)) {
