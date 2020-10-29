@@ -6,7 +6,7 @@ function getCurrentTimeStamp() {
 }
 
 function getNewSessionExpiration() {
-    return moment(moment().toDate()).add(3, 'days').format('YYYY-MM-DDThh:mm:ss.SSSZ');
+    return moment(moment().toDate()).add(120, 'm').format('YYYY-MM-DDThh:mm:ss.SSSZ');
 }
 
 function getNewId() {

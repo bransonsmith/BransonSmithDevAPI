@@ -20,6 +20,9 @@ async function getUserByUsername(username, title=`Get user by username`) {
 async function getUserByToken(token, title=`Get user by token`) {
     const sessionResponse = await sessionService.getSessionByToken(token);
     if (sessionResponse.status !== 200) { return sessionResponse; }
+    const extendResponse = await sessionService.extendSession(sessionResponse.result.id);
+    if (extendResponse.status !== 200) { return extendResponse; }
+
     return await baseService.getOne(table_name, sessionResponse.result.userid);
 }
 
