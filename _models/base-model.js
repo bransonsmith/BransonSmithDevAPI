@@ -17,7 +17,7 @@ function validateString(name, body, options=[]) {
     const sut = body[name];
     if (sut === undefined) { return { status: 409, result: `Request is missing string: ${name}`}; }
     if (!((typeof sut) === 'string')) { return { status: 409, result: `${name} should be of type string`}; }
-    return { status: 200, result: '' };
+    return { status: 200, result: { message: '' } };
 }
 
 module.exports.getCurrentTimeStamp =   getCurrentTimeStamp;

@@ -36,7 +36,7 @@ async function attemptLogin(username, password) {
     try {
         if (getUserResult.status !== 'Success') { return getUserResult; }
         const user = getUserResult.result[0];
-        if (!bcrypt.compareSync(password, user.password)) { return { status: 'Failure', result: 'Incorrect Password' }}
+        if (!bcrypt.compareSync(password, user.password)) { return { status: 'Failure', result: { message: 'Incorrect Password' }}};
 
         const createSessionResponse = await sessions.createSession(user.id);
         if (createSessionResponse.status !== 'Success') { return createSessionResponse; }

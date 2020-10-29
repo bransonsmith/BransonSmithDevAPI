@@ -29,7 +29,7 @@ function handleDuplicateKeyError(error) {
         const detSplit = details.split('_');
         return { status: 409, result: `${detSplit[0]} object already exists with the given ${detSplit[1]}.` }
     } catch {
-        return { status: 409, result: 'An entity already exists with the given specifications.' };
+        return { status: 409, result: { message: 'An entity already exists with the given specifications.' } };
     }
 } 
 

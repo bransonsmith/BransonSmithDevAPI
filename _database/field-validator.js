@@ -31,7 +31,7 @@ function validateValues(fields, body) {
             if (validation.status !== 200) { return validation }
         }
     }
-    return { status: 200, result: '' };
+    return { status: 200, result: { message: '' } };
 }
 
 module.exports.validateCreateValues = validateCreateValues;

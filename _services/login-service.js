@@ -38,13 +38,13 @@ async function logout(token, title=`Logout`) {
 
     try {
         const sessionResponse = await sessionService.getSessionByToken(token);
-        if (sessionResponse.status !== 200) { return { status: 200, result: 'No active session.' }; }
+        if (sessionResponse.status !== 200) { return { status: 200, result: { message: 'No active session.' } }; }
 
         const userid = sessionResponse.result.userid;
         const removeSessionsResponse = await sessionService.removeSessionsForUser(userid);
         if (removeSessionsResponse.status !== 200) { return removeSessionsResponse; }
 
-        return { status: 200, result: 'Logged Out.' };
+        return { status: 200, result: { message: 'Logged Out.' } };
     } catch (getError) {
         logging.logError(`Logout Error`, getError);
         return { status: 400, result: common.badRequestMessage }
