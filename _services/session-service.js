@@ -1,4 +1,5 @@
 const baseService = require("../_services/base-service");
+const baseModel = require("../_models/base-model");
 const db = require("../_database/db");
 const common = require("../common");
 const moment = require('moment');
@@ -45,7 +46,17 @@ async function pruneSessions(title=`Prune sessions`) {
     return { status: 200, result: {} }
 }
 
+async function extendSession(id, title=`Extend session ${id}`) {
+    const newDate = baseModel.getNewSessionExpiration();
+    const sql = `UPDATE ${table_name} SET expiration = '${newDate}' WHERE id = '${id}';`;
+    const dbResponse = await db.executeSql(sql, title);
+    if (dbResponse.status !== 200) { return dbResponse; }
+
+    return { status: 200, result: {} }
+}
+
 module.exports.createSessionForUser = createSessionForUser;
 module.exports.getSessionByToken = getSessionByToken;
 module.exports.removeSessionsForUser = removeSessionsForUser;
 module.exports.pruneSessions = pruneSessions;
+module.exports.extendSession = extendSession;
