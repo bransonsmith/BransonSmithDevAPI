@@ -9,6 +9,7 @@ var cors = require('cors')
 const baseRoutes = require("./_controllers/base-controller").router;
 const loginRoutes = require("./_controllers/login-controller").router;
 const userRoutes = require("./_controllers/user-controller").router;
+const projectRoutes = require("./_controllers/project-controller").router;
 
 const app = express();
 app.use(express.json());
@@ -27,6 +28,7 @@ app.use(cors());
 
 app.use(loginRoutes);
 app.use(userRoutes);
+app.use(projectRoutes);
 app.use(baseRoutes);
 
 app.get('*', function(req, res){
