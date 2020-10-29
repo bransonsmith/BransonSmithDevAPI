@@ -100,7 +100,7 @@ async function getHome() {
     const dbResponse = await db.executeSql(sql, 'Get Home');
     if (dbResponse.status !== 200) { return dbResponse; }
 
-    return { status: 200, result: 'BransonSmithDevAPI is live :)' }
+    return { status: 200, result: { message: 'BransonSmithDevAPI is live :)' } };
 }
 
 async function verifyExistence(fieldsObjects) {

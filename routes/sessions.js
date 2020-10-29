@@ -64,7 +64,7 @@ async function getSession(criteria_value, criteria_field_name='id') {
         console.log('session');
         console.log(session);
         if (session.result.expiration >= Date.now()) { return session; }
-        return { status: 'Error', result: 'No session.' };
+        return { status: 'Error', result: { message: 'No session.' }};
     } catch (getOneError) {
         common.logError('Get One Session', getOneError);
     }
