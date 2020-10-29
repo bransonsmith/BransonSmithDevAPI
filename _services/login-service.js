@@ -29,7 +29,7 @@ async function login(username, password, title=`Login ${username}`) {
         };
     } catch (getError) {
         logging.logError(`Login Error`, getError);
-        return { status: 400, result: common.badRequestMessage }
+        return { status: 400, result: { message: common.badRequestMessage } }
     }
 
 }
@@ -47,7 +47,7 @@ async function logout(token, title=`Logout`) {
         return { status: 200, result: { message: 'Logged Out.' } };
     } catch (getError) {
         logging.logError(`Logout Error`, getError);
-        return { status: 400, result: common.badRequestMessage }
+        return { status: 400, result: { message: common.badRequestMessage } }
     }
 
 }

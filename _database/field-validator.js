@@ -9,7 +9,7 @@ function validateCreateValues(table_name, body) {
         return validateValues(fields, body);
     } catch (createValueError) {
         logging.logError(`Validate create values for ${table_name}`, createValueError);
-        return { status: 400, result: common.badRequestMessage };
+        return { status: 400, result: { message: common.badRequestMessage } };
     }
 }
 
@@ -19,7 +19,7 @@ function validateUpdateValues(table_name, body) {
         return validateValues(fields, body);
     } catch (updateValueError) {
         logging.logError(`Validate update values for ${table_name}`, updateValueError);
-        return { status: 400, result: common.badRequestMessage };
+        return { status: 400, result: { message: common.badRequestMessage } };
     }
 }
 

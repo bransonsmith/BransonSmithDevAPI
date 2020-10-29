@@ -31,7 +31,7 @@ app.use(baseRoutes);
 
 app.get('*', function(req, res){
   logging.logRequest(req);
-  logging.logResponse(req, { status: 404, result: common.badRequestMessage });
+  logging.logResponse(req, { status: 404, result: { message: common.badRequestMessage } });
   res.status(404).send(common.badRequestMessage);
 });
 
