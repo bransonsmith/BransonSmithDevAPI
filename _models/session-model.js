@@ -23,6 +23,11 @@ function getCreateValues(body, newId) {
     ];
 }
 
+const createSchema = Joi.object({
+    userid: Joi.string().required().regex(/^[a-zA-Z0-9-]{3,40}$/),
+});
+const updateSchema = Joi.object({});
+
 module.exports.table_name    = table_name;
 module.exports.all_fields    = all_fields;
 module.exports.getCreateValues = getCreateValues;
