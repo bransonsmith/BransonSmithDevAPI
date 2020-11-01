@@ -1,4 +1,5 @@
 const base = require('./base-model');
+const Joi = require('joi');
 
 const table_name = 'sessions';
 const all_fields = [

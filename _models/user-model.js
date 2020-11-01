@@ -1,5 +1,6 @@
 const base = require('./base-model');
 const bcrypt = require("bcryptjs");
+const Joi = require('joi');
 
 const table_name = 'users';
 const all_fields = [
