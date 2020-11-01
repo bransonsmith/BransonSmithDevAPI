@@ -16,6 +16,10 @@ async function getAll(table_name, title=`Get all ${table_name}`) {
 }
 
 async function getOne(table_name, id, title=`Get the ${table_name} for ${id}`) {
+
+    const validationResponse = fieldValidator.validateId(id);
+    if (validationResponse.status !== 200) { return validationResponse; }
+
     const sql = `SELECT ${sqlStrings.getDtoFieldString(table_name)} FROM ${table_name} WHERE id = '${id}';`;
     const dbResponse = await db.executeSql(sql, title);
     if (dbResponse.status !== 200) { return dbResponse; }
@@ -28,6 +32,7 @@ async function getOne(table_name, id, title=`Get the ${table_name} for ${id}`) {
 }
 
 async function create(table_name, body, title=`Create new ${table_name}`) {
+    
     const validationResponse = fieldValidator.validateCreateValues(table_name, body);
     if (validationResponse.status !== 200) { return validationResponse; }
 
@@ -45,21 +50,26 @@ async function create(table_name, body, title=`Create new ${table_name}`) {
         return await getOne(table_name, newId);
     } catch (getError){
         logging.logError(`Get newly created ${table_name}`, getError);
-        return { status: 200, result: {} }
+        return { status: 200, result: { message: 'Object created, but not returned.'} }
     }
 }
 
 async function update(table_name, id, body, title=`Update ${table_name}`) {
+    
+    const idValidationResponse = fieldValidator.validateId(id);
+    if (idValidationResponse.status !== 200) { return idValidationResponse; }
 
+    let existing;
     try {
         const existsResponse = await getOne(table_name, id, 'Get existing object to update');
+        existing = existsResponse.result;
         if (existsResponse.status !== 200) { return { status: 409, result: `No existing ${table_name} found for the given id.` }; }
     } catch (getError){
         logging.logError(`Get ${table_name} to update`, getError);
         return { status: 400, result: { message: common.badRequestMessage } }
     }
 
-    const validationResponse = fieldValidator.validateUpdateValues(table_name, body);
+    const validationResponse = fieldValidator.validateUpdateValues(table_name, body, existing);
     if (validationResponse.status !== 200) { return validationResponse; }
     
     const fieldsThatMustExist = tables.getFieldsThatMustHaveAnExistingObject(table_name, body);
@@ -80,6 +90,10 @@ async function update(table_name, id, body, title=`Update ${table_name}`) {
 }
 
 async function remove(table_name, id, title=`Delete ${table_name}`) {
+
+    const idValidationResponse = fieldValidator.validateId(id);
+    if (idValidationResponse.status !== 200) { return idValidationResponse; }
+
     try {
         const existsResponse = await getOne(table_name, id, 'Get existing object to delete');
         if (existsResponse.status !== 200) { return { status: 409, result: `No existing ${table_name} found for the given id.` }; }

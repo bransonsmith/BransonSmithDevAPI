@@ -12,6 +12,16 @@ const all_fields = [
     { name: 'salt',          type: 'varchar(255)',  attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '', onDto: false, createField: false, updateField: false }
 ];
 
+const createSchema = Joi.object({
+    username: Joi.string().required().regex(/^[.a-zA-Z0-9_ -]{3,40}$/),
+    email: Joi.string().required().email(),
+    password: Joi.string().required().regex(/^[.a-zA-Z0-9_ !@#$%^&*()-]{8,40}$/),
+});
+const updateSchema = Joi.object({
+    username: Joi.string().regex(/^[.a-zA-Z0-9_ -]{3,40}$/),
+    email: Joi.string().required().email(),
+});
+
 function getCreateValues(body, newId) {
     const datecreated = base.getCurrentTimeStamp();
     const salt = base.getNewId();
