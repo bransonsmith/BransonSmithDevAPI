@@ -8,9 +8,16 @@ const models = require('../_services/model-service');
 */
 
 const public_tables = [
-    { name: 'sessions', getOne: true , getAll: true , create: true , update: true , remove: true , initTable: false, dropTable: false },
-    { name: 'users',    getOne: true , getAll: true , create: true , update: true , remove: true , initTable: false, dropTable: false },
-    { name: 'projects', getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'sessions',       getOne: true , getAll: true , create: true , update: true , remove: true , initTable: false, dropTable: false },
+    { name: 'users',          getOne: true , getAll: true , create: true , update: true , remove: true , initTable: false, dropTable: false },
+    { name: 'projects',       getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'transactions',   getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'categories',     getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'labels',         getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'budgets',        getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'budgetedmonths', getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'incomes',        getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'targets',        getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
 ];
 
 function routeIsPublic(table_name, routeName) {

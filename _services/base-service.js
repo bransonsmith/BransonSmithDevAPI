@@ -120,6 +120,7 @@ async function getHome() {
 async function verifyExistence(fieldsObjects) {
     for (let i = 0; i < fieldsObjects.length; i++) {
         const fieldObject = fieldsObjects[i];
+        if (fieldObject.field.optional && fieldObject.value === '') { return { status: 200, result: `` }; }
         const existsResponse = await getOne(fieldObject.field.table, fieldObject.value, `Verify existence of ${fieldObject.field.table}`);
         if (existsResponse.status !== 200) { return { status: 409, result: `No existing object found for the given ${fieldObject.field.name}.` }; }
     }

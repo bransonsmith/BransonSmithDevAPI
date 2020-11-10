@@ -31,7 +31,6 @@ router.get(`${base_route}/:table_name/:id`, (req, response) => {
 });
 
 router.post(`${base_route}/:table_name`, (req, response) => {
-    logging.logRequest(req);
     const table_name = req.params.table_name;
     const body = req.body;
 
