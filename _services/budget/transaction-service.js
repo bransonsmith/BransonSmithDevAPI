@@ -1,6 +1,7 @@
 const models = require("../model-service");
 const lableService = require("./label-service");
 const baseService = require("../base-service");
+const logging = require("../../logging");
 
 const table_name = 'transactions';
 
@@ -13,6 +14,7 @@ async function fromcsv(body, title=`Add transaction from csv`) {
 
     let newTransactions = [];
     const transactions = body.transactions;
+    console.log(`Transactions: \n${transactions}`);
     for (let i = 0; i < transactions.length; i++) {
         const transaction = transactions[i];
         const validateCsvModel = model.fromcsvSchema.validate(transaction);
