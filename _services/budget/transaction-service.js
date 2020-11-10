@@ -22,16 +22,16 @@ async function fromcsv(body, title=`Add transaction from csv`) {
             logging.logError('Transaction from csv create validation', validateCsvModel.error);
             // return { status: 409, result: { message: `${validateCsvModel.error}`} };
         } else {
-            const labelResponse = await lableService.getLabelByDetails(body.details);
+            const labelResponse = await lableService.getLabelByDetails(transaction.details);
             if (labelResponse.status !== 200) {
-                body.labelid = '';
-                body.categoryid = '';
+                transaction.labelid = '';
+                transaction.categoryid = '';
             } else {
-                body.labelid    = labelResponse.result.id;
-                body.categoryid = labelResponse.result.categoryid;
+                transaction.labelid    = labelResponse.result.id;
+                transaction.categoryid = labelResponse.result.categoryid;
             }
 
-            newTransactions.push(await baseService.create(table_name, body).result);
+            newTransactions.push(await baseService.create(table_name, transaction).result);
         }
     }
 
