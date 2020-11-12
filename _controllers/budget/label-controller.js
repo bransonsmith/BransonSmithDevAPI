@@ -11,7 +11,7 @@ const table_name = 'labels'
 router.get(`${base_route}/${table_name}/budget`, (req, response) => {
     logging.logRequest(req);
 
-    labelService.getFilledOutTransactions(req.body).then(serviceResponse => {
+    labelService.getFilledOutLabels(req.body).then(serviceResponse => {
         baseController.handleServiceResponse(serviceResponse, req, response);
     });
 });
