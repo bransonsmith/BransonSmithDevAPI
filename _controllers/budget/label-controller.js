@@ -15,3 +15,5 @@ router.get(`${base_route}/${table_name}/budget`, (req, response) => {
         baseController.handleServiceResponse(serviceResponse, req, response);
     });
 });
+
+module.exports.router = router;
