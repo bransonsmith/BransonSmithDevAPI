@@ -11,6 +11,7 @@ const loginRoutes = require("./_controllers/login-controller").router;
 const userRoutes = require("./_controllers/user-controller").router;
 const projectRoutes = require("./_controllers/project-controller").router;
 const transactionRoutes = require("./_controllers/budget/transaction-controller").router;
+const labelRoutes = require("./_controllers/budget/label-controller").router;
 
 const app = express();
 app.use(express.json());
@@ -31,6 +32,9 @@ app.use(loginRoutes);
 app.use(userRoutes);
 app.use(projectRoutes);
 app.use(transactionRoutes);
+app.use(labelRoutes);
+
+// Order matters; this goes last so other controllers can override
 app.use(baseRoutes);
 
 app.get('*', function(req, res){
