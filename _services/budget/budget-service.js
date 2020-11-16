@@ -66,7 +66,7 @@ async function getSummarizedTargetsForMonth(budgetedMonth, targets, transactions
             const targetSummary = targetSummaries[i];
             if (targetSummary.category.id === transaction.categoryid) {
                 targetSummary.transactions.push(transaction);
-                untargeted.actualamount = parseFloat(targetSummary.actualamount.toString()) + parseFloat(transaction.amount.toString());
+                targetSummary.actualamount = parseFloat(targetSummary.actualamount.toString()) + parseFloat(transaction.amount.toString());
                 known = true;
             }
         }
