@@ -9,21 +9,21 @@ const all_fields = [
 ];
 
 const createSchema = Joi.object({
-    month: Joi.string().regex(/^[.a-zA-Z0-9 ]{1,100}$/),
     categoryid: Joi.string().required().max(255),
+    incomeid: Joi.string().required().max(255),
     amount: Joi.number().required(),
 });
 const updateSchema = Joi.object({
-    month: Joi.string().regex(/^[.a-zA-Z0-9 ]{1,100}$/),
     categoryid: Joi.string().required().max(255),
+    incomeid: Joi.string().required().max(255),
     amount: Joi.number().required(),
 });
 
 function getCreateValues(body, newId) {
     return [
         `'${newId}'`,
-        `'${body.month}'`,
         `'${body.categoryid}'`,
+        `'${body.incomeid}'`,
         `${body.amount}`,
     ];
 }
