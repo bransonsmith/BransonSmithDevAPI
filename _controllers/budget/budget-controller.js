@@ -8,10 +8,11 @@ const budgetService = require("../../_services/budget/budget-service");
 const base_route = common.base_route;
 const table_name = 'budgets'
 
-router.get(`${base_route}/${table_name}/budget/:month`, (req, response) => {
+router.get(`${base_route}/${table_name}/budget/:month/:budgetid`, (req, response) => {
     logging.logRequest(req);
-
-    budgetService.getFilledOutBudgetedMonth(req.body).then(serviceResponse => {
+    const month = req.params.month;
+    const budgetid = req.params.budgetid;
+    budgetService.getFilledOutBudgetedMonth(budgetid, month, req.body).then(serviceResponse => {
         baseController.handleServiceResponse(serviceResponse, req, response);
     });
 });
