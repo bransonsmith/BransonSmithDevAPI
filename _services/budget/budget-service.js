@@ -66,13 +66,13 @@ async function getSummarizedTargetsForMonth(budgetedMonth, targets, transactions
             const targetSummary = targetSummaries[i];
             if (targetSummary.categoryid === transaction.categoryid) {
                 targetSummary.transactions.push(transaction);
-                parseFloat(targetSummary.actualamount.toString()) += parseFloat(transaction.amount.toString());
+                untargeted.actualamount = parseFloat(targetSummary.actualamount.toString()) + parseFloat(transaction.amount.toString());
                 known = true;
             }
         }
         if (!known) {
             untargeted.transactions.push(transaction);
-            parseFloat(untargeted.actualamount.toString()) += parseFloat(transaction.amount.toString());
+            untargeted.actualamount = parseFloat(untargeted.actualamount.toString()) + parseFloat(transaction.amount.toString());
         }
     }
     targetSummaries.push(untargeted);
