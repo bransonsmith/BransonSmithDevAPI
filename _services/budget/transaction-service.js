@@ -2,6 +2,7 @@ const models = require("../model-service");
 const lableService = require("./label-service");
 const baseService = require("../base-service");
 const logging = require("../../logging");
+const sqlStrings = require('../_database/sql-string-factory');
 
 const table_name = 'transactions';
 
