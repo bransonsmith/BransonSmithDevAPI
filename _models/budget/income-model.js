@@ -9,13 +9,11 @@ const all_fields = [
 ];
 
 const createSchema = Joi.object({
-    month: Joi.string().regex(/^[.a-zA-Z0-9 ]{1,100}$/),
     budgetedmonthid: Joi.string().max(255),
     grossamount: Joi.number().required(),
     netamount: Joi.number().required(),
 });
 const updateSchema = Joi.object({
-    month: Joi.string().regex(/^[.a-zA-Z0-9 ]{1,100}$/),
     budgetedmonthid: Joi.string().max(255),
     grossamount: Joi.number().required(),
     netamount: Joi.number().required(),
@@ -24,7 +22,7 @@ const updateSchema = Joi.object({
 function getCreateValues(body, newId) {
     return [
         `'${newId}'`,
-        `'${body.month}'`,
+        `'${body.budgetedmonthid}'`,
         `${body.grossamount}`,
         `${body.netamount}`,
     ];
