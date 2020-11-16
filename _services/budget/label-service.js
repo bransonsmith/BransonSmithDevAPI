@@ -11,7 +11,7 @@ async function getLabelByDetails(details, title=`Get label by details`) {
     for (let i = 0; i < labels.length; i++) {
         const label = labels[i];
         const keys = [];
-        if (autokeys.length > 0) {
+        if (label.autokeys.length > 0) {
             keys = label.autokeys.split(',');
             for (let j = 0; j < keys.length; j++) {
                 const autokey = keys[j];
