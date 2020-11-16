@@ -1,5 +1,7 @@
 const baseService = require("../base-service");
 const incomeService = require("./income-service");
+const targetService = require("./target-service");
+const transactionService = require("./transaction-service");
 const budgetedMonthService = require("./budgeted-month-service");
 
 const table_name = 'budgets';
@@ -18,7 +20,7 @@ async function getFilledOutBudgetedMonth(budgetid, month, title='Get filled out 
     if (incomesResponse.status !== 200) { return incomesResponse; }
     const incomes = incomesResponse.result;
 
-    const targetsResponse = await targeteService.getTargetsForIncomes(incomes.map(i => i.id));
+    const targetsResponse = await targetService.getTargetsForIncomes(incomes.map(i => i.id));
     if (targetsResponse.status !== 200) { return targetsResponse; }
     const targets = targetsResponse.result;
 
