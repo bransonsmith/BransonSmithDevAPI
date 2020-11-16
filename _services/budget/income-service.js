@@ -2,8 +2,8 @@ const baseService = require("../base-service");
 
 const table_name = 'incomes';
 
-async function getIncomesByMonth(month, title='Get incomes by month') {
-    const sql = `SELECT ${sqlStrings.getDtoFieldString(table_name)} FROM ${table_name} WHERE month = '${month}';`;
+async function getIncomesByBudgetedMonth(budgetedmonthid, title='Get incomes by budgetedmonthid') {
+    const sql = `SELECT ${sqlStrings.getDtoFieldString(table_name)} FROM ${table_name} WHERE budgetedmonthid = '${budgetedmonthid}';`;
     const dbResponse = await db.executeSql(sql, title);
     if (dbResponse.status !== 200) { return dbResponse; }
     
@@ -11,4 +11,4 @@ async function getIncomesByMonth(month, title='Get incomes by month') {
     return { status: 200, result: rows }
 }
 
-module.exports.getIncomesByMonth = getIncomesByMonth;
+module.exports.getIncomesByBudgetedMonth = getIncomesByBudgetedMonth;

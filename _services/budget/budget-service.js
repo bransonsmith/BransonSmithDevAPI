@@ -6,7 +6,7 @@ const table_name = 'budgets';
 
 async function getFilledOutBudgetedMonth(budgetid, month, title='Get filled out budgeted month') {
 
-    const budgetResponse = await baseService.getOne(budgetid);
+    const budgetResponse = await baseService.getOne(table_name, budgetid);
     if (budgetResponse.status !== 200) { return budgetResponse; }
     const budget = budgetResponse.result;
 
