@@ -45,7 +45,12 @@ async function getFilledOutBudgetedMonth(budgetid, month, title='Get filled out 
 
 async function getSummarizedTargetsForMonth(budgetedMonth, targets, transactions, categories) {
 
-    let untargeted = { categoryid: null, target: null, actualamount: 0, transactions: [] }
+    let untargeted = { 
+        categoryid: { id: '', name: 'No target to get category'}, 
+        target: { id: '', name: 'No target' }, 
+        actualamount: 0, 
+        transactions: [] 
+    }
     targetSummaries = [];
 
     for (let i = 0; i < targets.length; i++) {
