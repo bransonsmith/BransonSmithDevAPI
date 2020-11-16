@@ -46,7 +46,7 @@ async function getFilledOutBudgetedMonth(budgetid, month, title='Get filled out 
 async function getSummarizedTargetsForMonth(budgetedMonth, targets, transactions, categories) {
 
     let untargeted = {
-        categoryid: { id: '', name: 'No target to get category'},
+        category: { id: '', name: 'No target to get category from' },
         target: { id: '', name: 'No target' },
         actualamount: 0,
         transactions: []
