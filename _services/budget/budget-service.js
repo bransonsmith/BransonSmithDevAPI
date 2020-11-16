@@ -55,7 +55,7 @@ async function getSummarizedTargetsForMonth(budgetedMonth, targets, transactions
 
     for (let i = 0; i < targets.length; i++) {
         const target = targets[i];
-        const category = categories.filter(c => c.id === target.categoryid);
+        const category = categories.find(c => c.id === target.categoryid);
         targetSummaries.push({ category: category, target: target, actualamount: 0, transactions: [] });
     }
 
