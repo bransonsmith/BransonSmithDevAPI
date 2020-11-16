@@ -12,6 +12,7 @@ const userRoutes = require("./_controllers/user-controller").router;
 const projectRoutes = require("./_controllers/project-controller").router;
 const transactionRoutes = require("./_controllers/budget/transaction-controller").router;
 const labelRoutes = require("./_controllers/budget/label-controller").router;
+const budgetRoutes = require("./_controllers/budget/budget-controller").router;
 
 const app = express();
 app.use(express.json());
@@ -31,6 +32,7 @@ app.use(cors());
 app.use(loginRoutes);
 app.use(userRoutes);
 app.use(projectRoutes);
+app.use(budgetRoutes);
 app.use(transactionRoutes);
 app.use(labelRoutes);
 
