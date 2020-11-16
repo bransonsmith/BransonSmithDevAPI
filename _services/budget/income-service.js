@@ -1,4 +1,5 @@
 const sqlStrings = require('../../_database/sql-string-factory');
+const db = require('../../_database/db');
 
 const table_name = 'incomes';
 
