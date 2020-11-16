@@ -45,11 +45,11 @@ async function getFilledOutBudgetedMonth(budgetid, month, title='Get filled out 
 
 async function getSummarizedTargetsForMonth(budgetedMonth, targets, transactions, categories) {
 
-    let untargeted = { 
-        categoryid: { id: '', name: 'No target to get category'}, 
-        target: { id: '', name: 'No target' }, 
-        actualamount: 0, 
-        transactions: [] 
+    let untargeted = {
+        categoryid: { id: '', name: 'No target to get category'},
+        target: { id: '', name: 'No target' },
+        actualamount: 0,
+        transactions: []
     }
     targetSummaries = [];
 
@@ -66,13 +66,13 @@ async function getSummarizedTargetsForMonth(budgetedMonth, targets, transactions
             const targetSummary = targetSummaries[i];
             if (targetSummary.categoryid === transaction.categoryid) {
                 targetSummary.transactions.push(transaction);
-                targetSummary.actualamount += transaction.amount;
+                parseFloat(targetSummary.actualamount.toString()) += parseFloat(transaction.amount.toString());
                 known = true;
             }
         }
         if (!known) {
             untargeted.transactions.push(transaction);
-            untargeted.actualamount += transaction.amount;
+            parseFloat(untargeted.actualamount.toString()) += parseFloat(transaction.amount.toString());
         }
     }
     targetSummaries.push(untargeted);
