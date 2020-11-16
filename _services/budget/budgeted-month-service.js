@@ -8,8 +8,8 @@ async function getBudgetedMonthByMonth(budgetid, month, title='Get budgeted mont
     const dbResponse = await db.executeSql(sql, title);
     if (dbResponse.status !== 200) { return dbResponse; }
     
-    const rows = dbResponse.result.rows;
-    return { status: 200, result: rows }
+    const row = dbResponse.result.rows[0];
+    return { status: 200, result: row }
 }
 
 module.exports.getBudgetedMonthByMonth = getBudgetedMonthByMonth;

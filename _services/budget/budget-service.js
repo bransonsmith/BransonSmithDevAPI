@@ -13,8 +13,6 @@ async function getFilledOutBudgetedMonth(budgetid, month, title='Get filled out 
     const budgetedMonthResponse = await budgetedMonthService.getBudgetedMonthByMonth(budgetid, month);
     if (budgetedMonthResponse.status !== 200) { return budgetedMonthResponse; }
     const budgetedMonth = budgetedMonthResponse.result;
-    console.log('budgetedMonth');
-    console.log(budgetedMonth);
 
     const incomesResponse = await incomeService.getIncomesByBudgetedMonth(budgetedMonth.id);
     if (incomesResponse.status !== 200) { return incomesResponse; }
