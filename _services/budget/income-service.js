@@ -1,5 +1,4 @@
-const baseService = require("../base-service");
-const sqlStrings = require('../_database/sql-string-factory');
+const sqlStrings = require('../../_database/sql-string-factory');
 
 const table_name = 'incomes';
 

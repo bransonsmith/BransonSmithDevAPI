@@ -1,7 +1,6 @@
 const baseService = require("../base-service");
 const incomeService = require("./income-service");
 const budgetedMonthService = require("./budgeted-month-service");
-const sqlStrings = require('../_database/sql-string-factory');
 
 const table_name = 'budgets';
 
