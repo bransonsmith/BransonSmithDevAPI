@@ -2,10 +2,10 @@ const Joi = require('joi');
 
 const table_name = 'incomes';
 const all_fields = [
-    { name: 'id',              type: 'varchar(255)', attributes: 'NOT NULL PRIMARY KEY', mustHaveExistingObject: false, table: '', onDto: true , createField: false, updateField: false, optional: false },
-    { name: 'month',           type: 'varchar(255)', attributes: 'NOT NULL UNIQUE',      mustHaveExistingObject: false, table: '', onDto: true , createField: true , updateField: true , optional: false },
-    { name: 'grossamount',     type: 'decimal',      attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '', onDto: true , createField: true , updateField: true , optional: false },
-    { name: 'netamount',       type: 'decimal',      attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '', onDto: true , createField: true , updateField: true , optional: false },
+    { name: 'id',              type: 'varchar(255)', attributes: 'NOT NULL PRIMARY KEY', mustHaveExistingObject: false, table: '',               onDto: true , createField: false, updateField: false, optional: false },
+    { name: 'budgetedmonthid', type: 'varchar(255)', attributes: 'NOT NULL',             mustHaveExistingObject: true , table: 'budgetedmonths', onDto: true , createField: true , updateField: true , optional: false },
+    { name: 'grossamount',     type: 'decimal',      attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '',               onDto: true , createField: true , updateField: true , optional: false },
+    { name: 'netamount',       type: 'decimal',      attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '',               onDto: true , createField: true , updateField: true , optional: false },
 ];
 
 const createSchema = Joi.object({
