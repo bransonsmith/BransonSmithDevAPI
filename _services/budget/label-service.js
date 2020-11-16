@@ -10,11 +10,14 @@ async function getLabelByDetails(details, title=`Get label by details`) {
 
     for (let i = 0; i < labels.length; i++) {
         const label = labels[i];
-        const keys = label.autokeys.split(',');
-        for (let j = 0; j < keys.length; j++) {
-            const autokey = keys[j];
-            if (details.includes(autokey)) {
-                return { status: 200, result: label };
+        const keys = '';
+        if (autokeys.length > 0) {
+            keys = label.autokeys.split(',');
+            for (let j = 0; j < keys.length; j++) {
+                const autokey = keys[j];
+                if (details.includes(autokey)) {
+                    return { status: 200, result: label };
+                }
             }
         }
     }

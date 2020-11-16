@@ -5,7 +5,7 @@ const logging = require("../../logging");
 
 const table_name = 'transactions';
 
-async function fromcsv(body, title=`Add transaction from csv`) {
+async function fromcsv(body, title=`Add transactions from csv`) {
 
     // const labelsResponse = await baseService.getAll('labels');
     // if (labelsResponse.status !== 200) { return labelsResponse; }
