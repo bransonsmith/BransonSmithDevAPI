@@ -47,8 +47,9 @@ async function getSummarizedTargetsForMonth(budgetedMonth, targets, transactions
 
     let untargeted = {
         category: { id: '', name: 'No target to get category from' },
-        target: { id: '', name: 'No target' },
+        target: { id: '', name: 'No target', amount: 0 },
         actualamount: 0,
+        remainingamount: 0,
         transactions: []
     }
     targetSummaries = [];
@@ -62,7 +63,7 @@ async function getSummarizedTargetsForMonth(budgetedMonth, targets, transactions
     for (let i = 0; i < transactions.length; i++) {
         const transaction = transactions[i];
         let known = false;
-        for (let i = 0; i < targetSummaries.length; i++) {
+        for (let i = 0; i < targetSummaries.length && !known; i++) {
             const targetSummary = targetSummaries[i];
             if (targetSummary.category.id === transaction.categoryid) {
                 targetSummary.transactions.push(transaction);
@@ -76,6 +77,11 @@ async function getSummarizedTargetsForMonth(budgetedMonth, targets, transactions
         }
     }
     targetSummaries.push(untargeted);
+    for (let i = 0; i < targetSummaries.length; i++) {
+        const targetSummary = targetSummaries[i];
+        targetSummary['remainingamount'] = 
+            parseFloat(targetSummary.target.amount.toString()) - parseFloat(targetSummary.actualamount.toString());
+    }
     return targetSummaries;
 }
 
