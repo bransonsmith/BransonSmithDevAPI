@@ -80,7 +80,7 @@ async function getSummarizedTargetsForMonth(budgetedMonth, targets, transactions
     for (let i = 0; i < targetSummaries.length; i++) {
         const targetSummary = targetSummaries[i];
         targetSummary['remainingamount'] = 
-            parseFloat(targetSummary.target.amount.toString()) - parseFloat(targetSummary.actualamount.toString());
+            parseFloat(targetSummary.target.amount.toString()) + parseFloat(targetSummary.actualamount.toString());
     }
     return targetSummaries;
 }
