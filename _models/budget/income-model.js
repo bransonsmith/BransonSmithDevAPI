@@ -6,17 +6,20 @@ const all_fields = [
     { name: 'budgetedmonthid', type: 'varchar(255)', attributes: 'NOT NULL',             mustHaveExistingObject: true , table: 'budgetedmonths', onDto: true , createField: true , updateField: true , optional: false },
     { name: 'grossamount',     type: 'decimal',      attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '',               onDto: true , createField: true , updateField: true , optional: false },
     { name: 'netamount',       type: 'decimal',      attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '',               onDto: true , createField: true , updateField: true , optional: false },
+    { name: 'name',            type: 'varchar(255)', attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '',               onDto: true , createField: true , updateField: true , optional: false },
 ];
 
 const createSchema = Joi.object({
     budgetedmonthid: Joi.string().max(255),
     grossamount: Joi.number().required(),
     netamount: Joi.number().required(),
+    name: Joi.string().max(255),
 });
 const updateSchema = Joi.object({
     budgetedmonthid: Joi.string().max(255),
     grossamount: Joi.number().required(),
     netamount: Joi.number().required(),
+    name: Joi.string().max(255),
 });
 
 function getCreateValues(body, newId) {
@@ -25,6 +28,7 @@ function getCreateValues(body, newId) {
         `'${body.budgetedmonthid}'`,
         `${body.grossamount}`,
         `${body.netamount}`,
+        `${body.name}`,
     ];
 }
 
