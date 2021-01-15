@@ -28,7 +28,7 @@ function getCreateValues(body, newId) {
         `'${body.budgetedmonthid}'`,
         `${body.grossamount}`,
         `${body.netamount}`,
-        `${body.name}`,
+        `'${body.name}'`,
     ];
 }
 
