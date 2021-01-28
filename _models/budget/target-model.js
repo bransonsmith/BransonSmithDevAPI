@@ -4,18 +4,18 @@ const table_name = 'targets';
 const all_fields = [
     { name: 'id',         type: 'varchar(255)', attributes: 'NOT NULL PRIMARY KEY', mustHaveExistingObject: false, table: '',           onDto: true , createField: false, updateField: false, optional: false },
     { name: 'categoryid', type: 'varchar(255)', attributes: 'NOT NULL',             mustHaveExistingObject: true , table: 'categories', onDto: true , createField: true , updateField: true , optional: false },
-    { name: 'incomeid',   type: 'varchar(255)', attributes: 'NOT NULL',             mustHaveExistingObject: true , table: 'incomes',    onDto: true , createField: true , updateField: true , optional: false },
+    { name: 'month',      type: 'varchar(255)', attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '',           onDto: true , createField: true , updateField: true , optional: false },
     { name: 'amount',     type: 'decimal',      attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '',           onDto: true , createField: true , updateField: true , optional: false },
 ];
 
 const createSchema = Joi.object({
     categoryid: Joi.string().required().max(255),
-    incomeid: Joi.string().required().max(255),
+    month: Joi.string().required().max(255),
     amount: Joi.number().required(),
 });
 const updateSchema = Joi.object({
     categoryid: Joi.string().required().max(255),
-    incomeid: Joi.string().required().max(255),
+    month: Joi.string().required().max(255),
     amount: Joi.number().required(),
 });
 
@@ -23,7 +23,7 @@ function getCreateValues(body, newId) {
     return [
         `'${newId}'`,
         `'${body.categoryid}'`,
-        `'${body.incomeid}'`,
+        `'${body.month}'`,
         `${body.amount}`,
     ];
 }
