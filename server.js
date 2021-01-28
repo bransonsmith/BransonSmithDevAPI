@@ -27,7 +27,7 @@ app.use(sessions({
       secure: settings.SESSION_SECURE_COOKIES
     }
 }));
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors());
 
 app.use(loginRoutes);
 app.use(userRoutes);
