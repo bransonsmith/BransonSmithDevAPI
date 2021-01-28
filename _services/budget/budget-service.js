@@ -20,7 +20,7 @@ async function getFilledOutBudgetedMonth(budgetid, month, title='Get filled out 
     if (incomesResponse.status !== 200) { return incomesResponse; }
     const incomes = incomesResponse.result;
 
-    const targetsResponse = await targetService.getTargetsForIncomes(incomes.map(i => i.id));
+    const targetsResponse = await targetService.getTargetsForMonth(month);
     if (targetsResponse.status !== 200) { return targetsResponse; }
     const targets = targetsResponse.result;
 

@@ -3,9 +3,9 @@ const db = require('../../_database/db');
 
 const table_name = 'targets';
 
-async function getTargetsForIncomes(incomeids, title='Get targets for incomes') {
+async function getTargetsForMonth(incomeids, title='Get targets for month') {
 
-    const sql = `SELECT ${sqlStrings.getDtoFieldString(table_name)} FROM ${table_name} WHERE incomeid IN ('${incomeids.join("', '")}');`;
+    const sql = `SELECT ${sqlStrings.getDtoFieldString(table_name)} FROM ${table_name} WHERE month = '${month}';`;
     const dbResponse = await db.executeSql(sql, title);
     if (dbResponse.status !== 200) { return dbResponse; }
     
@@ -13,4 +13,14 @@ async function getTargetsForIncomes(incomeids, title='Get targets for incomes') 
     return { status: 200, result: rows }
 }
 
-module.exports.getTargetsForIncomes = getTargetsForIncomes;
+// async function getTargetsForIncomes(incomeids, title='Get targets for incomes') {
+
+//     const sql = `SELECT ${sqlStrings.getDtoFieldString(table_name)} FROM ${table_name} WHERE incomeid IN ('${incomeids.join("', '")}');`;
+//     const dbResponse = await db.executeSql(sql, title);
+//     if (dbResponse.status !== 200) { return dbResponse; }
+    
+//     const rows = dbResponse.result.rows;
+//     return { status: 200, result: rows }
+// }
+
+module.exports.getTargetsForMonth = getTargetsForMonth;
