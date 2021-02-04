@@ -3,8 +3,8 @@ const Joi = require('joi');
 const table_name = 'transactions';
 const all_fields = [
     { name: 'id',         type: 'varchar(255)', attributes: 'NOT NULL PRIMARY KEY', mustHaveExistingObject: false, table: ''          , onDto: true , createField: false, updateField: false, optional: false },
-    { name: 'labelid',    type: 'varchar(255)', attributes: ''                    , mustHaveExistingObject: true , table: 'labels'    , onDto: true , createField: true , updateField: true , optional: true  },
-    { name: 'categoryid', type: 'varchar(255)', attributes: ''                    , mustHaveExistingObject: true , table: 'categories', onDto: true , createField: true , updateField: true , optional: false },
+    { name: 'labelid',    type: 'varchar(255)', attributes: ''                    , mustHaveExistingObject: false, table: ''          , onDto: true , createField: true , updateField: true , optional: true  },
+    { name: 'categoryid', type: 'varchar(255)', attributes: ''                    , mustHaveExistingObject: false, table: ''          , onDto: true , createField: true , updateField: true , optional: false },
     { name: 'date',       type: 'varchar(255)', attributes: 'NOT NULL'            , mustHaveExistingObject: false, table: ''          , onDto: true , createField: true , updateField: true , optional: false },
     { name: 'details',    type: 'varchar(255)', attributes: 'NOT NULL'            , mustHaveExistingObject: false, table: ''          , onDto: true , createField: true , updateField: true , optional: false },
     { name: 'amount',     type: 'decimal',      attributes: 'NOT NULL'            , mustHaveExistingObject: false, table: ''          , onDto: true , createField: true , updateField: true , optional: false },
