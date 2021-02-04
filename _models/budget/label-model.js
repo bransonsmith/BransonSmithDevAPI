@@ -9,13 +9,13 @@ const all_fields = [
 ];
 
 const createSchema = Joi.object({
-    name: Joi.string().regex(/^[.a-zA-Z0-9 ]{1,100}$/),
-    autokeys: Joi.string().allow('').regex(/^[.a-zA-Z0-9 ,]{0,500}$/),
+    name: Joi.string().regex(/^[.a-zA-Z0-9 -]{1,100}$/),
+    autokeys: Joi.string().allow('').regex(/^[.a-zA-Z0-9 ,-]{0,500}$/),
     categoryid: Joi.string().allow('').max(255),
 });
 const updateSchema = Joi.object({
-    name: Joi.string().regex(/^[.a-zA-Z0-9 ]{1,100}$/),
-    autokeys: Joi.string().allow('').regex(/^[.a-zA-Z0-9 ,]{0,500}$/),
+    name: Joi.string().regex(/^[.a-zA-Z0-9 -]{1,100}$/),
+    autokeys: Joi.string().allow('').regex(/^[.a-zA-Z0-9 ,-]{0,500}$/),
     categoryid: Joi.string().allow('').max(255),
 });
 
