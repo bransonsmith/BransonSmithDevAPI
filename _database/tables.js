@@ -8,8 +8,8 @@ const models = require('../_services/model-service');
 */
 
 const public_tables = [
-    { name: 'sessions',       getOne: true , getAll: true , create: true , update: true , remove: true , initTable: false, dropTable: false },
-    { name: 'users',          getOne: true , getAll: true , create: true , update: true , remove: true , initTable: false, dropTable: false },
+    { name: 'sessions',       getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true,  dropTable: true  },
+    { name: 'users',          getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true,  dropTable: true  },
     { name: 'projects',       getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
     { name: 'transactions',   getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
     { name: 'categories',     getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
