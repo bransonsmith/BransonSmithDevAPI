@@ -9,13 +9,13 @@ const all_fields = [
 ];
 
 const createSchema = Joi.object({
-    par: Joi.number().required(),
-    distance: Joi.number().required(),
+    par: Joi.number(),
+    distance: Joi.number(),
     name: Joi.string().max(255)
 });
 const updateSchema = Joi.object({
-    par: Joi.number().required(),
-    distance: Joi.number().required(),
+    par: Joi.number(),
+    distance: Joi.number(),
     name: Joi.string().max(255)
 });
 
