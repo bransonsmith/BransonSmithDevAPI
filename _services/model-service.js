@@ -28,8 +28,8 @@ function getModelForTable(table_name) {
         case 'incomes':              return incomeModel;
         case 'targets':              return targetModel;
         case 'discgolfrounds':       return discgolfRoundModel;
-        case 'discgolfplayers':      return discgolfCourseModel;
-        case 'discgolfcourses':      return discgolfPlayerModel;
+        case 'discgolfplayers':      return discgolfPlayerModel;
+        case 'discgolfcourses':      return discgolfCourseModel;
         case 'discgolfplayerrounds': return discgolfPlayerRoundModel;
         case 'discgolfholes':        return discgolfHoleModel;
         case 'discgolfplayerholes':  return discgolfPlayerHoleModel;
