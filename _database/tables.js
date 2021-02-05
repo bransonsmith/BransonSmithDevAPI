@@ -8,16 +8,22 @@ const models = require('../_services/model-service');
 */
 
 const public_tables = [
-    { name: 'sessions',       getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true,  dropTable: true  },
-    { name: 'users',          getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true,  dropTable: true  },
-    { name: 'projects',       getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
-    { name: 'transactions',   getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
-    { name: 'categories',     getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
-    { name: 'labels',         getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
-    { name: 'budgets',        getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
-    { name: 'budgetedmonths', getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
-    { name: 'incomes',        getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
-    { name: 'targets',        getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'sessions',             getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true,  dropTable: true  },
+    { name: 'users',                getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true,  dropTable: true  },
+    { name: 'projects',             getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'transactions',         getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'categories',           getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'labels',               getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'budgets',              getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'budgetedmonths',       getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'incomes',              getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'targets',              getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'discgolfrounds',       getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'discgolfplayers',      getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'discgolfcourses',      getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'discgolfplayerrounds', getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'discgolfholes',        getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
+    { name: 'discgolfplayerholes',  getOne: true , getAll: true , create: true , update: true , remove: true , initTable: true , dropTable: true  },
 ];
 
 function routeIsPublic(table_name, routeName) {
