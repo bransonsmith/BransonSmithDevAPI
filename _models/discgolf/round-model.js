@@ -9,6 +9,7 @@ const all_fields = [
 
 const createSchema = Joi.object({
     courseid: Joi.string().max(255),
+    date: Joi.string().max(255),
 });
 const updateSchema = Joi.object({
     courseid: Joi.string().max(255),
