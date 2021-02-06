@@ -8,7 +8,7 @@ async function getHolesForCourse(courseId, title='Get holes for disc golf course
     if (holesResponse.status !== 200) { return holesResponse; }
     const holes = holesResponse.result;
 
-    return { status: 200, result: holes.filter(h => h.courseid === courseid) };
+    return { status: 200, result: holes.filter(h => h.courseid === courseId) };
 }
 
 module.exports.getHolesForCourse = getHolesForCourse;
