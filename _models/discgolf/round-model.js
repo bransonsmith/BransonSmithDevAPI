@@ -4,12 +4,11 @@ const table_name = 'discgolfrounds';
 const all_fields = [
     { name: 'id',         type: 'varchar(255)', attributes: 'NOT NULL PRIMARY KEY', mustHaveExistingObject: false, table: '',                onDto: true , createField: false, updateField: false, optional: false },
     { name: 'courseid',   type: 'varchar(255)', attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '',                onDto: true , createField: true , updateField: true , optional: true },
-    { name: 'date',       type: 'varchar(255)', attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '',                onDto: true , createField: true , updateField: true , optional: false },
+    { name: 'date',       type: 'varchar(255)', attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '',                onDto: true , createField: false, updateField: true , optional: true },
 ];
 
 const createSchema = Joi.object({
     courseid: Joi.string().max(255),
-    date: Joi.string().required().max(255),
 });
 const updateSchema = Joi.object({
     courseid: Joi.string().max(255),
@@ -17,10 +16,11 @@ const updateSchema = Joi.object({
 });
 
 function getCreateValues(body, newId) {
+    const datecreated = base.getCurrentTimeStamp();
     return [
         `'${newId}'`,
         `'${body.courseid}'`,
-        `'${body.date}'`,
+        `'${datecreated}'`,
     ];
 }
 
