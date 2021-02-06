@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const base = require('./base-model');
+const base = require('../base-model');
 
 const table_name = 'discgolfrounds';
 const all_fields = [
