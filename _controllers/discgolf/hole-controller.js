@@ -11,7 +11,6 @@ const table_name = 'discgolfholes'
 router.get(`${base_route}/${table_name}/course/:courseid`, (req, response) => {
     logging.logRequest(req);
     const courseid = req.params.courseid;
-    console.log(`Course Id = ${courseid}`);
     holeService.getHolesForCourse(courseid, req.body).then(serviceResponse => {
         baseController.handleServiceResponse(serviceResponse, req, response);
     });
