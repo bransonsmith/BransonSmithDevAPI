@@ -8,7 +8,8 @@ async function getPlayerHolesForPlayerRound(playerroundid, title='Get player hol
     if (playerHolesResponse.status !== 200) { return playerHolesResponse; }
     const playerHoles = playerHolesResponse.result;
     const filteredHoles = playerHoles.filter(h => h.playerroundid === playerroundid);
-
+    console.log('filteredHoles');
+    console.log(filteredHoles);
     const filledOutPlayerHoles = [];
     for (let i = 0; i < filteredHoles.length; i++) {
         const h = filteredHoles[i];
