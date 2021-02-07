@@ -80,7 +80,7 @@ async function createFilledOutRound(body, title='Create filled out disc golf rou
         
         const playerHoles = [];
         for (let h = 0; h < holes.length; h++) {
-            const hole = array[h];
+            const hole = holes[h];
             const playerHoleResponse = await baseService.create('discgolfplayerholes', {
                 playerroundid: playerRound.id, holeid: hole.id
             });
