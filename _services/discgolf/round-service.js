@@ -1,7 +1,7 @@
 const baseService = require("../base-service");
 const playerRoundService = require("./player-round-service");
 const playerHolesService = require("./player-holes-service");
-const holeService = require("./player-hole-service");
+const holeService = require("./hole-service");
 
 const table_name = 'discgolfrounds';
 
