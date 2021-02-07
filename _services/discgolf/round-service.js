@@ -64,6 +64,9 @@ async function createFilledOutRound(body, title='Create filled out disc golf rou
     const playersResponse = await baseService.getAll('discgolfplayers');
     if (playersResponse.status !== 200) { return playersResponse; }
     const players = playersResponse.result.filter(p => playerids.includes(p.id));
+    console.log(`Players in round:`);
+    console.log(players);
+    console.log();
 
     const holesResponse = await holeService.getHolesForCourse(courseid);
     if (holesResponse.status !== 200) { return holesResponse; }
@@ -72,9 +75,12 @@ async function createFilledOutRound(body, title='Create filled out disc golf rou
     const playerInfo = [];
     for (let i = 0; i < players.length; i++) {
         const player = players[i];
-        const playerRoundsResponse = await baseService.create(
-            'discgolfplayerrounds', { playerid: player.id, roundid: round.id }
-        );
+        const playerRoundCreateData = { playerid: player.id, roundid: round.id };
+        console.log(`playerRoundCreateData`);
+        console.log(playerRoundCreateData);
+        console.log();
+
+        const playerRoundsResponse = await baseService.create('discgolfplayerrounds', playerRoundCreateData);
         if (playerRoundsResponse.status !== 200) { return playerRoundsResponse; }
         const playerRound = playerRoundsResponse.result;
         
