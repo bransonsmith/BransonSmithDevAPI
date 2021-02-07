@@ -44,6 +44,8 @@ function getFieldsThatMustHaveAnExistingObject(table_name, body) {
             const value = body[f.name];
             finalList.push({field: f, value: value});
         });
+        console.log('Fields that require an existing object: ')
+        console.log(finalList);
         return finalList;
     } catch {
         return [];

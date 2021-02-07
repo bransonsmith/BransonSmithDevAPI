@@ -118,8 +118,12 @@ async function getHome() {
 }
 
 async function verifyExistence(fieldsObjects) {
+    console.log('Verifying Existence of ')
+    console.log(fieldObjects);
     for (let i = 0; i < fieldsObjects.length; i++) {
+        console.log('Verify Existence of field: ');
         const fieldObject = fieldsObjects[i];
+        console.log(fieldObject);
         if (fieldObject.field.optional && fieldObject.value === '') { return { status: 200, result: `` }; }
         const existsResponse = await getOne(fieldObject.field.table, fieldObject.value, `Verify existence of ${fieldObject.field.table}`);
         if (existsResponse.status !== 200) { return { status: 409, result: `No existing object found for the given ${fieldObject.field.name}.` }; }
