@@ -22,7 +22,7 @@ const updateSchema = Joi.object({
     holeid: Joi.string().required().max(255),
     score: Joi.number(),
     dots: Joi.number(),
-    shots: Joi.string().max(255),
+    shots: Joi.string().allow('').max(255),
 });
 
 function getCreateValues(body, newId) {
