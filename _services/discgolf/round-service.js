@@ -1,6 +1,7 @@
 const baseService = require("../base-service");
 const playerRoundService = require("./player-round-service");
 const playerHolesService = require("./player-holes-service");
+const holeService = require("./player-hole-service");
 
 const table_name = 'discgolfrounds';
 
@@ -37,7 +38,6 @@ async function getFilledOutRound(roundid, title='Get filled out disc golf round'
         });
     }
 
-
     const filledOutDiscGolfRound = {
         id: roundid,
         date: round.date,
@@ -48,4 +48,60 @@ async function getFilledOutRound(roundid, title='Get filled out disc golf round'
     return { status: 200, result: filledOutDiscGolfRound };
 }
 
+async function createFilledOutRound(courseid, playerids, title='Create filled out disc golf round') {
+
+    const roundResponse = await baseService.create(table_name, { courseid: courseid });
+    if (roundResponse.status !== 200) { return roundResponse; }
+    const round = roundResponse.result;
+
+    const courseResponse = await baseService.getOne('discgolfcourses', courseid);
+    if (courseResponse.status !== 200) { return courseResponse; }
+    const course = courseResponse.result;
+
+    const playersResponse = await baseService.getAll('discgolfplayers');
+    if (playersResponse.status !== 200) { return playersResponse; }
+    const players = playersResponse.result.filter(p => playerids.includes(p.id));
+
+    const holesResponse = await holeService.getHolesForCourse(courseid);
+    if (holesResponse.status !== 200) { return holesResponse; }
+    const holes = holesResponse.result;
+
+    const playerInfo = [];
+    for (let i = 0; i < players.length; i++) {
+        const player = players[i];
+        const playerRoundsResponse = await baseService.create(
+            'discgolfplayerrounds', { playerid: player.id, roundid: round.id }
+        );
+        if (playerRoundsResponse.status !== 200) { return playerRoundsResponse; }
+        const playerRound = playerRoundsResponse.result;
+        
+        const playerHoles = [];
+        for (let h = 0; h < holes.length; h++) {
+            const hole = array[h];
+            const playerHoleResponse = await baseService.create('discgolfplayerholes', {
+                playerroundid: playerRound.id, holeid: hole.id
+            });
+            if (playerHoleResponse.status !== 200) { return playerHoleResponse; }
+            playerHoles.push(playerHoleResponse.result);
+        }
+
+        playerInfo.push({
+            id: player.id,
+            name: player.name,
+            playerRound: playerRound,
+            playerHoles: playerHoles
+        });
+    }
+
+    const filledOutDiscGolfRound = {
+        id: round.id,
+        date: round.date,
+        courseid: round.courseid,
+        course: course,
+        playerInfo: playerInfo
+    };
+    return { status: 200, result: filledOutDiscGolfRound };
+}
+
 module.exports.getFilledOutRound = getFilledOutRound;
+module.exports.createFilledOutRound = createFilledOutRound;
