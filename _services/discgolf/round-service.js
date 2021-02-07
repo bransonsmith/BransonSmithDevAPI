@@ -28,7 +28,7 @@ async function getFilledOutRound(roundid, title='Get filled out disc golf round'
         const playerRound = playerRounds[i];
         const playerHolesResponse = await playerHolesService.getPlayerHolesForPlayerRound(playerRound.id);
         let playerHoles = playerHolesResponse.result;
-        if (playerHolesResponse.status !== 200) { console.log(playerHolesResponse); playerHoles = []; }
+        if (playerHolesResponse.status !== 200) { playerHoles = []; }
 
         playerInfo.push({
             id: playerRound.playerid,
@@ -48,7 +48,10 @@ async function getFilledOutRound(roundid, title='Get filled out disc golf round'
     return { status: 200, result: filledOutDiscGolfRound };
 }
 
-async function createFilledOutRound(courseid, playerids, title='Create filled out disc golf round') {
+async function createFilledOutRound(body, title='Create filled out disc golf round') {
+
+    const courseid = body.courseid;
+    const playerids = body.playerids;
 
     const roundResponse = await baseService.create(table_name, { courseid: courseid });
     if (roundResponse.status !== 200) { return roundResponse; }
