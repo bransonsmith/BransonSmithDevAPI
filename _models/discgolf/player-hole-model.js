@@ -13,6 +13,9 @@ const all_fields = [
 const createSchema = Joi.object({
     playerroundid: Joi.string().required().max(255),
     holeid: Joi.string().required().max(255),
+    score: Joi.number(),
+    dots: Joi.number(),
+    shots: Joi.string().max(255),
 });
 const updateSchema = Joi.object({
     playerroundid: Joi.string().required().max(255),
