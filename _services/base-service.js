@@ -119,7 +119,7 @@ async function getHome() {
 
 async function verifyExistence(fieldsObjects) {
     console.log('Verifying Existence of ')
-    console.log(fieldObjects);
+    console.log(fieldsObjects);
     for (let i = 0; i < fieldsObjects.length; i++) {
         console.log('Verify Existence of field: ');
         const fieldObject = fieldsObjects[i];
