@@ -23,6 +23,10 @@ async function getFilledOutRound(roundid, title='Get filled out disc golf round'
     if (playersResponse.status !== 200) { return playersResponse; }
     const players = playersResponse.result;
 
+    const holesResponse = await holeService.getHolesForCourse(course.id);
+    if (holesResponse.status !== 200) { return holesResponse; }
+    const holes = holesResponse.result;
+
     let playerInfo = [];
     for (let i = 0; i < playerRounds.length; i++) {
         const playerRound = playerRounds[i];
