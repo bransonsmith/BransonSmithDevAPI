@@ -43,7 +43,8 @@ async function getFilledOutRound(roundid, title='Get filled out disc golf round'
         date: round.date,
         courseid: round.courseid,
         course: course,
-        playerInfo: playerInfo
+        playerInfo: playerInfo,
+        holes: holes
     };
     return { status: 200, result: filledOutDiscGolfRound };
 }
@@ -101,7 +102,8 @@ async function createFilledOutRound(body, title='Create filled out disc golf rou
         date: round.date,
         courseid: round.courseid,
         course: course,
-        playerInfo: playerInfo
+        playerInfo: playerInfo,
+        holes: holes
     };
     return { status: 200, result: filledOutDiscGolfRound };
 }
