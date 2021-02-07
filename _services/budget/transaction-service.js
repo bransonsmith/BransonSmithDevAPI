@@ -14,7 +14,6 @@ async function fromcsv(body, title=`Add transactions from csv`) {
 
     let newTransactions = [];
     const transactions = body.transactions;
-    console.log(`Transactions: \n${transactions}`);
     for (let i = 0; i < transactions.length; i++) {
         const transaction = transactions[i];
         const validateCsvModel = model.fromcsvSchema.validate(transaction);

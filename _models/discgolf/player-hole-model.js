@@ -2,12 +2,12 @@ const Joi = require('joi');
 
 const table_name = 'discgolfplayerholes';
 const all_fields = [
-    { name: 'id',         type: 'varchar(255)', attributes: 'NOT NULL PRIMARY KEY', mustHaveExistingObject: false, table: '',                     onDto: true,  createField: false,  updateField: false, optional: false },
-    { name: 'playerroundid',   type: 'varchar(255)', attributes: 'NOT NULL',             mustHaveExistingObject: true,  table: 'discgolfplayers', onDto: true,  createField: true ,  updateField: true , optional: false },
-    { name: 'holeid',     type: 'varchar(255)', attributes: 'NOT NULL',             mustHaveExistingObject: true,  table: 'discgolfholes',        onDto: true,  createField: true ,  updateField: true , optional: false },
-    { name: 'score',      type: 'int',          attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '',                     onDto: true , createField: true , updateField: true , optional: true  },
-    { name: 'dots',       type: 'int',          attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '',                     onDto: true , createField: true , updateField: true , optional: true  },
-    { name: 'shots',      type: 'varchar(255)', attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '',                     onDto: true , createField: true , updateField: true , optional: true  },
+    { name: 'id',            type: 'varchar(255)', attributes: 'NOT NULL PRIMARY KEY', mustHaveExistingObject: false, table: '',                     onDto: true,  createField: false,  updateField: false, optional: false },
+    { name: 'playerroundid', type: 'varchar(255)', attributes: 'NOT NULL',             mustHaveExistingObject: true,  table: 'discgolfplayerrounds', onDto: true,  createField: true ,  updateField: true , optional: false },
+    { name: 'holeid',        type: 'varchar(255)', attributes: 'NOT NULL',             mustHaveExistingObject: true,  table: 'discgolfholes',        onDto: true,  createField: true ,  updateField: true , optional: false },
+    { name: 'score',         type: 'int',          attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '',                     onDto: true , createField: true ,  updateField: true , optional: true  },
+    { name: 'dots',          type: 'int',          attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '',                     onDto: true , createField: true ,  updateField: true , optional: true  },
+    { name: 'shots',         type: 'varchar(255)', attributes: 'NOT NULL',             mustHaveExistingObject: false, table: '',                     onDto: true , createField: true ,  updateField: true , optional: true  },
 ];
 
 const createSchema = Joi.object({
