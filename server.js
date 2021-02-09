@@ -15,6 +15,7 @@ const labelRoutes = require("./_controllers/budget/label-controller").router;
 const budgetRoutes = require("./_controllers/budget/budget-controller").router;
 const roundRoutes = require("./_controllers/discgolf/round-controller").router;
 const holeRoutes = require("./_controllers/discgolf/hole-controller").router;
+const emailRoutes = require("./routes/blog/emails");
 
 const app = express();
 app.use(express.json());
@@ -39,6 +40,7 @@ app.use(transactionRoutes);
 app.use(labelRoutes);
 app.use(roundRoutes);
 app.use(holeRoutes);
+app.use(emailRoutes);
 
 // Order matters; this goes last so other controllers can override
 app.use(baseRoutes);
