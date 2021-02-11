@@ -19,6 +19,7 @@ async function fromcsv(body, title=`Add transactions from csv`) {
         const validateCsvModel = model.fromcsvSchema.validate(transaction);
         if (validateCsvModel.error !== null) {
             logging.logError('Transaction from csv create validation', validateCsvModel.error);
+            console.log(transaction);
             // return { status: 409, result: { message: `${validateCsvModel.error}`} };
         } else {
             const labelResponse = await lableService.getLabelByDetails(transaction.details);
